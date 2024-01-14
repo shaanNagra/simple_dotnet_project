@@ -28,5 +28,10 @@ namespace staff_contact_app_winform
             labelManager.Visible = false;
             comboBoxStaffsManager.Visible = false;
         }
+
+        private void buttonSaveContact_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

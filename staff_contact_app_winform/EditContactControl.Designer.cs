@@ -315,15 +315,18 @@
             // 
             // buttonSaveContact
             // 
+            buttonSaveContact.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             buttonSaveContact.Location = new Point(282, 460);
             buttonSaveContact.Name = "buttonSaveContact";
             buttonSaveContact.Size = new Size(75, 23);
             buttonSaveContact.TabIndex = 37;
             buttonSaveContact.Text = "save";
             buttonSaveContact.UseVisualStyleBackColor = true;
+            buttonSaveContact.Click += buttonSaveContact_Click;
             // 
             // buttonCancel
             // 
+            buttonCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             buttonCancel.Location = new Point(201, 460);
             buttonCancel.Name = "buttonCancel";
             buttonCancel.Size = new Size(75, 23);

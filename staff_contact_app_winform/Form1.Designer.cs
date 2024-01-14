@@ -28,55 +28,101 @@
         /// </summary>
         private void InitializeComponent()
         {
-            splitContainer1 = new SplitContainer();
-            editContactControl1 = new EditContactControl();
-            ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
-            splitContainer1.Panel2.SuspendLayout();
-            splitContainer1.SuspendLayout();
+            splitContainerForm = new SplitContainer();
+            buttonAddContact = new Button();
+            buttonEditContact = new Button();
+            listView1 = new ListView();
+            chName = new ColumnHeader();
+            chStatus = new ColumnHeader();
+            ((System.ComponentModel.ISupportInitialize)splitContainerForm).BeginInit();
+            splitContainerForm.Panel1.SuspendLayout();
+            splitContainerForm.SuspendLayout();
             SuspendLayout();
             // 
-            // splitContainer1
+            // splitContainerForm
             // 
-            splitContainer1.Dock = DockStyle.Fill;
-            splitContainer1.Location = new Point(0, 0);
-            splitContainer1.Name = "splitContainer1";
+            splitContainerForm.Dock = DockStyle.Fill;
+            splitContainerForm.Location = new Point(0, 0);
+            splitContainerForm.Name = "splitContainerForm";
             // 
-            // splitContainer1.Panel1
+            // splitContainerForm.Panel1
             // 
-            splitContainer1.Panel1.Padding = new Padding(5);
+            splitContainerForm.Panel1.Controls.Add(buttonAddContact);
+            splitContainerForm.Panel1.Controls.Add(buttonEditContact);
+            splitContainerForm.Panel1.Controls.Add(listView1);
+            splitContainerForm.Panel1.Padding = new Padding(5);
             // 
-            // splitContainer1.Panel2
+            // splitContainerForm.Panel2
             // 
-            splitContainer1.Panel2.Controls.Add(editContactControl1);
-            splitContainer1.Panel2.Padding = new Padding(5);
-            splitContainer1.Size = new Size(800, 450);
-            splitContainer1.SplitterDistance = 266;
-            splitContainer1.TabIndex = 0;
+            splitContainerForm.Panel2.Padding = new Padding(5);
+            splitContainerForm.Size = new Size(800, 450);
+            splitContainerForm.SplitterDistance = 374;
+            splitContainerForm.TabIndex = 0;
             // 
-            // editContactControl1
+            // buttonAddContact
             // 
-            editContactControl1.Location = new Point(8, 8);
-            editContactControl1.Name = "editContactControl1";
-            editContactControl1.Size = new Size(514, 434);
-            editContactControl1.TabIndex = 0;
+            buttonAddContact.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            buttonAddContact.Location = new Point(291, 8);
+            buttonAddContact.Name = "buttonAddContact";
+            buttonAddContact.Size = new Size(75, 23);
+            buttonAddContact.TabIndex = 2;
+            buttonAddContact.Text = "Add";
+            buttonAddContact.UseVisualStyleBackColor = true;
+            buttonAddContact.Click += buttonAddContact_Click;
+            // 
+            // buttonEditContact
+            // 
+            buttonEditContact.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            buttonEditContact.Enabled = false;
+            buttonEditContact.Location = new Point(210, 8);
+            buttonEditContact.Name = "buttonEditContact";
+            buttonEditContact.Size = new Size(75, 23);
+            buttonEditContact.TabIndex = 1;
+            buttonEditContact.Text = "Edit";
+            buttonEditContact.UseVisualStyleBackColor = true;
+            buttonEditContact.Click += buttonEditContact_Click;
+            // 
+            // listView1
+            // 
+            listView1.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            listView1.Columns.AddRange(new ColumnHeader[] { chName, chStatus });
+            listView1.Location = new Point(5, 61);
+            listView1.Name = "listView1";
+            listView1.Size = new Size(364, 384);
+            listView1.TabIndex = 0;
+            listView1.UseCompatibleStateImageBehavior = false;
+            listView1.View = View.Details;
+            // 
+            // chName
+            // 
+            chName.Text = "Name";
+            chName.Width = 120;
+            // 
+            // chStatus
+            // 
+            chStatus.Text = "Status";
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(splitContainer1);
+            Controls.Add(splitContainerForm);
             Name = "Form1";
             Text = "Form1";
-            splitContainer1.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
-            splitContainer1.ResumeLayout(false);
+            splitContainerForm.Panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)splitContainerForm).EndInit();
+            splitContainerForm.ResumeLayout(false);
             ResumeLayout(false);
         }
 
         #endregion
 
-        private SplitContainer splitContainer1;
-        private EditContactControl editContactControl1;
+        private SplitContainer splitContainerForm;
+        private ListView listView1;
+        private ColumnHeader chName;
+        private ColumnHeader chStatus;
+        private Button buttonEditContact;
+        private Button buttonAddContact;
     }
 }
