@@ -41,7 +41,16 @@ namespace staff_contact_app_winform
             {
 
             }
+            saveContact_Clicked?.Invoke(this, e);
         }
+        public event EventHandler saveContact_Clicked;
+
+        private void buttonCancel_Click(object sender, EventArgs e)
+        {
+            cancelSave_Clicked?.Invoke(this, e);
+        }
+        public event EventHandler cancelSave_Clicked;
+
         public void updateManagers(List<StaffManager> staffManagerList)
         {
             this.staffManagerList = staffManagerList;
@@ -59,9 +68,6 @@ namespace staff_contact_app_winform
             textBoxFirstName.Text = contact.firstName;
         }
 
-        private void buttonCancel_Click(object sender, EventArgs e)
-        {
 
-        }
     }
 }

@@ -34,6 +34,22 @@ namespace staff_contact_app_winform
             //detailsControl.Visible = false;
             editControl.Visible = false;
 
+            editControl.saveContact_Clicked += EditControl_saveContact_Clicked;
+            editControl.cancelSave_Clicked += EditControl_cancelSave_Clicked;
+
+            
+            
+
+        }
+
+        private void EditControl_cancelSave_Clicked(object? sender, EventArgs e)
+        {
+            
+        }
+
+        private void EditControl_saveContact_Clicked(object? sender, EventArgs e)
+        {
+            buttonFilterActive.Enabled = false;
         }
 
         private void updateContactList(bool active)
@@ -52,6 +68,7 @@ namespace staff_contact_app_winform
 
         private void loadStaffManager()
         {
+            staffManagerList.Clear();
             const string query = "SELECT * FROM staff WHERE staff.staff_type = 'Manager'";
             Debug.WriteLine(ConnectionString.ToString());
             using (SQLiteConnection connection = new SQLiteConnection(ConnectionString))
@@ -112,8 +129,21 @@ namespace staff_contact_app_winform
                     }
                 }
             }
+        }
 
+        private void deleteStaffContact(StaffContact contact) {
+            const string query = "DELETE FROM staff WHERE id=@id";
 
+            using (SQLiteConnection connection  = new SQLiteConnection(ConnectionString))
+            {
+                connection.Open();
+
+                SQLiteCommand command = new SQLiteCommand(query, connection);
+                command.Parameters.AddWithValue("@id", contact.id);
+
+                command.ExecuteNonQuery();
+                staffContactsList.Remove(contact);
+            }
         }
 
         private void buttonAddContact_Click(object sender, EventArgs e)
@@ -132,6 +162,23 @@ namespace staff_contact_app_winform
         }
 
         private void buttonDeleteContact_Click(object sender, EventArgs e)
+        {
+            if (1 == listViewContactList.SelectedIndices.Count)
+            {
+                var mb = MessageBox.Show("Are you sure?", "Delete participant", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (DialogResult.Yes == mb)
+                {
+
+                }
+            }
+        }
+
+        private void enterEditContactState()
+        {
+
+        }
+
+        private void exitEditContactState()
         {
 
         }
@@ -156,12 +203,14 @@ namespace staff_contact_app_winform
             if (0 == listViewContactList.SelectedIndices.Count)
             {
                 buttonEditContact.Enabled = false;
+                buttonDeleteContact.Enabled = false;
                 detailsControl.clearContact();
 
             }
             else
             {
                 buttonEditContact.Enabled = true;
+                buttonDeleteContact.Enabled = true;
                 StaffContact contact = (StaffContact)listViewContactList.SelectedItems[0].Tag;
                 detailsControl.loadContact(contact);
             }
