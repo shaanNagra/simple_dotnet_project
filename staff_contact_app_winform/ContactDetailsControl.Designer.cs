@@ -39,7 +39,7 @@
             label5 = new Label();
             label6 = new Label();
             label7 = new Label();
-            textBoxHomePhone = new TextBox();
+            textBoxDisplayHomePhone = new TextBox();
             textBoxDisplayCellPhone = new TextBox();
             textBoxDisplayOfficeExt = new TextBox();
             label8 = new Label();
@@ -149,14 +149,14 @@
             label7.Text = "Office Extension";
             label7.TextAlign = ContentAlignment.MiddleRight;
             // 
-            // textBoxHomePhone
+            // textBoxDisplayHomePhone
             // 
-            textBoxHomePhone.Location = new Point(107, 129);
-            textBoxHomePhone.Margin = new Padding(3, 15, 3, 3);
-            textBoxHomePhone.Name = "textBoxHomePhone";
-            textBoxHomePhone.ReadOnly = true;
-            textBoxHomePhone.Size = new Size(229, 23);
-            textBoxHomePhone.TabIndex = 11;
+            textBoxDisplayHomePhone.Location = new Point(107, 129);
+            textBoxDisplayHomePhone.Margin = new Padding(3, 15, 3, 3);
+            textBoxDisplayHomePhone.Name = "textBoxDisplayHomePhone";
+            textBoxDisplayHomePhone.ReadOnly = true;
+            textBoxDisplayHomePhone.Size = new Size(229, 23);
+            textBoxDisplayHomePhone.TabIndex = 11;
             // 
             // textBoxDisplayCellPhone
             // 
@@ -201,7 +201,7 @@
             Controls.Add(label8);
             Controls.Add(textBoxDisplayOfficeExt);
             Controls.Add(textBoxDisplayCellPhone);
-            Controls.Add(textBoxHomePhone);
+            Controls.Add(textBoxDisplayHomePhone);
             Controls.Add(label7);
             Controls.Add(label6);
             Controls.Add(label5);
@@ -232,7 +232,7 @@
         private Label label5;
         private Label label6;
         private Label label7;
-        private TextBox textBoxHomePhone;
+        private TextBox textBoxDisplayHomePhone;
         private TextBox textBoxDisplayCellPhone;
         private TextBox textBoxDisplayOfficeExt;
         private Label label8;

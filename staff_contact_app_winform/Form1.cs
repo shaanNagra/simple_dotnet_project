@@ -1,5 +1,7 @@
 using System.Data.SQLite;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
+
 
 namespace staff_contact_app_winform
 {
@@ -34,6 +36,20 @@ namespace staff_contact_app_winform
 
         }
 
+        private void updateContactList(bool active)
+        {
+            listViewContactList.Items.Clear();
+
+            foreach (StaffContact contact in staffContactsList)
+            {
+                var listViewItem = new ListViewItem(contact.fullName);
+                listViewItem.SubItems.Add(contact.status);
+                listViewItem.Tag = contact;
+
+                listViewContactList.Items.Add(listViewItem);
+            }
+        }
+
         private void loadStaffManager()
         {
             const string query = "SELECT * FROM staff WHERE staff.staff_type = 'Manager'";
@@ -49,12 +65,13 @@ namespace staff_contact_app_winform
                 {
                     while (reader.Read())
                     {
-                        long id = (long)reader["id"];
-                        string firstName = (string)reader["first_name"];
-                        string lastName = (string)reader["last_name"];
-                        string middleInitial = (string)reader["middle_initial"];
+                        long id = SqlNullParser.GetValue<long>(reader, "id");
+                        string title = SqlNullParser.GetValue<string>(reader, "title");
+                        string firstName = SqlNullParser.GetValue<string>(reader, "first_name");
+                        string lastName = SqlNullParser.GetValue<string>(reader, "last_name");
+                        string middleInitial = SqlNullParser.GetValue<string>(reader, "middle_initial");
 
-                        StaffManager manager = new StaffManager(firstName, lastName, middleInitial, id);
+                        StaffManager manager = new StaffManager(title, firstName, lastName, middleInitial, id);
                         staffManagerList.Add(manager);
                     }
                 }
@@ -63,7 +80,7 @@ namespace staff_contact_app_winform
 
         private void loadStaffContacts()
         {
-            const string query = "SELECT * FROM staff_contact";
+            const string query = "SELECT * FROM staff";
 
             using (SQLiteConnection connection = new SQLiteConnection(ConnectionString))
             {
@@ -74,6 +91,23 @@ namespace staff_contact_app_winform
                 {
                     while (reader.Read())
                     {
+                        long id = SqlNullParser.GetValue<long>(reader, "id");
+                        string staffType = SqlNullParser.GetValue<string>(reader, "staff_type");
+                        string title = SqlNullParser.GetValue<string>(reader, "title");
+                        string firstName = SqlNullParser.GetValue<string>(reader, "first_name");
+                        string lastName = SqlNullParser.GetValue<string>(reader, "last_name");
+                        string middleInitial = SqlNullParser.GetValue<string>(reader, "middle_initial");
+                        string homePhone = SqlNullParser.GetValue<string>(reader, "home_phone");
+                        string cellPhone = SqlNullParser.GetValue<string>(reader, "cell_phone");
+                        string officeExt = SqlNullParser.GetValue<string>(reader, "office_extension");
+                        string irdNumber = SqlNullParser.GetValue<string>(reader, "ird_number");
+                        string status = SqlNullParser.GetValue<string>(reader, "status");
+                        string manager = SqlNullParser.GetValue<string>(reader, "manager");
+
+                        StaffContact contact = new StaffContact(id, staffType, title,
+                            firstName, lastName, middleInitial,
+                            homePhone, cellPhone, officeExt, irdNumber, status, manager);
+                        staffContactsList.Add(contact);
 
                     }
                 }
@@ -93,6 +127,12 @@ namespace staff_contact_app_winform
         {
             detailsControl.Visible = false;
             editControl.Visible = true;
+            editControl.loadContact(detailsControl.getSelectedContact());
+            listViewContactList.Enabled = false;
+        }
+
+        private void buttonDeleteContact_Click(object sender, EventArgs e)
+        {
 
         }
 
@@ -100,7 +140,9 @@ namespace staff_contact_app_winform
         {
             try
             {
+                loadStaffContacts();
                 loadStaffManager();
+                updateContactList(true);
                 editControl.updateManagers(staffManagerList);
             }
             catch (Exception ex)
@@ -108,5 +150,36 @@ namespace staff_contact_app_winform
                 Debug.WriteLine(ex.Message);
             }
         }
+
+        private void listViewContactList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (0 == listViewContactList.SelectedIndices.Count)
+            {
+                buttonEditContact.Enabled = false;
+                detailsControl.clearContact();
+
+            }
+            else
+            {
+                buttonEditContact.Enabled = true;
+                StaffContact contact = (StaffContact)listViewContactList.SelectedItems[0].Tag;
+                detailsControl.loadContact(contact);
+            }
+        }
+    }
+
+    public static class SqlNullParser
+    {
+        public static T GetValue<T>(this SQLiteDataReader reader, string columnName)
+        {
+            int columnIndex = reader.GetOrdinal(columnName);
+            if (reader.IsDBNull(columnIndex))
+            {
+                return default(T);
+            }
+
+            return (T)reader.GetValue(columnIndex);
+        }
     }
 }
+

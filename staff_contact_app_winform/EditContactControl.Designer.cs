@@ -334,6 +334,7 @@
             buttonCancel.TabIndex = 38;
             buttonCancel.Text = "cancel";
             buttonCancel.UseVisualStyleBackColor = true;
+            buttonCancel.Click += buttonCancel_Click;
             // 
             // EditContactControl
             // 

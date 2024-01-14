@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace staff_contact_app_winform
 {
-    internal class StaffContact
+    public class StaffContact
     {
+        public long id {  get; set; }
         public string staffType { get; set; }
+        public string fullName { get; set; }
         public string title { get; set; }
         public string firstName { get; set; }  
         public string lastName { get; set; }
@@ -20,11 +22,13 @@ namespace staff_contact_app_winform
         public string status { get; set; }
         public string manager { get; set; }
 
-        public StaffContact(string staffType, string title, 
+        public StaffContact(long id, string staffType, string title, 
             string firstName, string lastName, string middleInitial, 
             string homePhone, string cellPhone, string officeExt,
             string irdNumber, string status, string manager)
         {
+            this.fullName = title + ". " + firstName + " " + middleInitial + ". " + lastName;
+            this.id = id;
             this.staffType = staffType;
             this.title = title;
             this.firstName = firstName;

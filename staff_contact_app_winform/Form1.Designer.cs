@@ -29,9 +29,11 @@
         private void InitializeComponent()
         {
             splitContainerForm = new SplitContainer();
+            buttonDeleteContact = new Button();
+            buttonFilterActive = new Button();
             buttonAddContact = new Button();
             buttonEditContact = new Button();
-            listView1 = new ListView();
+            listViewContactList = new ListView();
             chName = new ColumnHeader();
             chStatus = new ColumnHeader();
             ((System.ComponentModel.ISupportInitialize)splitContainerForm).BeginInit();
@@ -47,9 +49,11 @@
             // 
             // splitContainerForm.Panel1
             // 
+            splitContainerForm.Panel1.Controls.Add(buttonDeleteContact);
+            splitContainerForm.Panel1.Controls.Add(buttonFilterActive);
             splitContainerForm.Panel1.Controls.Add(buttonAddContact);
             splitContainerForm.Panel1.Controls.Add(buttonEditContact);
-            splitContainerForm.Panel1.Controls.Add(listView1);
+            splitContainerForm.Panel1.Controls.Add(listViewContactList);
             splitContainerForm.Panel1.Padding = new Padding(5);
             // 
             // splitContainerForm.Panel2
@@ -59,12 +63,32 @@
             splitContainerForm.SplitterDistance = 374;
             splitContainerForm.TabIndex = 0;
             // 
+            // buttonDeleteContact
+            // 
+            buttonDeleteContact.Enabled = false;
+            buttonDeleteContact.Location = new Point(204, 8);
+            buttonDeleteContact.Name = "buttonDeleteContact";
+            buttonDeleteContact.Size = new Size(50, 23);
+            buttonDeleteContact.TabIndex = 4;
+            buttonDeleteContact.Text = "Delete";
+            buttonDeleteContact.UseVisualStyleBackColor = true;
+            buttonDeleteContact.Click += buttonDeleteContact_Click;
+            // 
+            // buttonFilterActive
+            // 
+            buttonFilterActive.Location = new Point(8, 8);
+            buttonFilterActive.Name = "buttonFilterActive";
+            buttonFilterActive.Size = new Size(75, 23);
+            buttonFilterActive.TabIndex = 3;
+            buttonFilterActive.Text = "All";
+            buttonFilterActive.UseVisualStyleBackColor = true;
+            // 
             // buttonAddContact
             // 
             buttonAddContact.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            buttonAddContact.Location = new Point(291, 8);
+            buttonAddContact.Location = new Point(316, 8);
             buttonAddContact.Name = "buttonAddContact";
-            buttonAddContact.Size = new Size(75, 23);
+            buttonAddContact.Size = new Size(50, 23);
             buttonAddContact.TabIndex = 2;
             buttonAddContact.Text = "Add";
             buttonAddContact.UseVisualStyleBackColor = true;
@@ -74,24 +98,27 @@
             // 
             buttonEditContact.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             buttonEditContact.Enabled = false;
-            buttonEditContact.Location = new Point(210, 8);
+            buttonEditContact.Location = new Point(260, 8);
             buttonEditContact.Name = "buttonEditContact";
-            buttonEditContact.Size = new Size(75, 23);
+            buttonEditContact.Size = new Size(50, 23);
             buttonEditContact.TabIndex = 1;
             buttonEditContact.Text = "Edit";
             buttonEditContact.UseVisualStyleBackColor = true;
             buttonEditContact.Click += buttonEditContact_Click;
             // 
-            // listView1
+            // listViewContactList
             // 
-            listView1.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            listView1.Columns.AddRange(new ColumnHeader[] { chName, chStatus });
-            listView1.Location = new Point(5, 61);
-            listView1.Name = "listView1";
-            listView1.Size = new Size(364, 384);
-            listView1.TabIndex = 0;
-            listView1.UseCompatibleStateImageBehavior = false;
-            listView1.View = View.Details;
+            listViewContactList.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            listViewContactList.Columns.AddRange(new ColumnHeader[] { chName, chStatus });
+            listViewContactList.FullRowSelect = true;
+            listViewContactList.Location = new Point(5, 61);
+            listViewContactList.MultiSelect = false;
+            listViewContactList.Name = "listViewContactList";
+            listViewContactList.Size = new Size(364, 384);
+            listViewContactList.TabIndex = 0;
+            listViewContactList.UseCompatibleStateImageBehavior = false;
+            listViewContactList.View = View.Details;
+            listViewContactList.SelectedIndexChanged += listViewContactList_SelectedIndexChanged;
             // 
             // chName
             // 
@@ -120,10 +147,12 @@
         #endregion
 
         private SplitContainer splitContainerForm;
-        private ListView listView1;
+        private ListView listViewContactList;
         private ColumnHeader chName;
         private ColumnHeader chStatus;
         private Button buttonEditContact;
         private Button buttonAddContact;
+        private Button buttonFilterActive;
+        private Button buttonDeleteContact;
     }
 }

@@ -35,26 +35,31 @@ namespace staff_contact_app_winform
 
         private void buttonSaveContact_Click(object sender, EventArgs e)
         {
-            
+
             // Link selected manager if staff is employee
             if (true == radioButtonEmployee.Checked)
             {
-                
+
             }
         }
-        public void updateManagers(List<StaffManager> staffManagerList )
+        public void updateManagers(List<StaffManager> staffManagerList)
         {
             this.staffManagerList = staffManagerList;
 
             comboBoxStaffsManager.Items.Clear();
-            foreach(StaffManager manager in this.staffManagerList)
+            foreach (StaffManager manager in this.staffManagerList)
             {
                 comboBoxStaffsManager.Items.Add(manager.fullName);
             }
             return;
         }
 
-        public void loadContact()
+        public void loadContact(StaffContact contact)
+        {
+            textBoxFirstName.Text = contact.firstName;
+        }
+
+        private void buttonCancel_Click(object sender, EventArgs e)
         {
 
         }
