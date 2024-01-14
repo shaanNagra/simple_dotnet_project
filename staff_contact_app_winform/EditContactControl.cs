@@ -16,5 +16,17 @@ namespace staff_contact_app_winform
         {
             InitializeComponent();
         }
+
+        private void radioButtonEmployee_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButtonEmployee.Checked == true)
+            {
+                labelManager.Visible = true;
+                comboBoxStaffsManager.Visible = true;
+                return;
+            }
+            labelManager.Visible = false;
+            comboBoxStaffsManager.Visible = false;
+        }
     }
 }

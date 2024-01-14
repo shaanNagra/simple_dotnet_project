@@ -29,7 +29,9 @@
         private void InitializeComponent()
         {
             splitContainer1 = new SplitContainer();
+            editContactControl1 = new EditContactControl();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
+            splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
             SuspendLayout();
             // 
@@ -45,10 +47,18 @@
             // 
             // splitContainer1.Panel2
             // 
+            splitContainer1.Panel2.Controls.Add(editContactControl1);
             splitContainer1.Panel2.Padding = new Padding(5);
             splitContainer1.Size = new Size(800, 450);
             splitContainer1.SplitterDistance = 266;
             splitContainer1.TabIndex = 0;
+            // 
+            // editContactControl1
+            // 
+            editContactControl1.Location = new Point(8, 8);
+            editContactControl1.Name = "editContactControl1";
+            editContactControl1.Size = new Size(514, 434);
+            editContactControl1.TabIndex = 0;
             // 
             // Form1
             // 
@@ -58,6 +68,7 @@
             Controls.Add(splitContainer1);
             Name = "Form1";
             Text = "Form1";
+            splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
             ResumeLayout(false);
@@ -66,5 +77,6 @@
         #endregion
 
         private SplitContainer splitContainer1;
+        private EditContactControl editContactControl1;
     }
 }

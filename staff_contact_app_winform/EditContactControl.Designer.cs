@@ -28,14 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            radioButton1 = new RadioButton();
+            radioButtonManager = new RadioButton();
             panelStaffType = new Panel();
             radioButtonEmployee = new RadioButton();
-            textBox7 = new TextBox();
+            textBoxCellPhone = new TextBox();
             label8 = new Label();
-            textBox6 = new TextBox();
-            textBox5 = new TextBox();
-            textBox4 = new TextBox();
+            textBoxHomePhone = new TextBox();
+            textBoxLastName = new TextBox();
+            textBoxMiddleInitial = new TextBox();
             label7 = new Label();
             label6 = new Label();
             label5 = new Label();
@@ -44,35 +44,36 @@
             label3 = new Label();
             label4 = new Label();
             label9 = new Label();
-            textBox1 = new TextBox();
-            comboBox1 = new ComboBox();
-            textBox2 = new TextBox();
-            textBox3 = new TextBox();
-            panel1 = new Panel();
-            radioButton2 = new RadioButton();
-            radioButton3 = new RadioButton();
-            radioButton4 = new RadioButton();
+            textBoxFirstName = new TextBox();
+            comboBoxStaffTitle = new ComboBox();
+            textBoxOfficeExt = new TextBox();
+            textBoxIRDNumber = new TextBox();
+            panelStatusSelection = new Panel();
+            radioButtonPending = new RadioButton();
+            radioButtonInactive = new RadioButton();
+            radioButtonActive = new RadioButton();
             label10 = new Label();
-            label11 = new Label();
-            comboBox2 = new ComboBox();
+            labelManager = new Label();
+            comboBoxStaffsManager = new ComboBox();
+            buttonSaveContact = new Button();
+            buttonCancel = new Button();
             panelStaffType.SuspendLayout();
-            panel1.SuspendLayout();
+            panelStatusSelection.SuspendLayout();
             SuspendLayout();
             // 
-            // radioButton1
+            // radioButtonManager
             // 
-            radioButton1.AutoSize = true;
-            radioButton1.Location = new Point(86, 1);
-            radioButton1.Name = "radioButton1";
-            radioButton1.Size = new Size(72, 19);
-            radioButton1.TabIndex = 2;
-            radioButton1.TabStop = true;
-            radioButton1.Text = "Manager";
-            radioButton1.UseVisualStyleBackColor = true;
+            radioButtonManager.AutoSize = true;
+            radioButtonManager.Location = new Point(86, 1);
+            radioButtonManager.Name = "radioButtonManager";
+            radioButtonManager.Size = new Size(72, 19);
+            radioButtonManager.TabIndex = 2;
+            radioButtonManager.Text = "Manager";
+            radioButtonManager.UseVisualStyleBackColor = true;
             // 
             // panelStaffType
             // 
-            panelStaffType.Controls.Add(radioButton1);
+            panelStaffType.Controls.Add(radioButtonManager);
             panelStaffType.Controls.Add(radioButtonEmployee);
             panelStaffType.Location = new Point(113, 38);
             panelStaffType.Name = "panelStaffType";
@@ -82,6 +83,7 @@
             // radioButtonEmployee
             // 
             radioButtonEmployee.AutoSize = true;
+            radioButtonEmployee.Checked = true;
             radioButtonEmployee.Location = new Point(3, 1);
             radioButtonEmployee.Name = "radioButtonEmployee";
             radioButtonEmployee.Size = new Size(77, 19);
@@ -89,13 +91,14 @@
             radioButtonEmployee.TabStop = true;
             radioButtonEmployee.Text = "Employee";
             radioButtonEmployee.UseVisualStyleBackColor = true;
+            radioButtonEmployee.CheckedChanged += radioButtonEmployee_CheckedChanged;
             // 
-            // textBox7
+            // textBoxCellPhone
             // 
-            textBox7.Location = new Point(113, 233);
-            textBox7.Name = "textBox7";
-            textBox7.Size = new Size(230, 23);
-            textBox7.TabIndex = 23;
+            textBoxCellPhone.Location = new Point(113, 233);
+            textBoxCellPhone.Name = "textBoxCellPhone";
+            textBoxCellPhone.Size = new Size(230, 23);
+            textBoxCellPhone.TabIndex = 23;
             // 
             // label8
             // 
@@ -107,27 +110,27 @@
             label8.Text = "IRD Number";
             label8.TextAlign = ContentAlignment.MiddleRight;
             // 
-            // textBox6
+            // textBoxHomePhone
             // 
-            textBox6.Location = new Point(113, 204);
-            textBox6.Margin = new Padding(3, 15, 3, 3);
-            textBox6.Name = "textBox6";
-            textBox6.Size = new Size(230, 23);
-            textBox6.TabIndex = 21;
+            textBoxHomePhone.Location = new Point(113, 204);
+            textBoxHomePhone.Margin = new Padding(3, 15, 3, 3);
+            textBoxHomePhone.Name = "textBoxHomePhone";
+            textBoxHomePhone.Size = new Size(230, 23);
+            textBoxHomePhone.TabIndex = 21;
             // 
-            // textBox5
+            // textBoxLastName
             // 
-            textBox5.Location = new Point(114, 163);
-            textBox5.Name = "textBox5";
-            textBox5.Size = new Size(229, 23);
-            textBox5.TabIndex = 20;
+            textBoxLastName.Location = new Point(114, 163);
+            textBoxLastName.Name = "textBoxLastName";
+            textBoxLastName.Size = new Size(229, 23);
+            textBoxLastName.TabIndex = 20;
             // 
-            // textBox4
+            // textBoxMiddleInitial
             // 
-            textBox4.Location = new Point(114, 134);
-            textBox4.Name = "textBox4";
-            textBox4.Size = new Size(80, 23);
-            textBox4.TabIndex = 19;
+            textBoxMiddleInitial.Location = new Point(114, 134);
+            textBoxMiddleInitial.Name = "textBoxMiddleInitial";
+            textBoxMiddleInitial.Size = new Size(80, 23);
+            textBoxMiddleInitial.TabIndex = 19;
             // 
             // label7
             // 
@@ -209,78 +212,77 @@
             label9.Text = "Last Name";
             label9.TextAlign = ContentAlignment.MiddleRight;
             // 
-            // textBox1
+            // textBoxFirstName
             // 
-            textBox1.Location = new Point(114, 105);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(229, 23);
-            textBox1.TabIndex = 29;
+            textBoxFirstName.Location = new Point(114, 105);
+            textBoxFirstName.Name = "textBoxFirstName";
+            textBoxFirstName.Size = new Size(229, 23);
+            textBoxFirstName.TabIndex = 29;
             // 
-            // comboBox1
+            // comboBoxStaffTitle
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(113, 76);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(80, 23);
-            comboBox1.TabIndex = 30;
+            comboBoxStaffTitle.FormattingEnabled = true;
+            comboBoxStaffTitle.Location = new Point(113, 76);
+            comboBoxStaffTitle.Name = "comboBoxStaffTitle";
+            comboBoxStaffTitle.Size = new Size(80, 23);
+            comboBoxStaffTitle.TabIndex = 30;
             // 
-            // textBox2
+            // textBoxOfficeExt
             // 
-            textBox2.Location = new Point(113, 262);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(159, 23);
-            textBox2.TabIndex = 31;
+            textBoxOfficeExt.Location = new Point(113, 262);
+            textBoxOfficeExt.Name = "textBoxOfficeExt";
+            textBoxOfficeExt.Size = new Size(159, 23);
+            textBoxOfficeExt.TabIndex = 31;
             // 
-            // textBox3
+            // textBoxIRDNumber
             // 
-            textBox3.Location = new Point(113, 303);
-            textBox3.Margin = new Padding(3, 15, 3, 3);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(230, 23);
-            textBox3.TabIndex = 32;
+            textBoxIRDNumber.Location = new Point(113, 303);
+            textBoxIRDNumber.Margin = new Padding(3, 15, 3, 3);
+            textBoxIRDNumber.Name = "textBoxIRDNumber";
+            textBoxIRDNumber.Size = new Size(230, 23);
+            textBoxIRDNumber.TabIndex = 32;
             // 
-            // panel1
+            // panelStatusSelection
             // 
-            panel1.Controls.Add(radioButton4);
-            panel1.Controls.Add(radioButton3);
-            panel1.Controls.Add(radioButton2);
-            panel1.Location = new Point(113, 332);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(230, 23);
-            panel1.TabIndex = 33;
+            panelStatusSelection.Controls.Add(radioButtonPending);
+            panelStatusSelection.Controls.Add(radioButtonInactive);
+            panelStatusSelection.Controls.Add(radioButtonActive);
+            panelStatusSelection.Location = new Point(113, 332);
+            panelStatusSelection.Name = "panelStatusSelection";
+            panelStatusSelection.Size = new Size(230, 23);
+            panelStatusSelection.TabIndex = 33;
             // 
-            // radioButton2
+            // radioButtonPending
             // 
-            radioButton2.AutoSize = true;
-            radioButton2.Location = new Point(0, 0);
-            radioButton2.Name = "radioButton2";
-            radioButton2.Size = new Size(58, 19);
-            radioButton2.TabIndex = 0;
-            radioButton2.TabStop = true;
-            radioButton2.Text = "Active";
-            radioButton2.UseVisualStyleBackColor = true;
+            radioButtonPending.AutoSize = true;
+            radioButtonPending.Checked = true;
+            radioButtonPending.Location = new Point(136, 0);
+            radioButtonPending.Name = "radioButtonPending";
+            radioButtonPending.Size = new Size(69, 19);
+            radioButtonPending.TabIndex = 2;
+            radioButtonPending.TabStop = true;
+            radioButtonPending.Text = "Pending";
+            radioButtonPending.UseVisualStyleBackColor = true;
             // 
-            // radioButton3
+            // radioButtonInactive
             // 
-            radioButton3.AutoSize = true;
-            radioButton3.Location = new Point(64, 0);
-            radioButton3.Name = "radioButton3";
-            radioButton3.Size = new Size(66, 19);
-            radioButton3.TabIndex = 1;
-            radioButton3.TabStop = true;
-            radioButton3.Text = "Inactive";
-            radioButton3.UseVisualStyleBackColor = true;
+            radioButtonInactive.AutoSize = true;
+            radioButtonInactive.Location = new Point(64, 0);
+            radioButtonInactive.Name = "radioButtonInactive";
+            radioButtonInactive.Size = new Size(66, 19);
+            radioButtonInactive.TabIndex = 1;
+            radioButtonInactive.Text = "Inactive";
+            radioButtonInactive.UseVisualStyleBackColor = true;
             // 
-            // radioButton4
+            // radioButtonActive
             // 
-            radioButton4.AutoSize = true;
-            radioButton4.Location = new Point(136, 0);
-            radioButton4.Name = "radioButton4";
-            radioButton4.Size = new Size(69, 19);
-            radioButton4.TabIndex = 2;
-            radioButton4.TabStop = true;
-            radioButton4.Text = "Pending";
-            radioButton4.UseVisualStyleBackColor = true;
+            radioButtonActive.AutoSize = true;
+            radioButtonActive.Location = new Point(0, 0);
+            radioButtonActive.Name = "radioButtonActive";
+            radioButtonActive.Size = new Size(58, 19);
+            radioButtonActive.TabIndex = 0;
+            radioButtonActive.Text = "Active";
+            radioButtonActive.UseVisualStyleBackColor = true;
             // 
             // label10
             // 
@@ -292,46 +294,66 @@
             label10.Text = "Status";
             label10.TextAlign = ContentAlignment.MiddleRight;
             // 
-            // label11
+            // labelManager
             // 
-            label11.AutoSize = true;
-            label11.Location = new Point(53, 382);
-            label11.Name = "label11";
-            label11.Size = new Size(54, 15);
-            label11.TabIndex = 35;
-            label11.Text = "Manager";
-            label11.TextAlign = ContentAlignment.MiddleRight;
+            labelManager.AutoSize = true;
+            labelManager.Location = new Point(53, 382);
+            labelManager.Name = "labelManager";
+            labelManager.Size = new Size(54, 15);
+            labelManager.TabIndex = 35;
+            labelManager.Text = "Manager";
+            labelManager.TextAlign = ContentAlignment.MiddleRight;
             // 
-            // comboBox2
+            // comboBoxStaffsManager
             // 
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Location = new Point(113, 379);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(230, 23);
-            comboBox2.TabIndex = 36;
+            comboBoxStaffsManager.FormattingEnabled = true;
+            comboBoxStaffsManager.Location = new Point(113, 379);
+            comboBoxStaffsManager.Name = "comboBoxStaffsManager";
+            comboBoxStaffsManager.Size = new Size(230, 23);
+            comboBoxStaffsManager.TabIndex = 36;
+            // 
+            // buttonSaveContact
+            // 
+            buttonSaveContact.Location = new Point(282, 460);
+            buttonSaveContact.Name = "buttonSaveContact";
+            buttonSaveContact.Size = new Size(75, 23);
+            buttonSaveContact.TabIndex = 37;
+            buttonSaveContact.Text = "save";
+            buttonSaveContact.UseVisualStyleBackColor = true;
+            // 
+            // buttonCancel
+            // 
+            buttonCancel.Location = new Point(201, 460);
+            buttonCancel.Name = "buttonCancel";
+            buttonCancel.Size = new Size(75, 23);
+            buttonCancel.TabIndex = 38;
+            buttonCancel.Text = "cancel";
+            buttonCancel.UseVisualStyleBackColor = true;
             // 
             // EditContactControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(comboBox2);
-            Controls.Add(label11);
+            Controls.Add(buttonCancel);
+            Controls.Add(buttonSaveContact);
+            Controls.Add(comboBoxStaffsManager);
+            Controls.Add(labelManager);
             Controls.Add(label10);
-            Controls.Add(panel1);
-            Controls.Add(textBox3);
-            Controls.Add(textBox2);
-            Controls.Add(comboBox1);
-            Controls.Add(textBox1);
+            Controls.Add(panelStatusSelection);
+            Controls.Add(textBoxIRDNumber);
+            Controls.Add(textBoxOfficeExt);
+            Controls.Add(comboBoxStaffTitle);
+            Controls.Add(textBoxFirstName);
             Controls.Add(label9);
             Controls.Add(label4);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
-            Controls.Add(textBox7);
+            Controls.Add(textBoxCellPhone);
             Controls.Add(label8);
-            Controls.Add(textBox6);
-            Controls.Add(textBox5);
-            Controls.Add(textBox4);
+            Controls.Add(textBoxHomePhone);
+            Controls.Add(textBoxLastName);
+            Controls.Add(textBoxMiddleInitial);
             Controls.Add(label7);
             Controls.Add(label6);
             Controls.Add(label5);
@@ -340,22 +362,22 @@
             Size = new Size(360, 486);
             panelStaffType.ResumeLayout(false);
             panelStaffType.PerformLayout();
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
+            panelStatusSelection.ResumeLayout(false);
+            panelStatusSelection.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private RadioButton radioButton1;
+        private RadioButton radioButtonManager;
         private Panel panelStaffType;
         private RadioButton radioButtonEmployee;
-        private TextBox textBox7;
+        private TextBox textBoxCellPhone;
         private Label label8;
-        private TextBox textBox6;
-        private TextBox textBox5;
-        private TextBox textBox4;
+        private TextBox textBoxHomePhone;
+        private TextBox textBoxLastName;
+        private TextBox textBoxMiddleInitial;
         private Label label7;
         private Label label6;
         private Label label5;
@@ -364,16 +386,18 @@
         private Label label3;
         private Label label4;
         private Label label9;
-        private TextBox textBox1;
-        private ComboBox comboBox1;
-        private TextBox textBox2;
-        private TextBox textBox3;
-        private Panel panel1;
-        private RadioButton radioButton4;
-        private RadioButton radioButton3;
-        private RadioButton radioButton2;
+        private TextBox textBoxFirstName;
+        private ComboBox comboBoxStaffTitle;
+        private TextBox textBoxOfficeExt;
+        private TextBox textBoxIRDNumber;
+        private Panel panelStatusSelection;
+        private RadioButton radioButtonPending;
+        private RadioButton radioButtonInactive;
+        private RadioButton radioButtonActive;
         private Label label10;
-        private Label label11;
-        private ComboBox comboBox2;
+        private Label labelManager;
+        private ComboBox comboBoxStaffsManager;
+        private Button buttonSaveContact;
+        private Button buttonCancel;
     }
 }
