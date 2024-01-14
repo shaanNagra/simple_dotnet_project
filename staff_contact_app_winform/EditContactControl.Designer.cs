@@ -308,6 +308,7 @@
             // comboBoxStaffsManager
             // 
             comboBoxStaffsManager.FormattingEnabled = true;
+            comboBoxStaffsManager.Items.AddRange(new object[] { "test" });
             comboBoxStaffsManager.Location = new Point(113, 379);
             comboBoxStaffsManager.Name = "comboBoxStaffsManager";
             comboBoxStaffsManager.Size = new Size(230, 23);

@@ -36,8 +36,7 @@ namespace staff_contact_app_winform
 
         private void loadStaffManager()
         {
-            //const string query = "SELECT * FROM staff WHERE staff.staff_type = 'Manager'";
-            const string query = "SELECT * FROM staff";
+            const string query = "SELECT * FROM staff WHERE staff.staff_type = 'Manager'";
             Debug.WriteLine(ConnectionString.ToString());
             using (SQLiteConnection connection = new SQLiteConnection(ConnectionString))
             {

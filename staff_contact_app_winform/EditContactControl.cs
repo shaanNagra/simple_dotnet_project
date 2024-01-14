@@ -30,6 +30,7 @@ namespace staff_contact_app_winform
             }
             labelManager.Visible = false;
             comboBoxStaffsManager.Visible = false;
+            comboBoxStaffsManager.SelectedIndex = -1;
         }
 
         private void buttonSaveContact_Click(object sender, EventArgs e)
@@ -44,6 +45,8 @@ namespace staff_contact_app_winform
         public void updateManagers(List<StaffManager> staffManagerList )
         {
             this.staffManagerList = staffManagerList;
+
+            comboBoxStaffsManager.Items.Clear();
             foreach(StaffManager manager in this.staffManagerList)
             {
                 comboBoxStaffsManager.Items.Add(manager.fullName);
