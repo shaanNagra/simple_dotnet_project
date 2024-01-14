@@ -109,7 +109,7 @@
             ClientSize = new Size(800, 450);
             Controls.Add(splitContainerForm);
             Name = "Form1";
-            Text = "Form1";
+            Text = "Staff Contacts";
             splitContainerForm.Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainerForm).EndInit();
             splitContainerForm.ResumeLayout(false);

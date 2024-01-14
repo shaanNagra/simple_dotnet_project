@@ -19,7 +19,8 @@ namespace staff_contact_app_winform
 
         private void radioButtonEmployee_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButtonEmployee.Checked == true)
+            // Make a manager selectable only if staff(type) is a employee
+            if (true == radioButtonEmployee.Checked)
             {
                 labelManager.Visible = true;
                 comboBoxStaffsManager.Visible = true;
@@ -31,7 +32,12 @@ namespace staff_contact_app_winform
 
         private void buttonSaveContact_Click(object sender, EventArgs e)
         {
-
+            
+            // Link selected manager if staff is employee
+            if (true == radioButtonEmployee.Checked)
+            {
+                
+            }
         }
     }
 }

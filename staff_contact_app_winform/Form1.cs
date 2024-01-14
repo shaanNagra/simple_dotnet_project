@@ -22,6 +22,7 @@ namespace staff_contact_app_winform
 
         private void buttonAddContact_Click(object sender, EventArgs e)
         {
+            // load form that allows user to edit/add contact
             detailsControl.Visible = false;
             editControl.Visible = true;
         }
