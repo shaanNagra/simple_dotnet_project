@@ -47,7 +47,12 @@ namespace staff_contact_app_winform
 
         private void buttonCancel_Click(object sender, EventArgs e)
         {
-            cancelSave_Clicked?.Invoke(this, e);
+            var mb = MessageBox.Show("Are you sure you want to cancel?", "Cancel edit/add contact", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (mb == DialogResult.Yes)
+            {
+                clearContactDetails();
+                cancelSave_Clicked?.Invoke(this, e);
+            }
         }
         public event EventHandler cancelSave_Clicked;
 
@@ -68,6 +73,17 @@ namespace staff_contact_app_winform
             textBoxFirstName.Text = contact.firstName;
         }
 
+        private void clearContactDetails()
+        {
+            textBoxFirstName.Text = string.Empty;
+            textBoxMiddleInitial.Text = string.Empty;
+            textBoxLastName.Text = string.Empty;
+            comboBoxStaffTitle.SelectedIndex = -1;
+            comboBoxStaffsManager.SelectedIndex = -1;
+            textBoxHomePhone.Text = string.Empty;
+            textBoxCellPhone.Text = string.Empty;  
+            textBoxIRDNumber.Text = string.Empty;
+        }
 
     }
 }

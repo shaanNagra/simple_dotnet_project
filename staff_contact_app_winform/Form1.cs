@@ -44,7 +44,7 @@ namespace staff_contact_app_winform
 
         private void EditControl_cancelSave_Clicked(object? sender, EventArgs e)
         {
-            
+            exitEditContactState();
         }
 
         private void EditControl_saveContact_Clicked(object? sender, EventArgs e)
@@ -149,23 +149,20 @@ namespace staff_contact_app_winform
         private void buttonAddContact_Click(object sender, EventArgs e)
         {
             // load form that allows user to edit/add contact
-            detailsControl.Visible = false;
-            editControl.Visible = true;
+            enterEditContactState();
         }
 
         private void buttonEditContact_Click(object sender, EventArgs e)
         {
-            detailsControl.Visible = false;
-            editControl.Visible = true;
+            enterEditContactState();
             editControl.loadContact(detailsControl.getSelectedContact());
-            listViewContactList.Enabled = false;
         }
 
         private void buttonDeleteContact_Click(object sender, EventArgs e)
         {
             if (1 == listViewContactList.SelectedIndices.Count)
             {
-                var mb = MessageBox.Show("Are you sure?", "Delete participant", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                var mb = MessageBox.Show("Are you sure?", "Delete Contact", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (DialogResult.Yes == mb)
                 {
 
@@ -175,12 +172,22 @@ namespace staff_contact_app_winform
 
         private void enterEditContactState()
         {
-
+            detailsControl.Visible = false;
+            editControl.Visible = true;
+            listViewContactList.Enabled = false;
+            buttonAddContact.Enabled = false;
+            buttonDeleteContact.Enabled = false;
+            buttonEditContact.Enabled = false;
         }
 
         private void exitEditContactState()
         {
-
+            detailsControl.Visible = true;
+            editControl.Visible = false;
+            listViewContactList.Enabled = true;
+            buttonAddContact.Enabled = true;
+            buttonDeleteContact.Enabled = true;
+            buttonEditContact.Enabled = true;
         }
 
         private void Form1_Load(object sender, EventArgs e)
