@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace staff_contact_app_winform
 {
-    internal class StaffManager
+    public class StaffManager
     {
         public string fullName {  get; set; }
         public string firstName { get; set; }
         public string lastName { get; set; }
         public string middleInitial {  get; set; }
-        public int manager_id { get; set; }
+        public long manager_id { get; set; }
 
         public StaffManager(string firstName, string lastName, 
-            string middleInitial, int manager_id)
+            string middleInitial, long manager_id)
         {
             this.fullName = firstName + " " + middleInitial + ". " + lastName;
             this.firstName = firstName;

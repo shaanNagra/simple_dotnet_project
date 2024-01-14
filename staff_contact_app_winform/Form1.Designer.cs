@@ -110,6 +110,7 @@
             Controls.Add(splitContainerForm);
             Name = "Form1";
             Text = "Staff Contacts";
+            Load += Form1_Load;
             splitContainerForm.Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainerForm).EndInit();
             splitContainerForm.ResumeLayout(false);
