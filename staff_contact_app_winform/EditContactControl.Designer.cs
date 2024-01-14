@@ -222,6 +222,7 @@
             // comboBoxStaffTitle
             // 
             comboBoxStaffTitle.FormattingEnabled = true;
+            comboBoxStaffTitle.Items.AddRange(new object[] { "Mr", "Mrs", "Miss", "Sir" });
             comboBoxStaffTitle.Location = new Point(113, 76);
             comboBoxStaffTitle.Name = "comboBoxStaffTitle";
             comboBoxStaffTitle.Size = new Size(80, 23);
