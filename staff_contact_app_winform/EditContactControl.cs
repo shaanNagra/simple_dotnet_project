@@ -226,7 +226,7 @@ namespace staff_contact_app_winform
             if (true == radioButtonEmployee.Checked)
             {
                 contactInProcess.staffType = "Employee";
-                contactInProcess.manager_id = (long)comboBoxStaffsManager.SelectedValue;
+                contactInProcess.manager_id = (long)4;
             }
             else
             {
@@ -329,4 +329,5 @@ namespace staff_contact_app_winform
             return true;
         }
     }
+
 }

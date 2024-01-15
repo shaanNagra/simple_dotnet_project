@@ -335,7 +335,7 @@
             // textBoxOfficeExt
             // 
             textBoxOfficeExt.Location = new Point(113, 262);
-            textBoxOfficeExt.Mask = "+0000";
+            textBoxOfficeExt.Mask = "0000";
             textBoxOfficeExt.Name = "textBoxOfficeExt";
             textBoxOfficeExt.Size = new Size(130, 23);
             textBoxOfficeExt.TabIndex = 41;

@@ -1,3 +1,4 @@
+using System.Data;
 using System.Data.SqlClient;
 using System.Data.SQLite;
 using System.Diagnostics;
@@ -16,6 +17,7 @@ namespace staff_contact_app_winform
         private readonly List<StaffManager> staffManagerList;
 
         private StaffContact inProcessContact;
+        private bool filterByActive;
 
         //Define the connection string in the settings of the application
         //private string connectionString = Properties.Settings.Default.Database;
@@ -40,7 +42,7 @@ namespace staff_contact_app_winform
             editControl.Dock = DockStyle.Fill;
             detailsControl.Dock = DockStyle.Fill;
 
-
+            filterByActive = true;
             //detailsControl.Visible = false;
             editControl.Visible = false;
 
@@ -64,7 +66,7 @@ namespace staff_contact_app_winform
             {
                 loadStaffContacts();
                 loadStaffManager();
-                updateContactListView(true);
+                updateContactListView(filterByActive);
                 editControl.updateManagers(staffManagerList);
             }
             catch (Exception ex)
@@ -81,7 +83,7 @@ namespace staff_contact_app_winform
         /// <param name="e"></param>
         private void EditControl_cancelSave_Clicked(object? sender, EventArgs e)
         {
-            exitEditContactState();
+            setupViewingFormUI();
         }
 
         /// <summary>
@@ -96,9 +98,12 @@ namespace staff_contact_app_winform
                 addStaffContact(editControl.getEditedContact());
             }
             else
-            {
-
+            {  
+                updateStaffContact(editControl.getEditedContact());
             }
+
+            setupViewingFormUI();
+            updateContactListView(filterByActive);
         }
         
 
@@ -110,7 +115,7 @@ namespace staff_contact_app_winform
         private void buttonAddContact_Click(object sender, EventArgs e)
         {
             // load form that allows user to edit/add contact
-            enterEditContactState();
+            setupEditingFormUI();
             editControl.editNewContact();
         }
 
@@ -122,7 +127,7 @@ namespace staff_contact_app_winform
         /// <param name="e"></param>
         private void buttonEditContact_Click(object sender, EventArgs e)
         {
-            enterEditContactState();
+            setupEditingFormUI();
             editControl.editExistingContact(inProcessContact);
         }
 
@@ -156,12 +161,14 @@ namespace staff_contact_app_winform
             {
                 buttonFilterActive.Text = "Show All";
                 listViewContactList.Items.Clear();
-                updateContactListView(true);
+                filterByActive = true;
+                updateContactListView(filterByActive);
                 return;
 
             }
             buttonFilterActive.Text = "Show Active";
-            updateContactListView(false);
+            filterByActive = false;
+            updateContactListView(filterByActive);
         }
 
 
@@ -232,7 +239,7 @@ namespace staff_contact_app_winform
         /// Setup UI for editing/adding contacts. disables controls to prevent 
         /// unintended actions.
         /// </summary>
-        private void enterEditContactState()
+        private void setupEditingFormUI()
         {
             detailsControl.Visible = false;
             editControl.Visible = true;
@@ -246,7 +253,7 @@ namespace staff_contact_app_winform
         /// <summary>
         /// Undo any UI changes made for the editing/adding contacts state.
         /// </summary>
-        private void exitEditContactState()
+        private void setupViewingFormUI()
         {
             detailsControl.Visible = true;
             editControl.Visible = false;
@@ -258,6 +265,53 @@ namespace staff_contact_app_winform
 
 
         #region SQL Queries
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="contact"></param>
+        private void updateStaffContact(StaffContact contact)
+        {
+            //var scIndex = staffContactsList.FindIndex(x => x.id == contact.id);
+            //staffContactsList[scIndex] = contact;
+            string managerString = ", manager_id=@manager_id";
+            if (0 == contact.manager_id) {
+                managerString = " ";
+            }
+
+            string query = "UPDATE staff SET staff_type=@staff_type, title=@title" +
+                ", first_name=@first_name, last_name=@last_name" +
+                ", middle_initial=@middle_initial" +
+                ", home_phone=@home_phone, cell_phone=@cell_phone, office_extension=@office_extension" +
+                ", ird_number=@ird_number" +
+                ", status=@status " +
+                "WHERE staff.id = @id";
+
+            using (SQLiteConnection connection = new SQLiteConnection(ConnectionString))
+            {
+                connection.Open();
+                SQLiteCommand command = new SQLiteCommand(query, connection);
+                Debug.WriteLine(contact.officeExt);
+                Debug.WriteLine(contact.manager_id);
+                Debug.WriteLine(contact.irdNumber);
+                Debug.WriteLine(contact.lastName);
+
+                command.Parameters.AddWithValue("@staff_type", contact.staffType ?? null);
+                command.Parameters.AddWithValue("@title", contact.title ?? null);
+                command.Parameters.AddWithValue("@first_name", contact.firstName ?? null);
+                command.Parameters.AddWithValue("@last_name", contact.lastName ?? null);
+                command.Parameters.AddWithValue("@middle_initial", contact.middleInitial ?? null);
+                command.Parameters.AddWithValue("@home_phone", contact.homePhone ?? null);
+                command.Parameters.AddWithValue("@cell_phone", contact.cellPhone ?? null);
+                command.Parameters.AddWithValue("@office_extension", contact.officeExt ?? null);
+                command.Parameters.AddWithValue("@ird_number", contact.irdNumber ?? null);
+                command.Parameters.AddWithValue("@status", contact.status ?? null);
+
+                command.Parameters.AddWithValue("@id", contact.id);
+
+                 command.ExecuteNonQuery();
+            }
+        }
 
 
         /// <summary>
@@ -414,6 +468,7 @@ namespace staff_contact_app_winform
 
             return (T)reader.GetValue(columnIndex);
         }
+
     }
 }
 
