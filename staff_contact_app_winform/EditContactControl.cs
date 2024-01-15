@@ -33,15 +33,72 @@ namespace staff_contact_app_winform
             comboBoxStaffsManager.Visible = false;
             comboBoxStaffsManager.SelectedIndex = -1;
         }
-
+        /// <summary>
+        /// Parsers form to prevent incorrect data before raising an event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonSaveContact_Click(object sender, EventArgs e)
         {
+            // FULL NAME VALIDATION
+            if (string.Empty == textBoxFirstName.Text || 
+                string.Empty == textBoxMiddleInitial.Text || 
+                string.Empty == textBoxLastName.Text) 
+            {
+                MessageBox.Show("Please provide full name", "Incomplete form",
+                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
-            // Link selected manager if staff is employee
+            // CELL PHONE VALIDATION
+            if (string.Empty == textBoxCellPhone.Text)
+            {
+                MessageBox.Show("Please provide a cell phone number", "Incomplete form",
+                MessageBoxButtons.OK, MessageBoxIcon.Warning); 
+                return;
+            }
+
+            // IRD NUMBER VALIDATION
+            // optional field so not required but it provided must be correct
+            if (string.Empty != textBoxIRDNumber.Text)
+            {
+                if (textBoxIRDNumber.Text.Length > 10 || 7 > textBoxIRDNumber.Text.Length)
+                {
+                    MessageBox.Show("Please provide a valid IRD number \nIncorrect length", "Incomplete form",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                foreach (char c in textBoxIRDNumber.Text)
+                {
+                    if (c < '0' || c > '9')
+                    {
+                        MessageBox.Show("Please provide a valid IRD number \nNumbers only", "Incomplete form",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+                }
+            }
+
+            // STATUS VALIDATION
+            if (true != (radioButtonActive.Checked || radioButtonInactive.Checked || radioButtonPending.Checked))
+            {
+                MessageBox.Show("Status must be selected", "Incomplete form",
+                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // MANAGER VALIDATION
+            // if a employee it must link to a manager
             if (true == radioButtonEmployee.Checked)
             {
-
+                if(-1 == comboBoxStaffsManager.SelectedIndex)
+                {
+                    MessageBox.Show("Must select manager if employee", "Incomplete form", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
             }
+
             saveContact_Clicked?.Invoke(this, e);
         }
         public event EventHandler saveContact_Clicked;
@@ -68,11 +125,9 @@ namespace staff_contact_app_winform
             foreach (StaffManager manager in this.staffManagerList)
             {
                 items.Add(new { Text = manager.fullName, Value = manager.manager_id });
-                //comboBoxStaffsManager.Items.Add(
-                //    new { Text = manager.fullName, Value = manager.manager_id }
-                //    );
             }
             comboBoxStaffsManager.DataSource = items;
+            comboBoxStaffsManager.SelectedIndex = -1;
             return;
         }
 

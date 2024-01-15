@@ -31,9 +31,7 @@
             radioButtonManager = new RadioButton();
             panelStaffType = new Panel();
             radioButtonEmployee = new RadioButton();
-            textBoxCellPhone = new TextBox();
             label8 = new Label();
-            textBoxHomePhone = new TextBox();
             textBoxLastName = new TextBox();
             textBoxMiddleInitial = new TextBox();
             label7 = new Label();
@@ -46,7 +44,6 @@
             label9 = new Label();
             textBoxFirstName = new TextBox();
             comboBoxStaffTitle = new ComboBox();
-            textBoxOfficeExt = new TextBox();
             textBoxIRDNumber = new TextBox();
             panelStatusSelection = new Panel();
             radioButtonPending = new RadioButton();
@@ -57,6 +54,9 @@
             comboBoxStaffsManager = new ComboBox();
             buttonSaveContact = new Button();
             buttonCancel = new Button();
+            textBoxCellPhone = new MaskedTextBox();
+            textBoxHomePhone = new MaskedTextBox();
+            textBoxOfficeExt = new MaskedTextBox();
             panelStaffType.SuspendLayout();
             panelStatusSelection.SuspendLayout();
             SuspendLayout();
@@ -93,13 +93,6 @@
             radioButtonEmployee.UseVisualStyleBackColor = true;
             radioButtonEmployee.CheckedChanged += radioButtonEmployee_CheckedChanged;
             // 
-            // textBoxCellPhone
-            // 
-            textBoxCellPhone.Location = new Point(113, 233);
-            textBoxCellPhone.Name = "textBoxCellPhone";
-            textBoxCellPhone.Size = new Size(230, 23);
-            textBoxCellPhone.TabIndex = 23;
-            // 
             // label8
             // 
             label8.AutoSize = true;
@@ -109,14 +102,6 @@
             label8.TabIndex = 22;
             label8.Text = "IRD Number";
             label8.TextAlign = ContentAlignment.MiddleRight;
-            // 
-            // textBoxHomePhone
-            // 
-            textBoxHomePhone.Location = new Point(113, 204);
-            textBoxHomePhone.Margin = new Padding(3, 15, 3, 3);
-            textBoxHomePhone.Name = "textBoxHomePhone";
-            textBoxHomePhone.Size = new Size(230, 23);
-            textBoxHomePhone.TabIndex = 21;
             // 
             // textBoxLastName
             // 
@@ -229,13 +214,6 @@
             comboBoxStaffTitle.Size = new Size(80, 23);
             comboBoxStaffTitle.TabIndex = 30;
             // 
-            // textBoxOfficeExt
-            // 
-            textBoxOfficeExt.Location = new Point(113, 262);
-            textBoxOfficeExt.Name = "textBoxOfficeExt";
-            textBoxOfficeExt.Size = new Size(159, 23);
-            textBoxOfficeExt.TabIndex = 31;
-            // 
             // textBoxIRDNumber
             // 
             textBoxIRDNumber.Location = new Point(113, 303);
@@ -338,10 +316,37 @@
             buttonCancel.UseVisualStyleBackColor = true;
             buttonCancel.Click += buttonCancel_Click;
             // 
+            // textBoxCellPhone
+            // 
+            textBoxCellPhone.Location = new Point(113, 233);
+            textBoxCellPhone.Mask = "(999) 000-0000";
+            textBoxCellPhone.Name = "textBoxCellPhone";
+            textBoxCellPhone.Size = new Size(230, 23);
+            textBoxCellPhone.TabIndex = 39;
+            // 
+            // textBoxHomePhone
+            // 
+            textBoxHomePhone.Location = new Point(116, 204);
+            textBoxHomePhone.Mask = "(999) 000-0000";
+            textBoxHomePhone.Name = "textBoxHomePhone";
+            textBoxHomePhone.Size = new Size(227, 23);
+            textBoxHomePhone.TabIndex = 40;
+            // 
+            // textBoxOfficeExt
+            // 
+            textBoxOfficeExt.Location = new Point(113, 262);
+            textBoxOfficeExt.Mask = "+0000";
+            textBoxOfficeExt.Name = "textBoxOfficeExt";
+            textBoxOfficeExt.Size = new Size(130, 23);
+            textBoxOfficeExt.TabIndex = 41;
+            // 
             // EditContactControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(textBoxOfficeExt);
+            Controls.Add(textBoxHomePhone);
+            Controls.Add(textBoxCellPhone);
             Controls.Add(buttonCancel);
             Controls.Add(buttonSaveContact);
             Controls.Add(comboBoxStaffsManager);
@@ -349,7 +354,6 @@
             Controls.Add(label10);
             Controls.Add(panelStatusSelection);
             Controls.Add(textBoxIRDNumber);
-            Controls.Add(textBoxOfficeExt);
             Controls.Add(comboBoxStaffTitle);
             Controls.Add(textBoxFirstName);
             Controls.Add(label9);
@@ -357,9 +361,7 @@
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
-            Controls.Add(textBoxCellPhone);
             Controls.Add(label8);
-            Controls.Add(textBoxHomePhone);
             Controls.Add(textBoxLastName);
             Controls.Add(textBoxMiddleInitial);
             Controls.Add(label7);
@@ -381,9 +383,7 @@
         private RadioButton radioButtonManager;
         private Panel panelStaffType;
         private RadioButton radioButtonEmployee;
-        private TextBox textBoxCellPhone;
         private Label label8;
-        private TextBox textBoxHomePhone;
         private TextBox textBoxLastName;
         private TextBox textBoxMiddleInitial;
         private Label label7;
@@ -396,7 +396,6 @@
         private Label label9;
         private TextBox textBoxFirstName;
         private ComboBox comboBoxStaffTitle;
-        private TextBox textBoxOfficeExt;
         private TextBox textBoxIRDNumber;
         private Panel panelStatusSelection;
         private RadioButton radioButtonPending;
@@ -407,5 +406,8 @@
         private ComboBox comboBoxStaffsManager;
         private Button buttonSaveContact;
         private Button buttonCancel;
+        private MaskedTextBox textBoxCellPhone;
+        private MaskedTextBox textBoxHomePhone;
+        private MaskedTextBox textBoxOfficeExt;
     }
 }
