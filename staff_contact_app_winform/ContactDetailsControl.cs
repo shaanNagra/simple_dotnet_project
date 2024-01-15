@@ -31,7 +31,7 @@ namespace staff_contact_app_winform
             textBoxDisplayIRDNumber.Text = string.Empty;
         }
 
-        public void loadContact(StaffContact contact, List<StaffManager> managers)
+        public void displayContact(StaffContact contact, List<StaffManager> managers)
         {
             selectedContact = contact;
             textBoxDisplayName.Text = contact.fullName;

@@ -9,13 +9,18 @@ namespace staff_contact_app_winform
 {
     public partial class Form1 : Form
     {
-        #region Declaration
+        #region Fields
+
+
+        //Subcotrollers
         EditContactControl editControl = new EditContactControl();
         ContactDetailsControl detailsControl = new ContactDetailsControl();
 
+        //Lists (Local Copy of database)
         private readonly List<StaffContact> staffContactsList;
         private readonly List<StaffManager> staffManagerList;
 
+        //Fields
         private StaffContact inProcessContact;
         private bool filterByActive;
 
@@ -31,31 +36,33 @@ namespace staff_contact_app_winform
 
         public Form1()
         {
+
             InitializeComponent();
+
+            //Load subcontrols into form
+            splitContainerForm.Panel2.Controls.Add(editControl);
+            splitContainerForm.Panel2.Controls.Add(detailsControl);
+            editControl.Dock = DockStyle.Fill;
+            detailsControl.Dock = DockStyle.Fill;
+            editControl.Visible = false;
 
             staffManagerList = new List<StaffManager>();
             staffContactsList = new List<StaffContact>();
-
-            splitContainerForm.Panel2.Controls.Add(editControl);
-            splitContainerForm.Panel2.Controls.Add(detailsControl);
-
-            editControl.Dock = DockStyle.Fill;
-            detailsControl.Dock = DockStyle.Fill;
-
+            
+            //set list contact views difault state to filter by active status
             filterByActive = true;
-            //detailsControl.Visible = false;
-            editControl.Visible = false;
 
+            //Set Event hanlders for subcontrol raised events
             editControl.saveContact_Clicked += EditControl_saveContact_Clicked;
             editControl.cancelSave_Clicked += EditControl_cancelSave_Clicked;
         }
-
-
         #endregion
 
 
+        #region Events
+
+
         /// <summary>
-        /// LOAD FORM
         /// Load data from database on first load and setup UI with said data.
         /// </summary>
         /// <param name="sender"></param>
@@ -75,53 +82,21 @@ namespace staff_contact_app_winform
             }
         }
 
-
         /// <summary>
-        /// EDIT CONTROLS CANCEL EDIT
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void EditControl_cancelSave_Clicked(object? sender, EventArgs e)
-        {
-            setupViewingFormUI();
-        }
-
-        /// <summary>
-        /// EDIT CONTROLS SAVE EDIT
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void EditControl_saveContact_Clicked(object? sender, EventArgs e)
-        {
-            if(true == editControl.isContactNew())
-            {
-                addStaffContact(editControl.getEditedContact());
-            }
-            else
-            {  
-                updateStaffContact(editControl.getEditedContact());
-            }
-
-            setupViewingFormUI();
-            updateContactListView(filterByActive);
-        }
-        
-
-        /// <summary>
-        /// ADD NEW CONTACT
+        /// load empty editControl to allow user to add new contact.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void buttonAddContact_Click(object sender, EventArgs e)
         {
-            // load form that allows user to edit/add contact
             setupEditingFormUI();
+            listViewContactList.SelectedItems.Clear();
             editControl.editNewContact();
         }
 
 
         /// <summary>
-        /// EDIT EXSITING CONTACT
+        /// load editCotrol with details of selected user to edit contact.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -133,7 +108,6 @@ namespace staff_contact_app_winform
 
 
         /// <summary>
-        /// DELETE CONTACT
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -141,7 +115,12 @@ namespace staff_contact_app_winform
         {
             if (1 == listViewContactList.SelectedIndices.Count)
             {
-                var mb = MessageBox.Show("Are you sure?", "Delete Contact", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                var mb = MessageBox.Show(
+                    "Are you sure?", 
+                    "Delete Contact", 
+                    MessageBoxButtons.YesNo, 
+                    MessageBoxIcon.Warning);
+
                 if (DialogResult.Yes == mb)
                 {
 
@@ -151,53 +130,107 @@ namespace staff_contact_app_winform
 
 
         /// <summary>
-        /// FILTER CONTACT LIST
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void buttonFilterActive_Click(object sender, EventArgs e)
         {
+            // Filter by active
             if ("Show Active" == buttonFilterActive.Text)
             {
                 buttonFilterActive.Text = "Show All";
                 listViewContactList.Items.Clear();
                 filterByActive = true;
                 updateContactListView(filterByActive);
-                return;
-
             }
-            buttonFilterActive.Text = "Show Active";
-            filterByActive = false;
-            updateContactListView(filterByActive);
+            // Filter by all
+            else
+            {
+                buttonFilterActive.Text = "Show Active";
+                filterByActive = false;
+                updateContactListView(filterByActive);
+            }
         }
 
 
         /// <summary>
-        /// SELECT CONTACT FROM LIST
-        /// Update contact details display in panel2 when a contact is selected.
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void listViewContactList_SelectedIndexChanged(object sender, EventArgs e)
         {
+
+            // No contact selected
             if (0 == listViewContactList.SelectedIndices.Count)
             {
+                //prevent UI actions that require selected contact.
                 buttonEditContact.Enabled = false;
                 buttonDeleteContact.Enabled = false;
+                //clear and display contact details (in detialControl).
                 detailsControl.clearContact();
-                inProcessContact = null;
 
+                inProcessContact = null;
             }
+            // A contact selected
             else
             {
+                //allow UI actions that require selected contact.
                 buttonEditContact.Enabled = true;
                 buttonDeleteContact.Enabled = true;
+                //load selected contact and display details (in detialControl).
                 StaffContact contact = (StaffContact)listViewContactList.SelectedItems[0].Tag;
-                detailsControl.loadContact(contact, staffManagerList);
+                detailsControl.displayContact(contact, staffManagerList);
+
                 inProcessContact = contact;
             }
         }
+        #endregion
 
+
+        #region Handling Subcontrols Events
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void EditControl_cancelSave_Clicked(object? sender, EventArgs e)
+        {
+            //Update UI
+            setupViewingFormUI();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void EditControl_saveContact_Clicked(object? sender, EventArgs e)
+        {
+
+            var editedContact = editControl.getEditedContact();
+
+            if (true == editControl.isContactNew())
+            {
+                addStaffContact(editedContact);
+            }
+            else
+            {
+                updateStaffContact(editedContact);
+            }
+
+            //Update UI
+            detailsControl.displayContact(editedContact, staffManagerList);
+            setupViewingFormUI();
+            updateContactListView(filterByActive);
+        }
+        #endregion
+
+
+        #region Private Methods
 
 
         /// <summary>
@@ -262,60 +295,18 @@ namespace staff_contact_app_winform
             buttonDeleteContact.Enabled = true;
             buttonEditContact.Enabled = true;
         }
+        #endregion
 
 
         #region SQL Queries
+
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="contact"></param>
-        //private void updateStaffContact(StaffContact contact)
-        //{
-        //    //var scIndex = staffContactsList.FindIndex(x => x.id == contact.id);
-        //    //staffContactsList[scIndex] = contact;
-
-        //    var query = "UPDATE staff SET staff_type=@staff_type, title=@title" +
-        //        ", first_name=@first_name, last_name=@last_name" +
-        //        ", middle_initial=@middle_initial" +
-        //        ", home_phone=@home_phone, cell_phone=@cell_phone, office_extension=@office_extension" +
-        //        ", ird_number=@ird_number" + 
-        //        ", status=@status , manager_id=@manager_id " +
-        //        "WHERE id = @id";
-
-        //    using (SQLiteConnection connection = new SQLiteConnection(ConnectionString))
-        //    {
-        //        connection.Open();
-        //        SQLiteCommand command = new SQLiteCommand(query, connection);
-        //        Debug.WriteLine(contact.staffType);
-        //        Debug.WriteLine(contact.officeExt);
-        //        Debug.WriteLine(contact.manager_id);
-        //        Debug.WriteLine(contact.irdNumber);
-        //        Debug.WriteLine(contact.lastName);
-
-        //        command.Parameters.Add(new SQLiteParameter("@staff_type", DbType.String, contact.staffType));
-        //        command.Parameters.Add(new SQLiteParameter("@title", DbType.String, contact.title));
-        //        command.Parameters.Add(new SQLiteParameter("@first_name", DbType.String, contact.firstName));
-        //        command.Parameters.Add(new SQLiteParameter("@last_name", DbType.String, contact.lastName));
-        //        command.Parameters.Add(new SQLiteParameter("@middle_initial", DbType.String, contact.middleInitial));
-        //        command.Parameters.Add(new SQLiteParameter("@home_phone", DbType.String, contact.homePhone));
-        //        command.Parameters.Add(new SQLiteParameter("@cell_phone", DbType.String, contact.cellPhone));
-        //        command.Parameters.Add(new SQLiteParameter("@office_extension", DbType.String, contact.officeExt));
-        //        command.Parameters.Add(new SQLiteParameter("@ird_number", DbType.String, contact.irdNumber));
-        //        command.Parameters.Add(new SQLiteParameter("@status", DbType.String, contact.status));
-        //        command.Parameters.Add(new SQLiteParameter("@manager_id", DbType.Int64, contact.manager_id.ToString()));
-
-        //        command.Parameters.Add(new SQLiteParameter("@id", DbType.Int64, contact.id.ToString()));
-
-        //        command.ExecuteNonQuery();
-        //    }
-        //    //updateStaffContactManager(contact);
-        //}
-
         private void updateStaffContact(StaffContact contact)
         {
-            //var scIndex = staffContactsList.FindIndex(x => x.id == contact.id);
-            //staffContactsList[scIndex] = contact;
 
             string query = "UPDATE staff SET staff_type=@staff_type, title=@title" +
                 ", first_name=@first_name, last_name=@last_name" +
@@ -350,25 +341,7 @@ namespace staff_contact_app_winform
 
                 command.ExecuteNonQuery();
             }
-            //updateStaffContactManager(contact);
         }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private void updateStaffContactManager(StaffContact contact)
-        {
-            string query = "UPDATE staff SET manager_id=@manager_id WHERE id = @id";
-            using (SQLiteConnection connection = new SQLiteConnection(ConnectionString))
-            {
-                connection.Open();
-                SQLiteCommand command = new SQLiteCommand(query, connection);
-                command.Parameters.AddWithValue("@status", contact.manager_id);
-                command.ExecuteNonQuery();
-            }    
-        }
-
 
 
         /// <summary>
@@ -502,9 +475,9 @@ namespace staff_contact_app_winform
                 }
             }
         }
-
-
         #endregion
+
+
     }
 
 
