@@ -221,8 +221,9 @@
             // 
             // comboBoxStaffTitle
             // 
+            comboBoxStaffTitle.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxStaffTitle.FormattingEnabled = true;
-            comboBoxStaffTitle.Items.AddRange(new object[] { "Mr", "Mrs", "Miss", "Sir" });
+            comboBoxStaffTitle.Items.AddRange(new object[] { "Miss", "Mr", "Mrs", "Sir" });
             comboBoxStaffTitle.Location = new Point(113, 76);
             comboBoxStaffTitle.Name = "comboBoxStaffTitle";
             comboBoxStaffTitle.Size = new Size(80, 23);
@@ -307,6 +308,7 @@
             // 
             // comboBoxStaffsManager
             // 
+            comboBoxStaffsManager.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxStaffsManager.FormattingEnabled = true;
             comboBoxStaffsManager.Items.AddRange(new object[] { "test" });
             comboBoxStaffsManager.Location = new Point(113, 379);

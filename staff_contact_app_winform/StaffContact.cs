@@ -20,12 +20,12 @@ namespace staff_contact_app_winform
         public string officeExt { get; set; }
         public string irdNumber { get; set; }
         public string status { get; set; }
-        public string manager { get; set; }
+        public long manager_id { get; set; }
 
         public StaffContact(long id, string staffType, string title, 
             string firstName, string lastName, string middleInitial, 
             string homePhone, string cellPhone, string officeExt,
-            string irdNumber, string status, string manager)
+            string irdNumber, string status, long manager_id)
         {
             this.fullName = title + ". " + firstName + " " + middleInitial + ". " + lastName;
             this.id = id;
@@ -39,7 +39,7 @@ namespace staff_contact_app_winform
             this.officeExt = officeExt;
             this.irdNumber = irdNumber;
             this.status = status;
-            this.manager = manager;
+            this.manager_id = manager_id;
         }
     }
 }

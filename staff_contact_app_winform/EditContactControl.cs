@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -47,6 +48,7 @@ namespace staff_contact_app_winform
 
         private void buttonCancel_Click(object sender, EventArgs e)
         {
+            Debug.WriteLine(comboBoxStaffsManager.SelectedValue);
             var mb = MessageBox.Show("Are you sure you want to cancel?", "Cancel edit/add contact", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (mb == DialogResult.Yes)
             {
@@ -59,18 +61,58 @@ namespace staff_contact_app_winform
         public void updateManagers(List<StaffManager> staffManagerList)
         {
             this.staffManagerList = staffManagerList;
-
             comboBoxStaffsManager.Items.Clear();
+            List<Object> items = new List<Object>();
+            comboBoxStaffsManager.DisplayMember = "Text";
+            comboBoxStaffsManager.ValueMember = "Value";
             foreach (StaffManager manager in this.staffManagerList)
             {
-                comboBoxStaffsManager.Items.Add(manager.fullName);
+                items.Add(new { Text = manager.fullName, Value = manager.manager_id });
+                //comboBoxStaffsManager.Items.Add(
+                //    new { Text = manager.fullName, Value = manager.manager_id }
+                //    );
             }
+            comboBoxStaffsManager.DataSource = items;
             return;
         }
 
         public void loadContact(StaffContact contact)
         {
+            comboBoxStaffTitle.SelectedIndex = comboBoxStaffTitle.FindString(contact.title);
+
+            if ("Employee" == contact.staffType)
+            {
+                radioButtonEmployee.Checked = true;
+            }
+            else
+            {
+                radioButtonManager.Checked = true;
+            }
+            
             textBoxFirstName.Text = contact.firstName;
+            textBoxLastName.Text = contact.lastName;
+            textBoxMiddleInitial.Text = contact.middleInitial;
+
+            textBoxHomePhone.Text = contact.homePhone;
+            textBoxCellPhone.Text = contact.cellPhone;
+            textBoxOfficeExt.Text = contact.officeExt;
+            textBoxIRDNumber.Text = contact.irdNumber;
+
+            if ("Active" == contact.status)
+            {
+                radioButtonActive.Checked = true;
+            }
+            else if ("Inactive" == contact.status)
+            {
+                radioButtonInactive.Checked = true;
+            }
+            else 
+            {
+                radioButtonPending.Checked = true;
+            }
+            Debug.WriteLine(contact.manager_id);
+            comboBoxStaffsManager.SelectedValue = contact.manager_id;
+
         }
 
         private void clearContactDetails()

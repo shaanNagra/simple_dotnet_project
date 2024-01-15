@@ -119,11 +119,11 @@ namespace staff_contact_app_winform
                         string officeExt = SqlNullParser.GetValue<string>(reader, "office_extension");
                         string irdNumber = SqlNullParser.GetValue<string>(reader, "ird_number");
                         string status = SqlNullParser.GetValue<string>(reader, "status");
-                        string manager = SqlNullParser.GetValue<string>(reader, "manager");
+                        long manager_id = SqlNullParser.GetValue<long>(reader, "manager_id");
 
                         StaffContact contact = new StaffContact(id, staffType, title,
                             firstName, lastName, middleInitial,
-                            homePhone, cellPhone, officeExt, irdNumber, status, manager);
+                            homePhone, cellPhone, officeExt, irdNumber, status, manager_id);
                         staffContactsList.Add(contact);
 
                     }

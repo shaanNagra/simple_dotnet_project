@@ -44,7 +44,7 @@ namespace staff_contact_app_winform
             else
             {
                 textBoxDisplayManager.Visible = true;
-                textBoxDisplayManager.Text = contact.manager;
+                //textBoxDisplayManager.Text = contact.manager;
             }
             textBoxDisplayHomePhone.Text = contact.homePhone;
             textBoxDisplayCellPhone.Text = contact.cellPhone;
