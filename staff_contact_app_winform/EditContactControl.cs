@@ -29,6 +29,11 @@ namespace staff_contact_app_winform
         }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void radioButtonEmployee_CheckedChanged(object sender, EventArgs e)
         {
             // Make a manager selectable only if staff(type) is a employee
@@ -55,13 +60,18 @@ namespace staff_contact_app_winform
             {
                 return;
             }
-
+            loadFormIntoContact();
             clearContactDetails();
             saveContact_Clicked?.Invoke(this, e);
         }
         public event EventHandler saveContact_Clicked;
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonCancel_Click(object sender, EventArgs e)
         {
             Debug.WriteLine(comboBoxStaffsManager.SelectedValue);
@@ -76,6 +86,10 @@ namespace staff_contact_app_winform
         public event EventHandler cancelSave_Clicked;
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="staffManagerList"></param>
         public void updateManagers(List<StaffManager> staffManagerList)
         {
             this.staffManagerList = staffManagerList;
@@ -92,38 +106,44 @@ namespace staff_contact_app_winform
             return;
         }
 
-        public void loadContactIntoForm(StaffContact contact)
-        {
-            contactInProcess = contact;
 
-            if (null != contact.title)
+        /// <summary>
+        /// Loads a StaffContacts data into the editing form. Allows controller to submit
+        /// data to the form.
+        /// </summary>
+        /// <param name="contact"></param>
+        private void loadContactIntoForm()
+        {
+
+            if (null != contactInProcess.title)
             {
-                comboBoxStaffTitle.SelectedIndex = comboBoxStaffTitle.FindString(contact.title);
+                comboBoxStaffTitle.SelectedIndex = comboBoxStaffTitle.FindString(contactInProcess.title);
             }
 
-            if ("Employee" == contact.staffType)
+            if ("Employee" == contactInProcess.staffType)
             {
                 radioButtonEmployee.Checked = true;
+                comboBoxStaffsManager.SelectedValue = contactInProcess.manager_id;
             }
             else
             {
                 radioButtonManager.Checked = true;
             }
             
-            textBoxFirstName.Text = contact.firstName;
-            textBoxLastName.Text = contact.lastName;
-            textBoxMiddleInitial.Text = contact.middleInitial;
+            textBoxFirstName.Text = contactInProcess.firstName;
+            textBoxLastName.Text = contactInProcess.lastName;
+            textBoxMiddleInitial.Text = contactInProcess.middleInitial;
 
-            textBoxHomePhone.Text = contact.homePhone;
-            textBoxCellPhone.Text = contact.cellPhone;
-            textBoxOfficeExt.Text = contact.officeExt;
-            textBoxIRDNumber.Text = contact.irdNumber;
+            textBoxHomePhone.Text = contactInProcess.homePhone;
+            textBoxCellPhone.Text = contactInProcess.cellPhone;
+            textBoxOfficeExt.Text = contactInProcess.officeExt;
+            textBoxIRDNumber.Text = contactInProcess.irdNumber;
 
-            if ("Active" == contact.status)
+            if ("Active" == contactInProcess.status)
             {
                 radioButtonActive.Checked = true;
             }
-            else if ("Inactive" == contact.status)
+            else if ("Inactive" == contactInProcess.status)
             {
                 radioButtonInactive.Checked = true;
             }
@@ -131,27 +151,30 @@ namespace staff_contact_app_winform
             {
                 radioButtonPending.Checked = true;
             }
-            Debug.WriteLine(contact.manager_id);
-            comboBoxStaffsManager.SelectedValue = contact.manager_id;
-
+            return;
         }
 
+
+        /// <summary>
+        /// Loads data submitted in form into a staffContact Object. The Object can then 
+        /// be accessed by the controller that implementes this control.
+        /// </summary>
         private void loadFormIntoContact() 
         {
-            if(null == contactInProcess) 
+            if (null == contactInProcess) 
             {
                 contactInProcess = new StaffContact();
             }
 
-            if(true == radioButtonEmployee.Checked)
+            if (true == radioButtonEmployee.Checked)
             {
                 contactInProcess.staffType = "Employee";
+                contactInProcess.manager_id = (long)comboBoxStaffsManager.SelectedValue;
             } 
             else
             {
                 contactInProcess.staffType = "Manager";
             }
-            
 
             contactInProcess.updateTitle(comboBoxStaffTitle.Text);
             contactInProcess.updateFirstName(textBoxFirstName.Text);
@@ -162,14 +185,39 @@ namespace staff_contact_app_winform
             contactInProcess.homePhone = textBoxHomePhone.Text;
             contactInProcess.irdNumber = textBoxIRDNumber.Text;
             contactInProcess.officeExt = textBoxOfficeExt.Text;
-            
+
+            if (true == radioButtonActive.Checked)
+            {
+                contactInProcess.status = "Active";
+            }
+            else if (true == radioButtonInactive.Checked)
+            {
+                contactInProcess.status = "Inactive";
+            }
+            else
+            {
+                contactInProcess.status = "Pending";
+            }
+
+            return;
         }
 
-        public void newContact()
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="contact"></param>
+        public void setContact(StaffContact contact)
         { 
-
+            contactInProcess = contact;
+            loadContactIntoForm();
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public StaffContact getContact()
         {
             return contactInProcess;
@@ -193,7 +241,7 @@ namespace staff_contact_app_winform
 
 
         /// <summary>
-        /// 
+        /// returns true if the inputed valeus into the form are acceptable by set standard.
         /// </summary>
         /// <returns></returns>
         private bool isFormValid() 
@@ -256,6 +304,7 @@ namespace staff_contact_app_winform
                     return false;
                 }
             }
+            // PASSED
             return true;
         }
 
