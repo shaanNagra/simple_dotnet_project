@@ -1,3 +1,4 @@
+using System.Data.SqlClient;
 using System.Data.SQLite;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
@@ -13,6 +14,9 @@ namespace staff_contact_app_winform
 
         private readonly List<StaffContact> staffContactsList;
         private readonly List<StaffManager> staffManagerList;
+
+        private StaffContact inProcessContact;
+
         //Define the connection string in the settings of the application
         //private string connectionString = Properties.Settings.Default.Database;
         //private const string ConnectionString = "Data Source=Properties.Settings.Default.DatabaseFile";
@@ -22,6 +26,8 @@ namespace staff_contact_app_winform
         public Form1()
         {
             InitializeComponent();
+
+            inProcessContact = null;
 
             staffManagerList = new List<StaffManager>();
             staffContactsList = new List<StaffContact>();
@@ -163,6 +169,39 @@ namespace staff_contact_app_winform
             }
         }
 
+        private void addStaffContact(StaffContact contact)
+        {
+            const string query = "INSERT into staff " +
+                "(staff_type, title, first_name, last_name, middle_initial, " +
+                "home_phone, cell_phone, office_extension, ird_number, status, manager_id) " +
+                "VALUES (@staff_type, @title, @first_name, @last_name, @middle_initial, " +
+                "@home_phone, @cell_phone, @office_extension, @ird_number, @status, @manager_id);" +
+                "SELECT last_insert_rowid()";
+            
+            using (SQLiteConnection connection = new SQLiteConnection(ConnectionString))
+            {
+                connection.Open();
+                SQLiteCommand command = new SQLiteCommand(query, connection);
+
+                command.Parameters.AddWithValue("@staff_type", contact.staffType);
+                command.Parameters.AddWithValue("@title", contact.title);
+                command.Parameters.AddWithValue("@first_name", contact.firstName);
+                command.Parameters.AddWithValue("@last_name", contact.lastName);
+                command.Parameters.AddWithValue("@middle_initial", contact.middleInitial);
+                command.Parameters.AddWithValue("@home_phone", contact.homePhone);
+                command.Parameters.AddWithValue("@cell_phone", contact.cellPhone);
+                command.Parameters.AddWithValue("@office_extension", contact.officeExt);
+                command.Parameters.AddWithValue("@ird_number", contact.irdNumber);
+                command.Parameters.AddWithValue("@status", contact.status);
+                command.Parameters.AddWithValue("@manager_id", contact.manager_id);
+
+                contact.id = (long)command.ExecuteScalar();
+
+                staffContactsList.Add(contact);
+            }
+        }
+
+
         private void deleteStaffContact(StaffContact contact)
         {
             const string query = "DELETE FROM staff WHERE id=@id";
@@ -183,12 +222,13 @@ namespace staff_contact_app_winform
         {
             // load form that allows user to edit/add contact
             enterEditContactState();
+            inProcessContact = null;
         }
 
         private void buttonEditContact_Click(object sender, EventArgs e)
         {
             enterEditContactState();
-            editControl.loadContact(detailsControl.getSelectedContact());
+            editControl.loadContact(inProcessContact);
         }
 
         private void buttonDeleteContact_Click(object sender, EventArgs e)
@@ -272,6 +312,7 @@ namespace staff_contact_app_winform
                 buttonEditContact.Enabled = false;
                 buttonDeleteContact.Enabled = false;
                 detailsControl.clearContact();
+                inProcessContact = null;
 
             }
             else
@@ -280,6 +321,7 @@ namespace staff_contact_app_winform
                 buttonDeleteContact.Enabled = true;
                 StaffContact contact = (StaffContact)listViewContactList.SelectedItems[0].Tag;
                 detailsControl.loadContact(contact, staffManagerList);
+                inProcessContact = contact;
             }
         }
 

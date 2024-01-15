@@ -55,9 +55,5 @@ namespace staff_contact_app_winform
             textBoxDisplayOfficeExt.Text = contact.officeExt;
             textBoxDisplayIRDNumber.Text = contact.irdNumber;
         }
-        public StaffContact getSelectedContact()
-        {
-            return selectedContact;
-        }
     }
 }
