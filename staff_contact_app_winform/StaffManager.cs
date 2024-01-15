@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace staff_contact_app_winform
 {
+    /// <summary>
+    /// Class used to maintain details about contacts that managers,
+    /// utilised to handle selecting manager for a new employee.
+    /// </summary>
     public class StaffManager
     {
         public string title {  get; set; }

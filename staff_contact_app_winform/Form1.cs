@@ -7,6 +7,7 @@ namespace staff_contact_app_winform
 {
     public partial class Form1 : Form
     {
+        #region Declaration
         EditContactControl editControl = new EditContactControl();
         ContactDetailsControl detailsControl = new ContactDetailsControl();
 
@@ -16,6 +17,7 @@ namespace staff_contact_app_winform
         //private string connectionString = Properties.Settings.Default.Database;
         //private const string ConnectionString = "Data Source=Properties.Settings.Default.DatabaseFile";
         private const string ConnectionString = "Data Source=C:\\Users\\shaan\\OneDrive\\Documents\\radfords\\staff_contact_app_winform\\staff_contact_app_winform\\Database\\staff_contacts.sqlite";
+        #endregion
 
         public Form1()
         {
@@ -42,16 +44,24 @@ namespace staff_contact_app_winform
 
         }
 
+        #region Controller Event Handlers
         private void EditControl_cancelSave_Clicked(object? sender, EventArgs e)
         {
             exitEditContactState();
         }
 
+        //Handles event when a 
         private void EditControl_saveContact_Clicked(object? sender, EventArgs e)
         {
             buttonFilterActive.Enabled = false;
         }
+        #endregion
 
+        /// <summary>
+        /// updates the listview to be in parity with staffContactList, addionally 
+        /// allows to filter list to only contain contacts with the status active.
+        /// </summary>
+        /// <param name="isActive"></param>
         private void updateContactListView(bool isActive)
         {
             listViewContactList.Items.Clear();
@@ -80,6 +90,10 @@ namespace staff_contact_app_winform
             }
         }
 
+        /// <summary>
+        /// loads management staff from database into staffManagerList, clears
+        /// list first. Allows for multiple calls to keep in sync w/ database.
+        /// </summary>
         private void loadStaffManager()
         {
             staffManagerList.Clear();
@@ -109,6 +123,10 @@ namespace staff_contact_app_winform
             }
         }
 
+        /// <summary>
+        /// loads all staff from database into staffContactList. Intended use,
+        /// to load database into local copy at start of application.
+        /// </summary>
         private void loadStaffContacts()
         {
             const string query = "SELECT * FROM staff";
@@ -185,6 +203,24 @@ namespace staff_contact_app_winform
             }
         }
 
+        private void buttonFilterActive_Click(object sender, EventArgs e)
+        {
+            if ("Show Active" == buttonFilterActive.Text)
+            {
+                buttonFilterActive.Text = "Show All";
+                listViewContactList.Items.Clear();
+                updateContactListView(true);
+                return;
+
+            }
+            buttonFilterActive.Text = "Show Active";
+            updateContactListView(false);
+        }
+
+        /// <summary>
+        /// Setup UI for editing/adding contacts. disables controls to prevent 
+        /// unintended actions.
+        /// </summary>
         private void enterEditContactState()
         {
             detailsControl.Visible = false;
@@ -195,6 +231,9 @@ namespace staff_contact_app_winform
             buttonEditContact.Enabled = false;
         }
 
+        /// <summary>
+        /// Undo any UI changes made for the editing/adding contacts state.
+        /// </summary>
         private void exitEditContactState()
         {
             detailsControl.Visible = true;
@@ -204,6 +243,7 @@ namespace staff_contact_app_winform
             buttonDeleteContact.Enabled = true;
             buttonEditContact.Enabled = true;
         }
+
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -220,6 +260,11 @@ namespace staff_contact_app_winform
             }
         }
 
+        /// <summary>
+        /// Update contact details display in panel2 when a contact is selected.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void listViewContactList_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (0 == listViewContactList.SelectedIndices.Count)
@@ -238,21 +283,13 @@ namespace staff_contact_app_winform
             }
         }
 
-        private void buttonFilterActive_Click(object sender, EventArgs e)
-        {
-            if("Show Active" == buttonFilterActive.Text)
-            {
-                buttonFilterActive.Text = "Show All";
-                listViewContactList.Items.Clear();
-                updateContactListView(true);
-                return;
 
-            }
-            buttonFilterActive.Text = "Show Active";
-            updateContactListView(false);
-        }
     }
 
+    /// <summary>
+    /// Custom static class provides functionality to deal with DBNulls from
+    /// SQL query results
+    /// </summary>
     public static class SqlNullParser
     {
         public static T GetValue<T>(this SQLiteDataReader reader, string columnName)

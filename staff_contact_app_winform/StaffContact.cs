@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace staff_contact_app_winform
 {
+    /// <summary>
+    /// Utilised to mainatin all details about every staff member in the 
+    /// system.
+    /// </summary>
     public class StaffContact
     {
         public long id {  get; set; }
