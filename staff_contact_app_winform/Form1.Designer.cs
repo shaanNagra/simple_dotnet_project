@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             splitContainerForm = new SplitContainer();
+            label1 = new Label();
             buttonDeleteContact = new Button();
             buttonFilterActive = new Button();
             buttonAddContact = new Button();
@@ -49,6 +50,7 @@
             // 
             // splitContainerForm.Panel1
             // 
+            splitContainerForm.Panel1.Controls.Add(label1);
             splitContainerForm.Panel1.Controls.Add(buttonDeleteContact);
             splitContainerForm.Panel1.Controls.Add(buttonFilterActive);
             splitContainerForm.Panel1.Controls.Add(buttonAddContact);
@@ -63,6 +65,15 @@
             splitContainerForm.SplitterDistance = 374;
             splitContainerForm.TabIndex = 0;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(8, 12);
+            label1.Name = "label1";
+            label1.Size = new Size(31, 15);
+            label1.TabIndex = 5;
+            label1.Text = "filter";
+            // 
             // buttonDeleteContact
             // 
             buttonDeleteContact.Enabled = false;
@@ -76,12 +87,13 @@
             // 
             // buttonFilterActive
             // 
-            buttonFilterActive.Location = new Point(8, 8);
+            buttonFilterActive.Location = new Point(45, 8);
             buttonFilterActive.Name = "buttonFilterActive";
             buttonFilterActive.Size = new Size(75, 23);
             buttonFilterActive.TabIndex = 3;
-            buttonFilterActive.Text = "All";
+            buttonFilterActive.Text = "Show All";
             buttonFilterActive.UseVisualStyleBackColor = true;
+            buttonFilterActive.Click += buttonFilterActive_Click;
             // 
             // buttonAddContact
             // 
@@ -115,6 +127,7 @@
             listViewContactList.MultiSelect = false;
             listViewContactList.Name = "listViewContactList";
             listViewContactList.Size = new Size(364, 384);
+            listViewContactList.Sorting = SortOrder.Ascending;
             listViewContactList.TabIndex = 0;
             listViewContactList.UseCompatibleStateImageBehavior = false;
             listViewContactList.View = View.Details;
@@ -139,6 +152,7 @@
             Text = "Staff Contacts";
             Load += Form1_Load;
             splitContainerForm.Panel1.ResumeLayout(false);
+            splitContainerForm.Panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainerForm).EndInit();
             splitContainerForm.ResumeLayout(false);
             ResumeLayout(false);
@@ -154,5 +168,6 @@
         private Button buttonAddContact;
         private Button buttonFilterActive;
         private Button buttonDeleteContact;
+        private Label label1;
     }
 }

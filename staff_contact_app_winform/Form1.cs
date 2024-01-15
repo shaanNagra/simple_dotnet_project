@@ -37,8 +37,8 @@ namespace staff_contact_app_winform
             editControl.saveContact_Clicked += EditControl_saveContact_Clicked;
             editControl.cancelSave_Clicked += EditControl_cancelSave_Clicked;
 
-            
-            
+
+
 
         }
 
@@ -52,17 +52,31 @@ namespace staff_contact_app_winform
             buttonFilterActive.Enabled = false;
         }
 
-        private void updateContactList(bool active)
+        private void updateContactListView(bool isActive)
         {
             listViewContactList.Items.Clear();
+            //NOTE there is definitly a better way to do this but I need to not waist to much time either.
 
             foreach (StaffContact contact in staffContactsList)
             {
-                var listViewItem = new ListViewItem(contact.fullName);
-                listViewItem.SubItems.Add(contact.status);
-                listViewItem.Tag = contact;
+                if (false == isActive)
+                {
+                    var listViewItem = new ListViewItem(contact.fullName);
+                    listViewItem.SubItems.Add(contact.status);
+                    listViewItem.Tag = contact;
+                    listViewContactList.Items.Add(listViewItem);
+                }
+                else
+                {
+                    if("Active" == contact.status)
+                    {
+                        var listViewItem = new ListViewItem(contact.fullName);
+                        listViewItem.SubItems.Add(contact.status);
+                        listViewItem.Tag = contact;
+                        listViewContactList.Items.Add(listViewItem);
+                    }
+                }
 
-                listViewContactList.Items.Add(listViewItem);
             }
         }
 
@@ -131,10 +145,11 @@ namespace staff_contact_app_winform
             }
         }
 
-        private void deleteStaffContact(StaffContact contact) {
+        private void deleteStaffContact(StaffContact contact)
+        {
             const string query = "DELETE FROM staff WHERE id=@id";
 
-            using (SQLiteConnection connection  = new SQLiteConnection(ConnectionString))
+            using (SQLiteConnection connection = new SQLiteConnection(ConnectionString))
             {
                 connection.Open();
 
@@ -196,7 +211,7 @@ namespace staff_contact_app_winform
             {
                 loadStaffContacts();
                 loadStaffManager();
-                updateContactList(true);
+                updateContactListView(true);
                 editControl.updateManagers(staffManagerList);
             }
             catch (Exception ex)
@@ -221,6 +236,20 @@ namespace staff_contact_app_winform
                 StaffContact contact = (StaffContact)listViewContactList.SelectedItems[0].Tag;
                 detailsControl.loadContact(contact, staffManagerList);
             }
+        }
+
+        private void buttonFilterActive_Click(object sender, EventArgs e)
+        {
+            if("Show Active" == buttonFilterActive.Text)
+            {
+                buttonFilterActive.Text = "Show All";
+                listViewContactList.Items.Clear();
+                updateContactListView(true);
+                return;
+
+            }
+            buttonFilterActive.Text = "Show Active";
+            updateContactListView(false);
         }
     }
 
