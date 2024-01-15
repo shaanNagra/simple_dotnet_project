@@ -116,7 +116,7 @@ namespace staff_contact_app_winform
             if (1 == listViewContactList.SelectedIndices.Count)
             {
                 var mb = MessageBox.Show(
-                    "Are you sure?", 
+                    "Are you sure you want to delete contact?", 
                     "Delete Contact", 
                     MessageBoxButtons.YesNo, 
                     MessageBoxIcon.Warning);
@@ -222,10 +222,14 @@ namespace staff_contact_app_winform
                 updateStaffContact(editedContact);
             }
 
+            loadStaffManager();
+
             //Update UI
+            editControl.updateManagers(staffManagerList);
             detailsControl.displayContact(editedContact, staffManagerList);
             setupViewingFormUI();
             updateContactListView(filterByActive);
+            
         }
         #endregion
 
