@@ -12,6 +12,7 @@ namespace staff_contact_app_winform
     /// </summary>
     public class StaffContact
     {
+        #region Fields
         public long id {  get; set; }
         public string staffType { get; set; }
         public string fullName { get; set; }
@@ -25,6 +26,11 @@ namespace staff_contact_app_winform
         public string irdNumber { get; set; }
         public string status { get; set; }
         public long manager_id { get; set; }
+        #endregion
+
+
+        #region Constructors
+
 
         public StaffContact() 
         {
@@ -40,6 +46,7 @@ namespace staff_contact_app_winform
             this.irdNumber = string.Empty;
             this.status = string.Empty;
         }
+
 
         public StaffContact(string staffType, string title,
             string firstName, string lastName, string middleInitial,
@@ -61,6 +68,7 @@ namespace staff_contact_app_winform
             this.manager_id = manager_id;
         }
 
+
         public StaffContact(long id, string staffType, string title, 
             string firstName, string lastName, string middleInitial, 
             string homePhone, string cellPhone, string officeExt,
@@ -81,6 +89,10 @@ namespace staff_contact_app_winform
             this.manager_id = manager_id;
         }
 
+        #endregion
+
+
+        #region Public Methods
         private void updateFullName()
         {
             fullName = title + ". " + firstName + " " + middleInitial + ". " + lastName;
@@ -109,5 +121,6 @@ namespace staff_contact_app_winform
             this.middleInitial = middleInitial;
             updateFullName();
         }
+        #endregion
     }
 }

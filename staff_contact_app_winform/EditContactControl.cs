@@ -108,6 +108,44 @@ namespace staff_contact_app_winform
 
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="contact"></param>
+        public void setContact(StaffContact contact)
+        { 
+            contactInProcess = contact;
+            loadContactIntoForm();
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public StaffContact getContact()
+        {
+            return contactInProcess;
+        }
+
+
+        /// <summary>
+        /// CLEAR CONTACT DETAILS
+        /// </summary>
+        private void clearContactDetails()
+        {
+            textBoxFirstName.Text = string.Empty;
+            textBoxMiddleInitial.Text = string.Empty;
+            textBoxLastName.Text = string.Empty;
+            comboBoxStaffTitle.SelectedIndex = -1;
+            comboBoxStaffsManager.SelectedIndex = -1;
+            textBoxHomePhone.Text = string.Empty;
+            textBoxCellPhone.Text = string.Empty;  
+            textBoxIRDNumber.Text = string.Empty;
+        }
+
+
+        /// <summary>
+        /// LOAD CONTACT DATA INTO FORM
         /// Loads a StaffContacts data into the editing form. Allows controller to submit
         /// data to the form.
         /// </summary>
@@ -129,7 +167,7 @@ namespace staff_contact_app_winform
             {
                 radioButtonManager.Checked = true;
             }
-            
+
             textBoxFirstName.Text = contactInProcess.firstName;
             textBoxLastName.Text = contactInProcess.lastName;
             textBoxMiddleInitial.Text = contactInProcess.middleInitial;
@@ -147,7 +185,7 @@ namespace staff_contact_app_winform
             {
                 radioButtonInactive.Checked = true;
             }
-            else 
+            else
             {
                 radioButtonPending.Checked = true;
             }
@@ -156,12 +194,13 @@ namespace staff_contact_app_winform
 
 
         /// <summary>
+        /// LOAD FORM DATA INTO CONTACT
         /// Loads data submitted in form into a staffContact Object. The Object can then 
         /// be accessed by the controller that implementes this control.
         /// </summary>
-        private void loadFormIntoContact() 
+        private void loadFormIntoContact()
         {
-            if (null == contactInProcess) 
+            if (null == contactInProcess)
             {
                 contactInProcess = new StaffContact();
             }
@@ -170,7 +209,7 @@ namespace staff_contact_app_winform
             {
                 contactInProcess.staffType = "Employee";
                 contactInProcess.manager_id = (long)comboBoxStaffsManager.SelectedValue;
-            } 
+            }
             else
             {
                 contactInProcess.staffType = "Manager";
@@ -204,43 +243,7 @@ namespace staff_contact_app_winform
 
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="contact"></param>
-        public void setContact(StaffContact contact)
-        { 
-            contactInProcess = contact;
-            loadContactIntoForm();
-        }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public StaffContact getContact()
-        {
-            return contactInProcess;
-        }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private void clearContactDetails()
-        {
-            textBoxFirstName.Text = string.Empty;
-            textBoxMiddleInitial.Text = string.Empty;
-            textBoxLastName.Text = string.Empty;
-            comboBoxStaffTitle.SelectedIndex = -1;
-            comboBoxStaffsManager.SelectedIndex = -1;
-            textBoxHomePhone.Text = string.Empty;
-            textBoxCellPhone.Text = string.Empty;  
-            textBoxIRDNumber.Text = string.Empty;
-        }
-
-
-        /// <summary>
+        /// IS FORM VALID
         /// returns true if the inputed valeus into the form are acceptable by set standard.
         /// </summary>
         /// <returns></returns>
@@ -307,6 +310,5 @@ namespace staff_contact_app_winform
             // PASSED
             return true;
         }
-
     }
 }
