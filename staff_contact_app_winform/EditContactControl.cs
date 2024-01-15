@@ -78,7 +78,10 @@ namespace staff_contact_app_winform
 
         public void loadContact(StaffContact contact)
         {
-            comboBoxStaffTitle.SelectedIndex = comboBoxStaffTitle.FindString(contact.title);
+            if (null != contact.title)
+            {
+                comboBoxStaffTitle.SelectedIndex = comboBoxStaffTitle.FindString(contact.title);
+            }
 
             if ("Employee" == contact.staffType)
             {
