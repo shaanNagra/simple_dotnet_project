@@ -126,7 +126,7 @@
             listViewContactList.Location = new Point(5, 61);
             listViewContactList.MultiSelect = false;
             listViewContactList.Name = "listViewContactList";
-            listViewContactList.Size = new Size(364, 384);
+            listViewContactList.Size = new Size(364, 340);
             listViewContactList.Sorting = SortOrder.Ascending;
             listViewContactList.TabIndex = 0;
             listViewContactList.UseCompatibleStateImageBehavior = false;
