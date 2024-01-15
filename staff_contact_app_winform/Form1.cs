@@ -219,7 +219,7 @@ namespace staff_contact_app_winform
                 buttonEditContact.Enabled = true;
                 buttonDeleteContact.Enabled = true;
                 StaffContact contact = (StaffContact)listViewContactList.SelectedItems[0].Tag;
-                detailsControl.loadContact(contact);
+                detailsControl.loadContact(contact, staffManagerList);
             }
         }
     }
