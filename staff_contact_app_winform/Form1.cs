@@ -31,8 +31,6 @@ namespace staff_contact_app_winform
         {
             InitializeComponent();
 
-            inProcessContact = null;
-
             staffManagerList = new List<StaffManager>();
             staffContactsList = new List<StaffContact>();
 
@@ -93,7 +91,14 @@ namespace staff_contact_app_winform
         /// <param name="e"></param>
         private void EditControl_saveContact_Clicked(object? sender, EventArgs e)
         {
-            
+            if(true == editControl.isContactNew())
+            {
+                addStaffContact(editControl.getEditedContact());
+            }
+            else
+            {
+
+            }
         }
         
 
@@ -106,7 +111,7 @@ namespace staff_contact_app_winform
         {
             // load form that allows user to edit/add contact
             enterEditContactState();
-            inProcessContact = null;
+            editControl.editNewContact();
         }
 
 
@@ -118,7 +123,7 @@ namespace staff_contact_app_winform
         private void buttonEditContact_Click(object sender, EventArgs e)
         {
             enterEditContactState();
-            editControl.setContact(inProcessContact);
+            editControl.editExistingContact(inProcessContact);
         }
 
 

@@ -17,6 +17,7 @@ namespace staff_contact_app_winform
         List<StaffManager> staffManagerList;
 
         private StaffContact contactInProcess;
+        private bool isNewContact;
 
 
         public EditContactControl()
@@ -24,6 +25,8 @@ namespace staff_contact_app_winform
             staffManagerList = new List<StaffManager>();
 
             contactInProcess = null;
+            isNewContact = true;
+            
 
             InitializeComponent();
         }
@@ -79,6 +82,8 @@ namespace staff_contact_app_winform
             if (mb == DialogResult.Yes)
             {
                 contactInProcess = null;
+                isNewContact = true;
+
                 clearContactDetails();
                 cancelSave_Clicked?.Invoke(this, e);
             }
@@ -111,9 +116,10 @@ namespace staff_contact_app_winform
         /// 
         /// </summary>
         /// <param name="contact"></param>
-        public void setContact(StaffContact contact)
+        public void editExistingContact(StaffContact contact)
         { 
             contactInProcess = contact;
+            isNewContact = false;
             loadContactIntoForm();
         }
 
@@ -121,11 +127,23 @@ namespace staff_contact_app_winform
         /// <summary>
         /// 
         /// </summary>
+        public void editNewContact()
+        {
+            contactInProcess = null;
+            isNewContact = true;
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <returns></returns>
-        public StaffContact getContact()
+        public StaffContact getEditedContact()
         {
             return contactInProcess;
         }
+
+        public bool isContactNew() {  return isNewContact; }
 
 
         /// <summary>
