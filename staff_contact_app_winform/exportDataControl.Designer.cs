@@ -35,7 +35,7 @@
             // buttonPrint
             // 
             buttonPrint.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            buttonPrint.Location = new Point(319, 15);
+            buttonPrint.Location = new Point(271, 1);
             buttonPrint.Name = "buttonPrint";
             buttonPrint.Size = new Size(75, 23);
             buttonPrint.TabIndex = 0;
@@ -45,7 +45,7 @@
             // buttonToCSV
             // 
             buttonToCSV.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            buttonToCSV.Location = new Point(3, 15);
+            buttonToCSV.Location = new Point(0, 1);
             buttonToCSV.Name = "buttonToCSV";
             buttonToCSV.Size = new Size(75, 23);
             buttonToCSV.TabIndex = 1;
@@ -59,7 +59,7 @@
             Controls.Add(buttonToCSV);
             Controls.Add(buttonPrint);
             Name = "exportDataControl";
-            Size = new Size(397, 41);
+            Size = new Size(346, 24);
             ResumeLayout(false);
         }
 

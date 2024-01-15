@@ -37,6 +37,7 @@
             listViewContactList = new ListView();
             chName = new ColumnHeader();
             chStatus = new ColumnHeader();
+            exportDataControl1 = new exportDataControl();
             ((System.ComponentModel.ISupportInitialize)splitContainerForm).BeginInit();
             splitContainerForm.Panel1.SuspendLayout();
             splitContainerForm.SuspendLayout();
@@ -50,6 +51,7 @@
             // 
             // splitContainerForm.Panel1
             // 
+            splitContainerForm.Panel1.Controls.Add(exportDataControl1);
             splitContainerForm.Panel1.Controls.Add(label1);
             splitContainerForm.Panel1.Controls.Add(buttonDeleteContact);
             splitContainerForm.Panel1.Controls.Add(buttonFilterActive);
@@ -126,7 +128,7 @@
             listViewContactList.Location = new Point(5, 61);
             listViewContactList.MultiSelect = false;
             listViewContactList.Name = "listViewContactList";
-            listViewContactList.Size = new Size(364, 340);
+            listViewContactList.Size = new Size(364, 351);
             listViewContactList.Sorting = SortOrder.Ascending;
             listViewContactList.TabIndex = 0;
             listViewContactList.UseCompatibleStateImageBehavior = false;
@@ -141,6 +143,14 @@
             // chStatus
             // 
             chStatus.Text = "Status";
+            // 
+            // exportDataControl1
+            // 
+            exportDataControl1.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            exportDataControl1.Location = new Point(8, 418);
+            exportDataControl1.Name = "exportDataControl1";
+            exportDataControl1.Size = new Size(361, 24);
+            exportDataControl1.TabIndex = 6;
             // 
             // Form1
             // 
@@ -169,5 +179,6 @@
         private Button buttonFilterActive;
         private Button buttonDeleteContact;
         private Label label1;
+        private exportDataControl exportDataControl1;
     }
 }
