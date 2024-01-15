@@ -228,7 +228,7 @@ namespace staff_contact_app_winform
         private void buttonEditContact_Click(object sender, EventArgs e)
         {
             enterEditContactState();
-            editControl.loadContact(inProcessContact);
+            editControl.loadContactIntoForm(inProcessContact);
         }
 
         private void buttonDeleteContact_Click(object sender, EventArgs e)

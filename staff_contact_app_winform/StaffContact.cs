@@ -26,6 +26,21 @@ namespace staff_contact_app_winform
         public string status { get; set; }
         public long manager_id { get; set; }
 
+        public StaffContact() 
+        {
+            this.fullName = string.Empty;
+            this.staffType = string.Empty;
+            this.title = string.Empty;
+            this.firstName = string.Empty;
+            this.lastName = string.Empty;
+            this.middleInitial = string.Empty;
+            this.homePhone = string.Empty;
+            this.cellPhone = string.Empty;
+            this.officeExt = string.Empty;
+            this.irdNumber = string.Empty;
+            this.status = string.Empty;
+        }
+
         public StaffContact(string staffType, string title,
             string firstName, string lastName, string middleInitial,
             string homePhone, string cellPhone, string officeExt,
