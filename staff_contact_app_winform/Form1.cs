@@ -274,18 +274,14 @@ namespace staff_contact_app_winform
         {
             //var scIndex = staffContactsList.FindIndex(x => x.id == contact.id);
             //staffContactsList[scIndex] = contact;
-            string managerString = ", manager_id=@manager_id";
-            if (0 == contact.manager_id) {
-                managerString = " ";
-            }
 
-            string query = "UPDATE staff SET staff_type=@staff_type, title=@title" +
+            var query = "UPDATE staff SET staff_type=@staff_type, title=@title" +
                 ", first_name=@first_name, last_name=@last_name" +
                 ", middle_initial=@middle_initial" +
                 ", home_phone=@home_phone, cell_phone=@cell_phone, office_extension=@office_extension" +
-                ", ird_number=@ird_number" +
-                ", status=@status " +
-                "WHERE staff.id = @id";
+                ", ird_number=@ird_number" + 
+                ", status=@status , manager_id=@manager_id " +
+                "WHERE id = @id";
 
             using (SQLiteConnection connection = new SQLiteConnection(ConnectionString))
             {
@@ -296,22 +292,81 @@ namespace staff_contact_app_winform
                 Debug.WriteLine(contact.irdNumber);
                 Debug.WriteLine(contact.lastName);
 
-                command.Parameters.AddWithValue("@staff_type", contact.staffType ?? null);
-                command.Parameters.AddWithValue("@title", contact.title ?? null);
-                command.Parameters.AddWithValue("@first_name", contact.firstName ?? null);
-                command.Parameters.AddWithValue("@last_name", contact.lastName ?? null);
-                command.Parameters.AddWithValue("@middle_initial", contact.middleInitial ?? null);
-                command.Parameters.AddWithValue("@home_phone", contact.homePhone ?? null);
-                command.Parameters.AddWithValue("@cell_phone", contact.cellPhone ?? null);
-                command.Parameters.AddWithValue("@office_extension", contact.officeExt ?? null);
-                command.Parameters.AddWithValue("@ird_number", contact.irdNumber ?? null);
-                command.Parameters.AddWithValue("@status", contact.status ?? null);
+                command.Parameters.Add(new SQLiteParameter("@staff_type", DbType.String, contact.staffType));
+                command.Parameters.Add(new SQLiteParameter("@title", DbType.String, contact.title));
+                command.Parameters.Add(new SQLiteParameter("@first_name", DbType.String, contact.firstName));
+                command.Parameters.Add(new SQLiteParameter("@last_name", DbType.String, contact.lastName));
+                command.Parameters.Add(new SQLiteParameter("@middle_initial", DbType.String, contact.middleInitial));
+                command.Parameters.Add(new SQLiteParameter("@home_phone", DbType.String, contact.homePhone));
+                command.Parameters.Add(new SQLiteParameter("@cell_phone", DbType.String, contact.cellPhone));
+                command.Parameters.Add(new SQLiteParameter("@office_extension", DbType.String, contact.officeExt));
+                command.Parameters.Add(new SQLiteParameter("@ird_number", DbType.String, contact.irdNumber));
+                command.Parameters.Add(new SQLiteParameter("@status", DbType.String, contact.status));
+                command.Parameters.Add(new SQLiteParameter("@manager_id", DbType.Int64, contact.manager_id.ToString()));
 
-                command.Parameters.AddWithValue("@id", contact.id);
+                command.Parameters.Add(new SQLiteParameter("@id", DbType.Int64, contact.id.ToString()));
 
-                 command.ExecuteNonQuery();
+                command.ExecuteNonQuery();
             }
+            //updateStaffContactManager(contact);
         }
+
+        //private void updateStaffContact(StaffContact contact)
+        //{
+        //    //var scIndex = staffContactsList.FindIndex(x => x.id == contact.id);
+        //    //staffContactsList[scIndex] = contact;
+
+        //    string query = "UPDATE staff SET staff_type=@staff_type, title=@title" +
+        //        ", first_name=@first_name, last_name=@last_name" +
+        //        ", middle_initial=@middle_initial" +
+        //        ", home_phone=@home_phone, cell_phone=@cell_phone, office_extension=@office_extension" +
+        //        ", ird_number=@ird_number" +
+        //        ", status=@status" +
+        //        "WHERE id = @id";
+
+        //    using (SQLiteConnection connection = new SQLiteConnection(ConnectionString))
+        //    {
+        //        connection.Open();
+        //        SQLiteCommand command = new SQLiteCommand(query, connection);
+        //        Debug.WriteLine(contact.officeExt);
+        //        Debug.WriteLine(contact.manager_id);
+        //        Debug.WriteLine(contact.irdNumber);
+        //        Debug.WriteLine(contact.lastName);
+
+        //        command.Parameters.AddWithValue("@staff_type", contact.staffType ?? null);
+        //        command.Parameters.AddWithValue("@title", contact.title ?? null);
+        //        command.Parameters.AddWithValue("@first_name", contact.firstName ?? null);
+        //        command.Parameters.AddWithValue("@last_name", contact.lastName ?? null);
+        //        command.Parameters.AddWithValue("@middle_initial", contact.middleInitial ?? null);
+        //        command.Parameters.AddWithValue("@home_phone", contact.homePhone ?? null);
+        //        command.Parameters.AddWithValue("@cell_phone", contact.cellPhone ?? null);
+        //        command.Parameters.AddWithValue("@office_extension", contact.officeExt ?? null);
+        //        command.Parameters.AddWithValue("@ird_number", contact.irdNumber ?? null);
+        //        command.Parameters.AddWithValue("@status", contact.status ?? null);
+
+        //        command.Parameters.AddWithValue("@id", contact.id);
+
+        //        command.ExecuteNonQuery();
+        //    }
+        //    //updateStaffContactManager(contact);
+        //}
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void updateStaffContactManager(StaffContact contact)
+        {
+            string query = "UPDATE staff SET manager_id=@manager_id WHERE id = @id";
+            using (SQLiteConnection connection = new SQLiteConnection(ConnectionString))
+            {
+                connection.Open();
+                SQLiteCommand command = new SQLiteCommand(query, connection);
+                command.Parameters.AddWithValue("@status", contact.manager_id);
+                command.ExecuteNonQuery();
+            }    
+        }
+
 
 
         /// <summary>

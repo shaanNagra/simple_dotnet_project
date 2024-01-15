@@ -15,14 +15,17 @@ namespace staff_contact_app_winform
     {
         //Declaration
         List<StaffManager> staffManagerList;
+        List<ComboboxManagerItem> cmiList;
 
         private StaffContact contactInProcess;
         private bool isNewContact;
+        
 
 
         public EditContactControl()
         {
             staffManagerList = new List<StaffManager>();
+            cmiList = new List<ComboboxManagerItem>();
 
             contactInProcess = null;
             isNewContact = true;
@@ -99,16 +102,38 @@ namespace staff_contact_app_winform
         {
             this.staffManagerList = staffManagerList;
             comboBoxStaffsManager.Items.Clear();
-            List<Object> items = new List<Object>();
-            comboBoxStaffsManager.DisplayMember = "Text";
-            comboBoxStaffsManager.ValueMember = "Value";
-            foreach (StaffManager manager in this.staffManagerList)
-            {
-                items.Add(new { Text = manager.fullName, Value = manager.manager_id });
-            }
-            comboBoxStaffsManager.DataSource = items;
+            //List<Object> items = new List<Object>();
+            //comboBoxStaffsManager.DisplayMember = "Text";
+            //comboBoxStaffsManager.ValueMember = "Value";
+            //foreach (StaffManager manager in this.staffManagerList)
+            //{
+            //    items.Add(new { Text = manager.fullName, Value = manager.manager_id });
+            //}
+            //comboBoxStaffsManager.DataSource = items;
+            loadManagerCombobox();
             comboBoxStaffsManager.SelectedIndex = -1;
             return;
+        }
+
+
+        private void loadManagerCombobox()
+        {
+            comboBoxStaffsManager.Items.Clear();
+            cmiList = new List<ComboboxManagerItem>();
+            string compareString = "";
+            if(false == isNewContact)
+            {
+                compareString = contactInProcess.fullName;
+            }
+            foreach (StaffManager manager in this.staffManagerList)
+            {
+                if (false == manager.fullName.Equals(compareString))
+                {
+
+                    int insertIndex = comboBoxStaffsManager.Items.Add(manager.fullName);
+                    cmiList.Add(new ComboboxManagerItem {fullname = manager.fullName, manager_id = manager.manager_id, indexInCombobox=insertIndex});
+                }
+            }
         }
 
 
@@ -120,6 +145,7 @@ namespace staff_contact_app_winform
         { 
             contactInProcess = contact;
             isNewContact = false;
+            loadManagerCombobox();
             loadContactIntoForm();
         }
 
@@ -179,7 +205,15 @@ namespace staff_contact_app_winform
             if ("Employee" == contactInProcess.staffType)
             {
                 radioButtonEmployee.Checked = true;
-                comboBoxStaffsManager.SelectedValue = contactInProcess.manager_id;
+                var cmi = cmiList.Find(x => x.manager_id == contactInProcess.manager_id);
+                if (null == cmi)
+                {
+                    comboBoxStaffsManager.SelectedIndex = -1;
+                }
+                else
+                {
+                    comboBoxStaffsManager.SelectedIndex = cmi.indexInCombobox;
+                }
             }
             else
             {
@@ -226,7 +260,10 @@ namespace staff_contact_app_winform
             if (true == radioButtonEmployee.Checked)
             {
                 contactInProcess.staffType = "Employee";
-                contactInProcess.manager_id = (long)4;
+                if (-1 != comboBoxStaffsManager.SelectedIndex)
+                {
+                    contactInProcess.manager_id = cmiList.Find(x => x.indexInCombobox == comboBoxStaffsManager.SelectedIndex).manager_id;
+                }
             }
             else
             {
@@ -329,5 +366,10 @@ namespace staff_contact_app_winform
             return true;
         }
     }
-
+    public class ComboboxManagerItem
+    {
+        public string fullname { get; set; }
+        public long manager_id { get; set; }
+        public int indexInCombobox { get; set; }
+    }
 }
