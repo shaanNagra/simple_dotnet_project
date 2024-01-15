@@ -51,71 +51,15 @@ namespace staff_contact_app_winform
         }
 
 
-        #endregion  
-
-
-        #region Controller Event Handlers
-        private void EditControl_cancelSave_Clicked(object? sender, EventArgs e)
-        {
-            exitEditContactState();
-        }
-
-        //Handles event when a 
-        private void EditControl_saveContact_Clicked(object? sender, EventArgs e)
-        {
-            
-        }
         #endregion
 
 
-
-        
-
-
-
-
-
-
-        private void buttonAddContact_Click(object sender, EventArgs e)
-        {
-            // load form that allows user to edit/add contact
-            enterEditContactState();
-            inProcessContact = null;
-        }
-
-        private void buttonEditContact_Click(object sender, EventArgs e)
-        {
-            enterEditContactState();
-            editControl.setContact(inProcessContact);
-        }
-
-        private void buttonDeleteContact_Click(object sender, EventArgs e)
-        {
-            if (1 == listViewContactList.SelectedIndices.Count)
-            {
-                var mb = MessageBox.Show("Are you sure?", "Delete Contact", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                if (DialogResult.Yes == mb)
-                {
-
-                }
-            }
-        }
-
-        private void buttonFilterActive_Click(object sender, EventArgs e)
-        {
-            if ("Show Active" == buttonFilterActive.Text)
-            {
-                buttonFilterActive.Text = "Show All";
-                listViewContactList.Items.Clear();
-                updateContactListView(true);
-                return;
-
-            }
-            buttonFilterActive.Text = "Show Active";
-            updateContactListView(false);
-        }
-
-
+        /// <summary>
+        /// LOAD FORM
+        /// Load data from database on first load and setup UI with said data.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Form1_Load(object sender, EventArgs e)
         {
             try
@@ -131,7 +75,93 @@ namespace staff_contact_app_winform
             }
         }
 
+
         /// <summary>
+        /// EDIT CONTROLS CANCEL EDIT
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void EditControl_cancelSave_Clicked(object? sender, EventArgs e)
+        {
+            exitEditContactState();
+        }
+
+        /// <summary>
+        /// EDIT CONTROLS SAVE EDIT
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void EditControl_saveContact_Clicked(object? sender, EventArgs e)
+        {
+            
+        }
+        
+
+        /// <summary>
+        /// ADD NEW CONTACT
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void buttonAddContact_Click(object sender, EventArgs e)
+        {
+            // load form that allows user to edit/add contact
+            enterEditContactState();
+            inProcessContact = null;
+        }
+
+
+        /// <summary>
+        /// EDIT EXSITING CONTACT
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void buttonEditContact_Click(object sender, EventArgs e)
+        {
+            enterEditContactState();
+            editControl.setContact(inProcessContact);
+        }
+
+
+        /// <summary>
+        /// DELETE CONTACT
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void buttonDeleteContact_Click(object sender, EventArgs e)
+        {
+            if (1 == listViewContactList.SelectedIndices.Count)
+            {
+                var mb = MessageBox.Show("Are you sure?", "Delete Contact", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (DialogResult.Yes == mb)
+                {
+
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// FILTER CONTACT LIST
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void buttonFilterActive_Click(object sender, EventArgs e)
+        {
+            if ("Show Active" == buttonFilterActive.Text)
+            {
+                buttonFilterActive.Text = "Show All";
+                listViewContactList.Items.Clear();
+                updateContactListView(true);
+                return;
+
+            }
+            buttonFilterActive.Text = "Show Active";
+            updateContactListView(false);
+        }
+
+
+        /// <summary>
+        /// SELECT CONTACT FROM LIST
         /// Update contact details display in panel2 when a contact is selected.
         /// </summary>
         /// <param name="sender"></param>
@@ -157,7 +187,9 @@ namespace staff_contact_app_winform
         }
 
 
+
         /// <summary>
+        /// UPDATE CONTACT LIST VIEW
         /// updates the listview to be in parity with staffContactList, addionally 
         /// allows to filter list to only contain contacts with the status active.
         /// </summary>
@@ -188,6 +220,35 @@ namespace staff_contact_app_winform
                 }
 
             }
+        }
+
+
+        /// <summary>
+        /// Setup UI for editing/adding contacts. disables controls to prevent 
+        /// unintended actions.
+        /// </summary>
+        private void enterEditContactState()
+        {
+            detailsControl.Visible = false;
+            editControl.Visible = true;
+            listViewContactList.Enabled = false;
+            buttonAddContact.Enabled = false;
+            buttonDeleteContact.Enabled = false;
+            buttonEditContact.Enabled = false;
+        }
+
+
+        /// <summary>
+        /// Undo any UI changes made for the editing/adding contacts state.
+        /// </summary>
+        private void exitEditContactState()
+        {
+            detailsControl.Visible = true;
+            editControl.Visible = false;
+            listViewContactList.Enabled = true;
+            buttonAddContact.Enabled = true;
+            buttonDeleteContact.Enabled = true;
+            buttonEditContact.Enabled = true;
         }
 
 
@@ -328,34 +389,6 @@ namespace staff_contact_app_winform
 
 
         #endregion
-
-
-        /// <summary>
-        /// Setup UI for editing/adding contacts. disables controls to prevent 
-        /// unintended actions.
-        /// </summary>
-        private void enterEditContactState()
-        {
-            detailsControl.Visible = false;
-            editControl.Visible = true;
-            listViewContactList.Enabled = false;
-            buttonAddContact.Enabled = false;
-            buttonDeleteContact.Enabled = false;
-            buttonEditContact.Enabled = false;
-        }
-
-        /// <summary>
-        /// Undo any UI changes made for the editing/adding contacts state.
-        /// </summary>
-        private void exitEditContactState()
-        {
-            detailsControl.Visible = true;
-            editControl.Visible = false;
-            listViewContactList.Enabled = true;
-            buttonAddContact.Enabled = true;
-            buttonDeleteContact.Enabled = true;
-            buttonEditContact.Enabled = true;
-        }
     }
 
 
