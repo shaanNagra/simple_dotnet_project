@@ -21,7 +21,7 @@ namespace staff_contact_app_winform
         private readonly List<StaffManager> staffManagerList;
 
         //Fields
-        private StaffContact inProcessContact;
+        private StaffContact selectedContact;
         private bool filterByActive;
 
         //Define the connection string in the settings of the application
@@ -103,7 +103,7 @@ namespace staff_contact_app_winform
         private void buttonEditContact_Click(object sender, EventArgs e)
         {
             setupEditingFormUI();
-            editControl.editExistingContact(inProcessContact);
+            editControl.editExistingContact(selectedContact);
         }
 
 
@@ -123,7 +123,8 @@ namespace staff_contact_app_winform
 
                 if (DialogResult.Yes == mb)
                 {
-
+                    deleteStaffContact(selectedContact);
+                    updateContactListView(filterByActive);
                 }
             }
         }
@@ -171,7 +172,7 @@ namespace staff_contact_app_winform
                 //clear and display contact details (in detialControl).
                 detailsControl.clearContact();
 
-                inProcessContact = null;
+                selectedContact = null;
             }
             // A contact selected
             else
@@ -183,7 +184,7 @@ namespace staff_contact_app_winform
                 StaffContact contact = (StaffContact)listViewContactList.SelectedItems[0].Tag;
                 detailsControl.displayContact(contact, staffManagerList);
 
-                inProcessContact = contact;
+                selectedContact = contact;
             }
         }
         #endregion
