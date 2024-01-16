@@ -121,6 +121,24 @@ namespace staff_contact_app_winform
             this.middleInitial = middleInitial;
             updateFullName();
         }
+        public string[] getAsStringArray()
+        {
+            string[] values =
+            {
+                firstName,
+                middleInitial,
+                lastName,
+                title,
+                staffType,
+                homePhone, cellPhone,
+                officeExt,
+                irdNumber,
+                status,
+                manager_id.ToString(),
+                id.ToString(),
+            };
+            return values;
+        }
         #endregion
     }
 }

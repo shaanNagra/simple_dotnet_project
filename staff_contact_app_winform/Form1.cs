@@ -3,6 +3,7 @@ using System.Data.SqlClient;
 using System.Data.SQLite;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Text;
 
 
 namespace staff_contact_app_winform
@@ -48,7 +49,7 @@ namespace staff_contact_app_winform
 
             staffManagerList = new List<StaffManager>();
             staffContactsList = new List<StaffContact>();
-            
+
             //set list contact views difault state to filter by active status
             filterByActive = true;
 
@@ -116,9 +117,9 @@ namespace staff_contact_app_winform
             if (1 == listViewContactList.SelectedIndices.Count)
             {
                 var mb = MessageBox.Show(
-                    "Are you sure you want to delete contact?", 
-                    "Delete Contact", 
-                    MessageBoxButtons.YesNo, 
+                    "Are you sure you want to delete contact?",
+                    "Delete Contact",
+                    MessageBoxButtons.YesNo,
                     MessageBoxIcon.Warning);
 
                 if (DialogResult.Yes == mb)
@@ -187,6 +188,36 @@ namespace staff_contact_app_winform
                 selectedContact = contact;
             }
         }
+
+
+        private void buttonSaveToCSV_Click(object sender, EventArgs e)
+        {
+            Stream csvstream;
+            SaveFileDialog saveFileDialogCSV = new SaveFileDialog();
+            saveFileDialogCSV.Filter = "CSV file (*.csv)|*.csv| All Files (*.*)|*.*";
+            saveFileDialogCSV.FilterIndex = 1;
+            saveFileDialogCSV.RestoreDirectory = true;
+            if (saveFileDialogCSV.ShowDialog() == DialogResult.OK)
+            {
+                if (null != (csvstream = saveFileDialogCSV.OpenFile()))
+                {
+                    List<StaffContact> sortedContacs = staffContactsList
+                        .GroupBy(x => x.staffType)
+                        .SelectMany(x => x).OrderBy(x => x.firstName).ToList();
+                    using (StreamWriter sw = new StreamWriter(csvstream))
+                    {
+                        sw.WriteLine("first name,middle initial, last name, " +
+                            "title, staff type, home phone, cell phone, office extension, " +
+                            "ird number, status, manager id, id");
+                        foreach(StaffContact contact in sortedContacs)
+                        {
+                            sw.WriteLine(String.Join(",",contact.getAsStringArray()));
+                        }
+                    }
+                    csvstream.Close();
+                }
+            }
+        }
         #endregion
 
 
@@ -230,7 +261,7 @@ namespace staff_contact_app_winform
             detailsControl.displayContact(editedContact, staffManagerList);
             setupViewingFormUI();
             updateContactListView(filterByActive);
-            
+
         }
         #endregion
 
@@ -446,7 +477,7 @@ namespace staff_contact_app_winform
                 staffContactsList.Remove(contact);
             }
         }
- 
+
 
         /// <summary>
         /// loads management staff from database into staffManagerList, clears
@@ -481,8 +512,6 @@ namespace staff_contact_app_winform
             }
         }
         #endregion
-
-
     }
 
 

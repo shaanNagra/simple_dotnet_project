@@ -319,7 +319,7 @@
             // textBoxCellPhone
             // 
             textBoxCellPhone.Location = new Point(113, 233);
-            textBoxCellPhone.Mask = "(999) 000-0000";
+            textBoxCellPhone.Mask = "999 000 0000";
             textBoxCellPhone.Name = "textBoxCellPhone";
             textBoxCellPhone.Size = new Size(230, 23);
             textBoxCellPhone.TabIndex = 39;
@@ -327,7 +327,7 @@
             // textBoxHomePhone
             // 
             textBoxHomePhone.Location = new Point(116, 204);
-            textBoxHomePhone.Mask = "(999) 000-0000";
+            textBoxHomePhone.Mask = "999 000 0000";
             textBoxHomePhone.Name = "textBoxHomePhone";
             textBoxHomePhone.Size = new Size(227, 23);
             textBoxHomePhone.TabIndex = 40;
