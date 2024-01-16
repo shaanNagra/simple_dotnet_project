@@ -319,18 +319,20 @@
             // textBoxCellPhone
             // 
             textBoxCellPhone.Location = new Point(113, 233);
-            textBoxCellPhone.Mask = "999 000 0000";
+            textBoxCellPhone.Mask = "(999) 000-0000";
             textBoxCellPhone.Name = "textBoxCellPhone";
             textBoxCellPhone.Size = new Size(230, 23);
             textBoxCellPhone.TabIndex = 39;
+            textBoxCellPhone.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
             // 
             // textBoxHomePhone
             // 
             textBoxHomePhone.Location = new Point(116, 204);
-            textBoxHomePhone.Mask = "999 000 0000";
+            textBoxHomePhone.Mask = "(999) 000-0000";
             textBoxHomePhone.Name = "textBoxHomePhone";
             textBoxHomePhone.Size = new Size(227, 23);
             textBoxHomePhone.TabIndex = 40;
+            textBoxHomePhone.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
             // 
             // textBoxOfficeExt
             // 
@@ -339,6 +341,7 @@
             textBoxOfficeExt.Name = "textBoxOfficeExt";
             textBoxOfficeExt.Size = new Size(130, 23);
             textBoxOfficeExt.TabIndex = 41;
+            textBoxOfficeExt.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
             // 
             // EditContactControl
             // 

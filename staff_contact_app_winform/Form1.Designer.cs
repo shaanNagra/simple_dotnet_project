@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             splitContainerForm = new SplitContainer();
+            buttonSaveToCSV = new Button();
             label1 = new Label();
             buttonDeleteContact = new Button();
             buttonFilterActive = new Button();
@@ -37,7 +38,7 @@
             listViewContactList = new ListView();
             chName = new ColumnHeader();
             chStatus = new ColumnHeader();
-            buttonSaveToCSV = new Button();
+            buttonPrint = new Button();
             ((System.ComponentModel.ISupportInitialize)splitContainerForm).BeginInit();
             splitContainerForm.Panel1.SuspendLayout();
             splitContainerForm.SuspendLayout();
@@ -51,6 +52,7 @@
             // 
             // splitContainerForm.Panel1
             // 
+            splitContainerForm.Panel1.Controls.Add(buttonPrint);
             splitContainerForm.Panel1.Controls.Add(buttonSaveToCSV);
             splitContainerForm.Panel1.Controls.Add(label1);
             splitContainerForm.Panel1.Controls.Add(buttonDeleteContact);
@@ -66,6 +68,16 @@
             splitContainerForm.Size = new Size(800, 450);
             splitContainerForm.SplitterDistance = 374;
             splitContainerForm.TabIndex = 0;
+            // 
+            // buttonSaveToCSV
+            // 
+            buttonSaveToCSV.Location = new Point(5, 419);
+            buttonSaveToCSV.Name = "buttonSaveToCSV";
+            buttonSaveToCSV.Size = new Size(75, 23);
+            buttonSaveToCSV.TabIndex = 6;
+            buttonSaveToCSV.Text = "csv";
+            buttonSaveToCSV.UseVisualStyleBackColor = true;
+            buttonSaveToCSV.Click += buttonSaveToCSV_Click;
             // 
             // label1
             // 
@@ -128,7 +140,7 @@
             listViewContactList.Location = new Point(5, 61);
             listViewContactList.MultiSelect = false;
             listViewContactList.Name = "listViewContactList";
-            listViewContactList.Size = new Size(364, 351);
+            listViewContactList.Size = new Size(364, 352);
             listViewContactList.Sorting = SortOrder.Ascending;
             listViewContactList.TabIndex = 0;
             listViewContactList.UseCompatibleStateImageBehavior = false;
@@ -144,15 +156,14 @@
             // 
             chStatus.Text = "Status";
             // 
-            // buttonSaveToCSV
+            // buttonPrint
             // 
-            buttonSaveToCSV.Location = new Point(5, 419);
-            buttonSaveToCSV.Name = "buttonSaveToCSV";
-            buttonSaveToCSV.Size = new Size(75, 23);
-            buttonSaveToCSV.TabIndex = 6;
-            buttonSaveToCSV.Text = "csv";
-            buttonSaveToCSV.UseVisualStyleBackColor = true;
-            buttonSaveToCSV.Click += buttonSaveToCSV_Click;
+            buttonPrint.Location = new Point(294, 419);
+            buttonPrint.Name = "buttonPrint";
+            buttonPrint.Size = new Size(75, 23);
+            buttonPrint.TabIndex = 7;
+            buttonPrint.Text = "Print";
+            buttonPrint.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -182,5 +193,6 @@
         private Button buttonDeleteContact;
         private Label label1;
         private Button buttonSaveToCSV;
+        private Button buttonPrint;
     }
 }

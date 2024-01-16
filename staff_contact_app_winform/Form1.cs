@@ -202,8 +202,8 @@ namespace staff_contact_app_winform
                 if (null != (csvstream = saveFileDialogCSV.OpenFile()))
                 {
                     List<StaffContact> sortedContacs = staffContactsList
-                        .GroupBy(x => x.staffType)
-                        .SelectMany(x => x).OrderBy(x => x.firstName).ToList();
+                        .OrderBy(x => x.firstName)
+                        .GroupBy(x => x.staffType).SelectMany(x => x).ToList();
                     using (StreamWriter sw = new StreamWriter(csvstream))
                     {
                         sw.WriteLine("first name,middle initial, last name, " +
