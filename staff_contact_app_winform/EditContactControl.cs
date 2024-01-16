@@ -268,6 +268,7 @@ namespace staff_contact_app_winform
             else
             {
                 contactInProcess.staffType = "Manager";
+                contactInProcess.manager_id = 0;
             }
 
             contactInProcess.updateTitle(comboBoxStaffTitle.Text);
