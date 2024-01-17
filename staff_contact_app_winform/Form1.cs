@@ -33,6 +33,7 @@ namespace staff_contact_app_winform
         //private string connectionString = Properties.Settings.Default.Database;
         //private const string ConnectionString = "Data Source=Properties.Settings.Default.DatabaseFile";
         private const string ConnectionString = "Data Source= C:\\Users\\shaan\\OneDrive\\Documents\\radfords_winform\\staff_contact_app_winform\\Database\\staff_contacts.sqlite";
+        //private const string ConnectionString1 = Path.Combine(AppContext.BaseDirectory)
         #endregion
 
 
@@ -79,10 +80,12 @@ namespace staff_contact_app_winform
         /// <param name="e"></param>
         private void Form1_Load(object sender, EventArgs e)
         {
+            DatabaseManager.sayHi();
             try
             {
-                loadStaffContacts();
-                loadStaffManager();
+                DatabaseManager.loadStaffContacts(staffContactsList);
+                //loadStaffContacts();
+                DatabaseManager.loadStaffManager(staffManagerList);
                 updateContactListView(filterByActive);
                 editControl.updateManagers(staffManagerList);
             }
@@ -133,7 +136,7 @@ namespace staff_contact_app_winform
 
                 if (DialogResult.Yes == mb)
                 {
-                    deleteStaffContact(selectedContact);
+                    DatabaseManager.deleteStaffContact(staffContactsList, selectedContact);
                     updateContactListView(filterByActive);
                 }
             }
@@ -256,14 +259,14 @@ namespace staff_contact_app_winform
 
             if (true == editControl.isContactNew())
             {
-                addStaffContact(editedContact);
+                DatabaseManager.addStaffContact(staffContactsList, editedContact);
             }
             else
             {
-                updateStaffContact(editedContact);
+                DatabaseManager.updateStaffContact(editedContact);
             }
 
-            loadStaffManager();
+            DatabaseManager.loadStaffManager(staffManagerList);
 
             //Update UI
             editControl.updateManagers(staffManagerList);
@@ -339,186 +342,6 @@ namespace staff_contact_app_winform
             buttonAddContact.Enabled = true;
             buttonDeleteContact.Enabled = true;
             buttonEditContact.Enabled = true;
-        }
-        #endregion
-
-
-        #region SQL Queries
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="contact"></param>
-        private void updateStaffContact(StaffContact contact)
-        {
-
-            string query = "UPDATE staff SET staff_type=@staff_type, title=@title" +
-                ", first_name=@first_name, last_name=@last_name" +
-                ", middle_initial=@middle_initial" +
-                ", home_phone=@home_phone, cell_phone=@cell_phone, office_extension=@office_extension" +
-                ", ird_number=@ird_number" +
-                ", status=@status, manager_id=@manager_id " +
-                "WHERE id = @id";
-
-            using (SQLiteConnection connection = new SQLiteConnection(ConnectionString))
-            {
-                connection.Open();
-                SQLiteCommand command = new SQLiteCommand(query, connection);
-                Debug.WriteLine(contact.officeExt);
-                Debug.WriteLine(contact.manager_id);
-                Debug.WriteLine(contact.irdNumber);
-                Debug.WriteLine(contact.lastName);
-
-                command.Parameters.AddWithValue("@staff_type", contact.staffType ?? null);
-                command.Parameters.AddWithValue("@title", contact.title ?? null);
-                command.Parameters.AddWithValue("@first_name", contact.firstName ?? null);
-                command.Parameters.AddWithValue("@last_name", contact.lastName ?? null);
-                command.Parameters.AddWithValue("@middle_initial", contact.middleInitial ?? null);
-                command.Parameters.AddWithValue("@home_phone", contact.homePhone ?? null);
-                command.Parameters.AddWithValue("@cell_phone", contact.cellPhone ?? null);
-                command.Parameters.AddWithValue("@office_extension", contact.officeExt ?? null);
-                command.Parameters.AddWithValue("@ird_number", contact.irdNumber ?? null);
-                command.Parameters.AddWithValue("@status", contact.status ?? null);
-                command.Parameters.AddWithValue("@manager_id", contact.manager_id);
-
-                command.Parameters.AddWithValue("@id", contact.id);
-
-                command.ExecuteNonQuery();
-            }
-        }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="contact"></param>
-        private void addStaffContact(StaffContact contact)
-        {
-            const string query = "INSERT into staff " +
-                "(staff_type, title, first_name, last_name, middle_initial, " +
-                "home_phone, cell_phone, office_extension, ird_number, status, manager_id) " +
-                "VALUES (@staff_type, @title, @first_name, @last_name, @middle_initial, " +
-                "@home_phone, @cell_phone, @office_extension, @ird_number, @status, @manager_id);" +
-                "SELECT last_insert_rowid()";
-
-            using (SQLiteConnection connection = new SQLiteConnection(ConnectionString))
-            {
-                connection.Open();
-                SQLiteCommand command = new SQLiteCommand(query, connection);
-
-                command.Parameters.AddWithValue("@staff_type", contact.staffType);
-                command.Parameters.AddWithValue("@title", contact.title);
-                command.Parameters.AddWithValue("@first_name", contact.firstName);
-                command.Parameters.AddWithValue("@last_name", contact.lastName);
-                command.Parameters.AddWithValue("@middle_initial", contact.middleInitial);
-                command.Parameters.AddWithValue("@home_phone", contact.homePhone);
-                command.Parameters.AddWithValue("@cell_phone", contact.cellPhone);
-                command.Parameters.AddWithValue("@office_extension", contact.officeExt);
-                command.Parameters.AddWithValue("@ird_number", contact.irdNumber);
-                command.Parameters.AddWithValue("@status", contact.status);
-                command.Parameters.AddWithValue("@manager_id", contact.manager_id);
-
-                contact.id = (long)command.ExecuteScalar();
-
-                staffContactsList.Add(contact);
-            }
-        }
-
-
-        /// <summary>
-        /// loads all staff from database into staffContactList. Intended use,
-        /// to load database into local copy at start of application.
-        /// </summary>
-        private void loadStaffContacts()
-        {
-            const string query = "SELECT * FROM staff";
-
-            using (SQLiteConnection connection = new SQLiteConnection(ConnectionString))
-            {
-                connection.Open();
-                SQLiteCommand command = new SQLiteCommand(query, connection);
-
-                using (SQLiteDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        long id = SqlNullParser.GetValue<long>(reader, "id");
-                        string staffType = SqlNullParser.GetValue<string>(reader, "staff_type");
-                        string title = SqlNullParser.GetValue<string>(reader, "title");
-                        string firstName = SqlNullParser.GetValue<string>(reader, "first_name");
-                        string lastName = SqlNullParser.GetValue<string>(reader, "last_name");
-                        string middleInitial = SqlNullParser.GetValue<string>(reader, "middle_initial");
-                        string homePhone = SqlNullParser.GetValue<string>(reader, "home_phone");
-                        string cellPhone = SqlNullParser.GetValue<string>(reader, "cell_phone");
-                        string officeExt = SqlNullParser.GetValue<string>(reader, "office_extension");
-                        string irdNumber = SqlNullParser.GetValue<string>(reader, "ird_number");
-                        string status = SqlNullParser.GetValue<string>(reader, "status");
-                        long manager_id = SqlNullParser.GetValue<long>(reader, "manager_id");
-
-                        StaffContact contact = new StaffContact(id, staffType, title,
-                            firstName, lastName, middleInitial,
-                            homePhone, cellPhone, officeExt, irdNumber, status, manager_id);
-                        staffContactsList.Add(contact);
-
-                    }
-                }
-            }
-        }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="contact"></param>
-        private void deleteStaffContact(StaffContact contact)
-        {
-            const string query = "DELETE FROM staff WHERE id=@id";
-
-            using (SQLiteConnection connection = new SQLiteConnection(ConnectionString))
-            {
-                connection.Open();
-
-                SQLiteCommand command = new SQLiteCommand(query, connection);
-                command.Parameters.AddWithValue("@id", contact.id);
-
-                command.ExecuteNonQuery();
-                staffContactsList.Remove(contact);
-            }
-        }
-
-
-        /// <summary>
-        /// loads management staff from database into staffManagerList, clears
-        /// list first. Allows for multiple calls to keep in sync w/ database.
-        /// </summary>
-        private void loadStaffManager()
-        {
-            staffManagerList.Clear();
-            const string query = "SELECT * FROM staff WHERE staff.staff_type = 'Manager'";
-            Debug.WriteLine(ConnectionString.ToString());
-            using (SQLiteConnection connection = new SQLiteConnection(ConnectionString))
-            {
-                connection.Open();
-                var table = connection.GetSchema();
-                Debug.Print(table.ToString());
-                var command = new SQLiteCommand(query, connection);
-
-                using (SQLiteDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        long id = SqlNullParser.GetValue<long>(reader, "id");
-                        string title = SqlNullParser.GetValue<string>(reader, "title");
-                        string firstName = SqlNullParser.GetValue<string>(reader, "first_name");
-                        string lastName = SqlNullParser.GetValue<string>(reader, "last_name");
-                        string middleInitial = SqlNullParser.GetValue<string>(reader, "middle_initial");
-
-                        StaffManager manager = new StaffManager(title, firstName, lastName, middleInitial, id);
-                        staffManagerList.Add(manager);
-                    }
-                }
-            }
         }
         #endregion
 
@@ -619,27 +442,6 @@ namespace staff_contact_app_winform
                 graphic.DrawString(text, new Font("Times New Roman", 14, FontStyle.Bold), Brushes.Black, 20, 225);
             }
         }
-    }
-
-
-
-    /// <summary>
-    /// Custom static class provides functionality to deal with DBNulls from
-    /// SQL query results
-    /// </summary>
-    public static class SqlNullParser
-    {
-        public static T GetValue<T>(this SQLiteDataReader reader, string columnName)
-        {
-            int columnIndex = reader.GetOrdinal(columnName);
-            if (reader.IsDBNull(columnIndex))
-            {
-                return default(T);
-            }
-
-            return (T)reader.GetValue(columnIndex);
-        }
-
     }
 }
 
