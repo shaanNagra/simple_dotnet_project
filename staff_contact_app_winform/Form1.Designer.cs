@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             splitContainerForm = new SplitContainer();
+            buttonPrint = new Button();
             buttonSaveToCSV = new Button();
             label1 = new Label();
             buttonDeleteContact = new Button();
@@ -38,7 +39,6 @@
             listViewContactList = new ListView();
             chName = new ColumnHeader();
             chStatus = new ColumnHeader();
-            buttonPrint = new Button();
             ((System.ComponentModel.ISupportInitialize)splitContainerForm).BeginInit();
             splitContainerForm.Panel1.SuspendLayout();
             splitContainerForm.SuspendLayout();
@@ -69,8 +69,20 @@
             splitContainerForm.SplitterDistance = 374;
             splitContainerForm.TabIndex = 0;
             // 
+            // buttonPrint
+            // 
+            buttonPrint.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            buttonPrint.Location = new Point(294, 419);
+            buttonPrint.Name = "buttonPrint";
+            buttonPrint.Size = new Size(75, 23);
+            buttonPrint.TabIndex = 7;
+            buttonPrint.Text = "Print";
+            buttonPrint.UseVisualStyleBackColor = true;
+            buttonPrint.Click += buttonPrint_Click;
+            // 
             // buttonSaveToCSV
             // 
+            buttonSaveToCSV.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             buttonSaveToCSV.Location = new Point(5, 419);
             buttonSaveToCSV.Name = "buttonSaveToCSV";
             buttonSaveToCSV.Size = new Size(75, 23);
@@ -155,15 +167,6 @@
             // chStatus
             // 
             chStatus.Text = "Status";
-            // 
-            // buttonPrint
-            // 
-            buttonPrint.Location = new Point(294, 419);
-            buttonPrint.Name = "buttonPrint";
-            buttonPrint.Size = new Size(75, 23);
-            buttonPrint.TabIndex = 7;
-            buttonPrint.Text = "Print";
-            buttonPrint.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
