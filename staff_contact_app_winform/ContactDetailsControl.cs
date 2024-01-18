@@ -37,7 +37,7 @@ namespace staff_contact_app_winform
             textBoxDisplayName.Text = contact.fullName;
             textBoxDisplayStaffType.Text = contact.staffType;
             textBoxDisplayStatus.Text = contact.status;
-            if("Manager" == contact.staffType )
+            if(contact.staffType.Equals("Manager"))
             {
                 textBoxDisplayManager.Visible = false;
             }
@@ -45,7 +45,7 @@ namespace staff_contact_app_winform
             {
                 var manager = managers.Find(x => x.manager_id == contact.manager_id);
                 textBoxDisplayManager.Visible = true;
-                if ( manager != null )
+                if (null !=  manager)
                 {
                     textBoxDisplayManager.Text = manager.fullName;
                 }
