@@ -202,7 +202,7 @@ namespace staff_contact_app_winform
                 comboBoxStaffTitle.SelectedIndex = comboBoxStaffTitle.FindString(contactInProcess.title);
             }
 
-            if ("Employee" == contactInProcess.staffType)
+            if(contactInProcess.staffType.Equals("Employee"))
             {
                 radioButtonEmployee.Checked = true;
                 var cmi = cmiList.Find(x => x.manager_id == contactInProcess.manager_id);
@@ -229,11 +229,11 @@ namespace staff_contact_app_winform
             textBoxOfficeExt.Text = contactInProcess.officeExt;
             textBoxIRDNumber.Text = contactInProcess.irdNumber;
 
-            if ("Active" == contactInProcess.status)
+            if (contactInProcess.status.Equals("Active"))
             {
                 radioButtonActive.Checked = true;
             }
-            else if ("Inactive" == contactInProcess.status)
+            else if (contactInProcess.status.Equals("Inactive"))
             {
                 radioButtonInactive.Checked = true;
             }

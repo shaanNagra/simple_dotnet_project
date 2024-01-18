@@ -151,7 +151,7 @@ namespace staff_contact_app_winform
         private void buttonFilterActive_Click(object sender, EventArgs e)
         {
             // Filter by active
-            if ("Show Active" == buttonFilterActive.Text)
+            if (buttonFilterActive.Text.Equals("Show Active"))
             {
                 buttonFilterActive.Text = "Show All";
                 listViewContactList.Items.Clear();
@@ -303,7 +303,7 @@ namespace staff_contact_app_winform
                 }
                 else
                 {
-                    if ("Active" == contact.status)
+                    if (contact.status.Equals("Active"))
                     {
                         var listViewItem = new ListViewItem(contact.fullName);
                         listViewItem.SubItems.Add(contact.status);
