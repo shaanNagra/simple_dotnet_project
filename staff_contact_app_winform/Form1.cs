@@ -184,7 +184,7 @@ namespace staff_contact_app_winform
                 buttonEditContact.Enabled = false;
                 buttonDeleteContact.Enabled = false;
                 // Clear and display contact details (in detialControl).
-                detailsControl.clearContact();
+                detailsControl.ClearContact();
                 // NOTE: should not do this, dirty fail safe uncase there is state
                 // where information is access when it should not. 
                 selectedContact = null;
@@ -197,7 +197,7 @@ namespace staff_contact_app_winform
                 buttonDeleteContact.Enabled = true;
                 // Load selected contact and display details (in detialControl).
                 StaffContact contact = (StaffContact)listViewContactList.SelectedItems[0].Tag;
-                detailsControl.displayContact(contact, staffManagerList);
+                detailsControl.DisplayContact(contact, staffManagerList);
 
                 selectedContact = contact;
             }
@@ -297,7 +297,7 @@ namespace staff_contact_app_winform
 
             // Update UI.
             editControl.updateManagers(staffManagerList);
-            detailsControl.displayContact(editedContact, staffManagerList);
+            detailsControl.DisplayContact(editedContact, staffManagerList);
             setupViewingFormUI();
             updateContactListView(filterByActive);
         }

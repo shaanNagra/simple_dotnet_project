@@ -22,9 +22,9 @@ namespace staff_contact_app_winform
         }
 
         /// <summary>
-        /// 
+        /// Clears the dispaly fields of detailControl.
         /// </summary>
-        public void clearContact()
+        public void ClearContact()
         {
             selectedContact = null;
             textBoxDisplayName.Text =   string.Empty;
@@ -42,7 +42,7 @@ namespace staff_contact_app_winform
         /// </summary>
         /// <param name="contact">The contact whos details are to be displayed.</param>
         /// <param name="managers">List to search, finds display name of manager in list that matches via id.</param>
-        public void displayContact(StaffContact contact, List<StaffManager> managers)
+        public void DisplayContact(StaffContact contact, List<StaffManager> managers)
         {
             selectedContact = contact;
             // Set name.
@@ -60,6 +60,7 @@ namespace staff_contact_app_winform
             // Loook for manager in list to set.
             else
             {
+                // The list does contain a manager with contacts manager id.
                 if (true == managers.Exists(x => x.manager_id == contact.manager_id))
                 {
                     var manager = managers.Find(x => x.manager_id == contact.manager_id);
@@ -67,9 +68,11 @@ namespace staff_contact_app_winform
                     textBoxDisplayManager.Text = manager.fullName;
                 }
             }
+            // Set phone details.
             textBoxDisplayHomePhone.Text = contact.homePhone;
             textBoxDisplayCellPhone.Text = contact.cellPhone;
             textBoxDisplayOfficeExt.Text = contact.officeExt;
+            // Set IRD number.
             textBoxDisplayIRDNumber.Text = contact.irdNumber;
         }
     }
