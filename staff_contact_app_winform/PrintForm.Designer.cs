@@ -51,7 +51,7 @@
             buttonStartPrint.TabIndex = 1;
             buttonStartPrint.Text = "Print";
             buttonStartPrint.UseVisualStyleBackColor = true;
-            buttonStartPrint.Click += buttonStartPrint_Click;
+            buttonStartPrint.Click += ButtonStartPrint_Click;
             // 
             // PrintForm
             // 

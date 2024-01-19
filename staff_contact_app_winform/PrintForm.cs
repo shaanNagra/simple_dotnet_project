@@ -25,7 +25,7 @@ namespace staff_contact_app_winform
             // Init contacts.
             this.contacts = contacts;
             // 
-            DataTable dt = buildDataTable();
+            DataTable dt = BuildDataTable();
             BindingSource bs = new BindingSource();
             // Allow dataGridView to generate the columns and column headers
             // utomatically.
@@ -51,7 +51,7 @@ namespace staff_contact_app_winform
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void buttonStartPrint_Click(object sender, EventArgs e)
+        private void ButtonStartPrint_Click(object sender, EventArgs e)
         {
             DGVPrinterHelper.DGVPrinter printerHelper = new DGVPrinterHelper.DGVPrinter();
             // Set title.
@@ -81,7 +81,7 @@ namespace staff_contact_app_winform
         /// called with.
         /// </summary>
         /// <returns>Datatable with data from List of contacts.</returns>
-        private DataTable buildDataTable()
+        private DataTable BuildDataTable()
         {
             // Setup datatable columns.
             DataTable dt = new DataTable("Staff Contacts");
