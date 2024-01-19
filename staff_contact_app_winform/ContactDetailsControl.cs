@@ -60,11 +60,10 @@ namespace staff_contact_app_winform
             // Loook for manager in list to set.
             else
             {
-
-                var manager = managers.Find(x => x.manager_id == contact.manager_id);
-                textBoxDisplayManager.Visible = true;
-                if (null !=  manager)
+                if (true == managers.Exists(x => x.manager_id == contact.manager_id))
                 {
+                    var manager = managers.Find(x => x.manager_id == contact.manager_id);
+                    textBoxDisplayManager.Visible = true;
                     textBoxDisplayManager.Text = manager.fullName;
                 }
             }
