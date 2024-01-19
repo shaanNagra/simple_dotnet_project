@@ -91,7 +91,7 @@
             radioButtonEmployee.TabStop = true;
             radioButtonEmployee.Text = "Employee";
             radioButtonEmployee.UseVisualStyleBackColor = true;
-            radioButtonEmployee.CheckedChanged += radioButtonEmployee_CheckedChanged;
+            radioButtonEmployee.CheckedChanged += RadioButtonEmployee_CheckedChanged;
             // 
             // label8
             // 
@@ -303,7 +303,7 @@
             buttonSaveContact.TabIndex = 37;
             buttonSaveContact.Text = "save";
             buttonSaveContact.UseVisualStyleBackColor = true;
-            buttonSaveContact.Click += buttonSaveContact_Click;
+            buttonSaveContact.Click += ButtonSaveContact_Click;
             // 
             // buttonCancel
             // 
@@ -314,7 +314,7 @@
             buttonCancel.TabIndex = 38;
             buttonCancel.Text = "cancel";
             buttonCancel.UseVisualStyleBackColor = true;
-            buttonCancel.Click += buttonCancel_Click;
+            buttonCancel.Click += ButtonCancel_Click;
             // 
             // textBoxCellPhone
             // 

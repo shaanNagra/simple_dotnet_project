@@ -56,8 +56,8 @@ namespace staff_contact_app_winform
             filterByActive = true;
 
             // Set Event hanlders for subcontrol raised events.
-            editControl.saveContact_Clicked += EditControl_saveContact_Clicked;
-            editControl.cancelSave_Clicked += EditControl_cancelSave_Clicked;
+            editControl.SaveContact_Clicked += EditControl_saveContact_Clicked;
+            editControl.CancelSave_Clicked += EditControl_cancelSave_Clicked;
         }
         #endregion
 
@@ -81,7 +81,7 @@ namespace staff_contact_app_winform
                 // Update listView.
                 updateContactListView(filterByActive);
                 // Update combobox to use manager from database.
-                editControl.updateManagers(staffManagerList);
+                editControl.UpdateManagers(staffManagerList);
             }
             catch (Exception ex)
             {
@@ -99,7 +99,7 @@ namespace staff_contact_app_winform
         {
             setupEditingFormUI();
             listViewContactList.SelectedItems.Clear();
-            editControl.editNewContact();
+            editControl.EditNewContact();
         }
 
 
@@ -112,7 +112,7 @@ namespace staff_contact_app_winform
         private void buttonEditContact_Click(object sender, EventArgs e)
         {
             setupEditingFormUI();
-            editControl.editExistingContact(selectedContact);
+            editControl.EditExistingContact(selectedContact);
         }
 
 
@@ -280,9 +280,9 @@ namespace staff_contact_app_winform
         private void EditControl_saveContact_Clicked(object? sender, EventArgs e)
         {
 
-            var editedContact = editControl.getEditedContact();
+            var editedContact = editControl.GetEditedContact();
             // New contact to save into database.
-            if (true == editControl.isContactNew())
+            if (true == editControl.IsContactNew())
             {
                 staffContactsList = DatabaseManager.addStaffContact(staffContactsList, editedContact);
             }
@@ -296,7 +296,7 @@ namespace staff_contact_app_winform
             staffManagerList = DatabaseManager.loadStaffManager(staffManagerList);
 
             // Update UI.
-            editControl.updateManagers(staffManagerList);
+            editControl.UpdateManagers(staffManagerList);
             detailsControl.DisplayContact(editedContact, staffManagerList);
             setupViewingFormUI();
             updateContactListView(filterByActive);

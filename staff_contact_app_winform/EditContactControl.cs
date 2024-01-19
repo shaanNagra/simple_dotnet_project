@@ -48,7 +48,7 @@ namespace staff_contact_app_winform
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void radioButtonEmployee_CheckedChanged(object sender, EventArgs e)
+        private void RadioButtonEmployee_CheckedChanged(object sender, EventArgs e)
         {
             // Make a manager selectable only if staff(type) is a employee
             if (true == radioButtonEmployee.Checked)
@@ -70,23 +70,23 @@ namespace staff_contact_app_winform
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void buttonSaveContact_Click(object sender, EventArgs e)
+        private void ButtonSaveContact_Click(object sender, EventArgs e)
         {
             // Form is not valid
-            if(false == isFormValid())
+            if(false == IsFormValid())
             {
                 return;
             }
             //Form is valid, save contact information.
-            loadFormIntoContact();
-            clearContactDetails();
-            saveContact_Clicked?.Invoke(this, e);
+            LoadFormIntoContact();
+            ClearContactDetails();
+            SaveContact_Clicked?.Invoke(this, e);
         }
         /// <summary>
         /// Raises an event for parent control to handle when saving a new 
         /// contact.
         /// </summary>
-        public event EventHandler saveContact_Clicked;
+        public event EventHandler SaveContact_Clicked;
 
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace staff_contact_app_winform
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void buttonCancel_Click(object sender, EventArgs e)
+        private void ButtonCancel_Click(object sender, EventArgs e)
         {
             var mb = MessageBox.Show("Are you sure you want to cancel?", "Cancel edit/add contact", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             // Clicked yes on messagebox to cancel.
@@ -103,15 +103,15 @@ namespace staff_contact_app_winform
             {
                 contactInProcess = null;
                 isNewContact = true;
-                clearContactDetails();
+                ClearContactDetails();
 
-                cancelSave_Clicked?.Invoke(this, e);
+                CancelSave_Clicked?.Invoke(this, e);
             }
         }
         /// <summary>
         /// Raises an event for parent control to handle when canceling.
         /// </summary>
-        public event EventHandler cancelSave_Clicked;
+        public event EventHandler CancelSave_Clicked;
 
 
         #endregion
@@ -125,12 +125,12 @@ namespace staff_contact_app_winform
         /// exisitng contact.
         /// </summary>
         /// <param name="contact">The contact thats information is to be loaded in.</param>
-        public void editExistingContact(StaffContact contact)
+        public void EditExistingContact(StaffContact contact)
         { 
             contactInProcess = contact;
             isNewContact = false;
-            loadManagerCombobox();
-            loadContactIntoForm();
+            LoadManagerCombobox();
+            LoadContactIntoForm();
         }
 
 
@@ -138,7 +138,7 @@ namespace staff_contact_app_winform
         /// Called to set input fields for a new contact to be edited and 
         /// added.
         /// </summary>
-        public void editNewContact()
+        public void EditNewContact()
         {
             contactInProcess = null;
             isNewContact = true;
@@ -150,11 +150,11 @@ namespace staff_contact_app_winform
         /// of managers.
         /// </summary>
         /// <param name="staffManagerList">The updated list of managers.</param>
-        public void updateManagers(List<StaffManager> staffManagerList)
+        public void UpdateManagers(List<StaffManager> staffManagerList)
         {
             this.staffManagerList = staffManagerList;
             comboBoxStaffsManager.Items.Clear();
-            loadManagerCombobox();
+            LoadManagerCombobox();
             comboBoxStaffsManager.SelectedIndex = -1;
         }
 
@@ -163,7 +163,7 @@ namespace staff_contact_app_winform
         /// Returns the contact that was being edited inside the editControl.
         /// </summary>
         /// <returns></returns>
-        public StaffContact getEditedContact()
+        public StaffContact GetEditedContact()
         {
             return contactInProcess;
         }
@@ -173,7 +173,7 @@ namespace staff_contact_app_winform
         /// Get if contact in the editControl was called to be a new contact.
         /// </summary>
         /// <returns>True: contact is new, False: it is an existing contact.</returns>
-        public bool isContactNew() 
+        public bool IsContactNew() 
         {  
             return isNewContact; 
         }
@@ -186,7 +186,7 @@ namespace staff_contact_app_winform
         /// <summary>
         /// Empty editControls input fields.
         /// </summary>
-        private void clearContactDetails()
+        private void ClearContactDetails()
         {
             textBoxFirstName.Text = string.Empty;
             textBoxMiddleInitial.Text = string.Empty;
@@ -203,7 +203,7 @@ namespace staff_contact_app_winform
         /// Loads the combobox with contacts that are managers, prevents 
         /// self-reference.
         /// </summary>
-        private void loadManagerCombobox()
+        private void LoadManagerCombobox()
         {
             comboBoxStaffsManager.Items.Clear();
             cmiList = new List<ComboboxManagerItem>();
@@ -233,7 +233,7 @@ namespace staff_contact_app_winform
         /// Loads a StaffContacts data into the editing form. Allows controller to submit
         /// data to the form.
         /// </summary>
-        private void loadContactIntoForm()
+        private void LoadContactIntoForm()
         {
             // Set title
             if (null != contactInProcess.title)
@@ -296,7 +296,7 @@ namespace staff_contact_app_winform
         /// Loads data submitted in form into a staffContact Object. The Object can then 
         /// be accessed by the controller that implementes this control.
         /// </summary>
-        private void loadFormIntoContact()
+        private void LoadFormIntoContact()
         {
             // If contact is a new contact to be added.
             if (null == contactInProcess)
@@ -357,7 +357,7 @@ namespace staff_contact_app_winform
         /// returns true if the inputed valeus into the form are acceptable by set standard.
         /// </summary>
         /// <returns></returns>
-        private bool isFormValid() 
+        private bool IsFormValid() 
         {
             // Full name validation.
             if (string.Empty == textBoxFirstName.Text ||
