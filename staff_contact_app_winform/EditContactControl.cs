@@ -367,6 +367,7 @@ namespace staff_contact_app_winform
             return true;
         }
     }
+
     public class ComboboxManagerItem
     {
         public string fullname { get; set; }

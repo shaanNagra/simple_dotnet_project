@@ -102,6 +102,7 @@
             // 
             // buttonDeleteContact
             // 
+            buttonDeleteContact.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             buttonDeleteContact.Enabled = false;
             buttonDeleteContact.Location = new Point(204, 8);
             buttonDeleteContact.Name = "buttonDeleteContact";
@@ -146,7 +147,7 @@
             // 
             // listViewContactList
             // 
-            listViewContactList.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            listViewContactList.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             listViewContactList.Columns.AddRange(new ColumnHeader[] { chName, chStatus });
             listViewContactList.FullRowSelect = true;
             listViewContactList.Location = new Point(5, 61);

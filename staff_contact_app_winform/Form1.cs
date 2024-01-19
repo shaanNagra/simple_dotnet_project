@@ -17,23 +17,19 @@ namespace staff_contact_app_winform
         #region Fields
 
 
-        //Subcotrollers
+        // Sub-controllers.
         EditContactControl editControl = new EditContactControl();
         ContactDetailsControl detailsControl = new ContactDetailsControl();
 
-        //Lists (Local Copy of database)
-        private readonly List<StaffContact> staffContactsList;
-        private readonly List<StaffManager> staffManagerList;
-        private DataGridView dgvs;
-        //Fields
+        // Lists (Local Copy of database).
+        private List<StaffContact> staffContactsList;
+        private List<StaffManager> staffManagerList;
+        
         private StaffContact selectedContact;
-        private bool filterByActive;
 
-        //Define the connection string in the settings of the application
-        //private string connectionString = Properties.Settings.Default.Database;
-        //private const string ConnectionString = "Data Source=Properties.Settings.Default.DatabaseFile";
-        private const string ConnectionString = "Data Source= C:\\Users\\shaan\\OneDrive\\Documents\\radfords_winform\\staff_contact_app_winform\\Database\\staff_contacts.sqlite";
-        //private const string ConnectionString1 = Path.Combine(AppContext.BaseDirectory)
+        // Flag to track if should filter list view
+        // to show only staff that have status set to active.
+        private bool filterByActive;
         #endregion
 
 
@@ -42,28 +38,24 @@ namespace staff_contact_app_winform
 
         public Form1()
         {
-
             InitializeComponent();
 
-            //Load subcontrols into form
+            // Load sub-controller into form.
             splitContainerForm.Panel2.Controls.Add(editControl);
             splitContainerForm.Panel2.Controls.Add(detailsControl);
-            dgvs = new DataGridView();
-
-            dgvs.AutoGenerateColumns = false;
-            splitContainerForm.Panel1.Controls.Add(dgvs);
-            dgvs.Dock = DockStyle.Bottom;
+            // Allow sub-contorller to take full panel space.
             editControl.Dock = DockStyle.Fill;
             detailsControl.Dock = DockStyle.Fill;
+            // Hide edit sub-controller.
             editControl.Visible = false;
 
             staffManagerList = new List<StaffManager>();
             staffContactsList = new List<StaffContact>();
 
-            //set list contact views difault state to filter by active status
+            // Set default to flag to filter.
             filterByActive = true;
 
-            //Set Event hanlders for subcontrol raised events
+            // Set Event hanlders for subcontrol raised events.
             editControl.saveContact_Clicked += EditControl_saveContact_Clicked;
             editControl.cancelSave_Clicked += EditControl_cancelSave_Clicked;
         }
@@ -74,18 +66,19 @@ namespace staff_contact_app_winform
 
 
         /// <summary>
-        /// Load data from database on first load and setup UI with said data.
+        /// Runs first time when form loads. Loads data from database on first 
+        /// load and setups UI with said data.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void Form1_Load(object sender, EventArgs e)
         {
-            DatabaseManager.sayHi();
             try
             {
-                DatabaseManager.loadStaffContacts(staffContactsList);
+                // Loads data from database.
+                staffContactsList = DatabaseManager.loadStaffContacts(staffContactsList);
                 //loadStaffContacts();
-                DatabaseManager.loadStaffManager(staffManagerList);
+                staffManagerList = DatabaseManager.loadStaffManager(staffManagerList);
                 updateContactListView(filterByActive);
                 editControl.updateManagers(staffManagerList);
             }
@@ -136,7 +129,7 @@ namespace staff_contact_app_winform
 
                 if (DialogResult.Yes == mb)
                 {
-                    DatabaseManager.deleteStaffContact(staffContactsList, selectedContact);
+                    staffContactsList = DatabaseManager.deleteStaffContact(staffContactsList, selectedContact);
                     updateContactListView(filterByActive);
                 }
             }
@@ -259,14 +252,14 @@ namespace staff_contact_app_winform
 
             if (true == editControl.isContactNew())
             {
-                DatabaseManager.addStaffContact(staffContactsList, editedContact);
+                staffContactsList = DatabaseManager.addStaffContact(staffContactsList, editedContact);
             }
             else
             {
                 DatabaseManager.updateStaffContact(editedContact);
             }
 
-            DatabaseManager.loadStaffManager(staffManagerList);
+            staffManagerList = DatabaseManager.loadStaffManager(staffManagerList);
 
             //Update UI
             editControl.updateManagers(staffManagerList);
@@ -345,102 +338,10 @@ namespace staff_contact_app_winform
         }
         #endregion
 
-        private DataTable buildDataTable()
-        {
-            DataTable dt = new DataTable("Staff Contacts");
-            //dt.Columns.Add(new DataColumn("FirstName"));
-            //dt.Columns.Add(new DataColumn("MiddleInitial"));
-            //dt.Columns.Add(new DataColumn("LastName"));
-            //dt.Columns.Add(new DataColumn("Title"));
-            //dt.Columns.Add(new DataColumn("StaffType"));
-            //dt.Columns.Add(new DataColumn("HomePhone"));
-            //dt.Columns.Add(new DataColumn("CellPhone"));
-            //dt.Columns.Add(new DataColumn("OfficeExtension"));
-            //dt.Columns.Add(new DataColumn("IRDNumber"));
-            //dt.Columns.Add(new DataColumn("Status"));
-            //dt.Columns.Add(new DataColumn("ManagerID"));
-            //dt.Columns.Add(new DataColumn("ID"));
-            dt.Columns.Add("FirstName", typeof(string));
-            dt.Columns.Add("MiddleInitial", typeof(string));
-            dt.Columns.Add("LastName", typeof(string));
-            dt.Columns.Add("Title", typeof(string));
-            dt.Columns.Add("StaffType", typeof(string));
-            dt.Columns.Add("HomePhone", typeof(string));
-            dt.Columns.Add("CellPhone", typeof(string));
-            dt.Columns.Add("OfficeExtension", typeof(string));
-            dt.Columns.Add("IRDNumber", typeof(string));
-            dt.Columns.Add("Status", typeof(string));
-            dt.Columns.Add("ManagerID", typeof(long));
-            dt.Columns.Add("ID", typeof(long));
-            List<StaffContact> sortedContacts = staffContactsList
-                .OrderBy(x => x.firstName)
-                .GroupBy(x => x.staffType).SelectMany(x => x).ToList();
-
-            foreach (StaffContact sc in sortedContacts)
-            {
-                Debug.WriteLine(sc.fullName);
-                dt.Rows.Add(sc.firstName,sc.middleInitial,sc.lastName,sc.title,
-                    sc.staffType,sc.homePhone,sc.cellPhone,sc.officeExt,
-                    sc.irdNumber,sc.status,sc.manager_id,sc.id);
-            }
-            return dt;
-        }
-
         private void buttonPrint_Click(object sender, EventArgs e)
         {
-            try
-            {
-                PrintDialog printDialog = new PrintDialog();
-                PrintDocument printDocument = new PrintDocument();
-                printDialog.Document = printDocument;
-                printDocument.PrintPage += printDocument_PrintPage;
-
-                DialogResult result = printDialog.ShowDialog();
-                if (result == DialogResult.OK)
-                {
-                    printDocument.Print();
-                }
-
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
-        }
-
-        private void printDocument_PrintPage(object sender, PrintPageEventArgs e)
-        {
-            DataTable dt = buildDataTable();
-            
-            //splitContainerForm.Panel1.Controls.Add(dgv);
-            dgvs.AutoGenerateColumns = true;
-
-
-            List<StaffContact> sortedContacts = staffContactsList
-                .OrderBy(x => x.firstName)
-                .GroupBy(x => x.staffType).SelectMany(x => x).ToList();
-            BindingSource bs = new BindingSource();
-            bs.DataSource = dt;
-            dgvs.DataSource = sortedContacts;
-            
-            dgvs.DataSource = dt;
-            dgvs.AutoResizeColumns();
-            dgvs.AutoResizeRows();
-            //dgvs.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-            dgvs.Refresh();
-
-
-            Bitmap bm = new Bitmap(dgvs.Width, dgvs.Height);
-            dgvs.DrawToBitmap(bm, new Rectangle(0, 0, dgvs.Width, dgvs.Height));
-            e.Graphics.DrawImage(bm, 0, 0);
-
-            Graphics graphic = e.Graphics;
-            foreach(DataGridViewRow row in dgvs.Rows)
-            {
-                Debug.WriteLine(row.ToString());
-                string text = row.ToString(); //or whatever you want from the current row
-                graphic.DrawString(text, new Font("Times New Roman", 14, FontStyle.Bold), Brushes.Black, 20, 225);
-            }
+            var printForm = new PrintForm(staffContactsList);
+            printForm.ShowDialog();
         }
     }
 }

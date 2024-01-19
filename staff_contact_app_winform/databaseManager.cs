@@ -24,6 +24,8 @@ namespace staff_contact_app_winform
                 _dbConnString = "Data Source= "+System.IO.Path.Combine(
                     Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
                     "staff_db.sqlite" );
+                //Properly Cshould Define In Properties
+                //private string connectionString = Properties.Settings.Default.Database;
                 //_dbConnString = "Data Source= C:\\Users\\shaan\\OneDrive\\Documents\\radfords_winform\\staff_contact_app_winform\\Database\\staff_contacts.sqlite";
                 _dbConn = new SQLiteConnection(_dbConnString);
 
@@ -40,16 +42,12 @@ namespace staff_contact_app_winform
                 _dbConn.Close();
             }
         }
-        public static void sayHi() 
-        {
-            
-        }
 
         /// <summary>
         /// loads all staff from database into staffContactList. Intended use,
         /// to load database into local copy at start of application.
         /// </summary>
-        public static void loadStaffContacts(List<StaffContact> staffContactsList)
+        public static List<StaffContact> loadStaffContacts(List<StaffContact> staffContactsList)
         {
             const string query = "SELECT * FROM staff";
 
@@ -83,13 +81,14 @@ namespace staff_contact_app_winform
                     }
                 }
             }
+            return staffContactsList;
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="contact"></param>
-        public static void addStaffContact(List<StaffContact> staffContactsList, StaffContact contact)
+        public static List<StaffContact> addStaffContact(List<StaffContact> staffContactsList, StaffContact contact)
         {
             const string query = "INSERT into staff " +
                 "(staff_type, title, first_name, last_name, middle_initial, " +
@@ -119,6 +118,7 @@ namespace staff_contact_app_winform
 
                 staffContactsList.Add(contact);
             }
+            return staffContactsList;
         }
 
         public static void updateStaffContact(StaffContact contact)
@@ -163,7 +163,7 @@ namespace staff_contact_app_winform
         /// 
         /// </summary>
         /// <param name="contact"></param>
-        public static void deleteStaffContact(List<StaffContact> staffContactsList, StaffContact contact)
+        public static List<StaffContact> deleteStaffContact(List<StaffContact> staffContactsList, StaffContact contact)
         {
             const string query = "DELETE FROM staff WHERE id=@id";
 
@@ -177,12 +177,13 @@ namespace staff_contact_app_winform
                 command.ExecuteNonQuery();
                 staffContactsList.Remove(contact);
             }
+            return staffContactsList;
         }
         /// <summary>
         /// loads management staff from database into staffManagerList, clears
         /// list first. Allows for multiple calls to keep in sync w/ database.
         /// </summary>
-        public static void loadStaffManager(List<StaffManager> staffManagerList)
+        public static List<StaffManager> loadStaffManager(List<StaffManager> staffManagerList)
         {
             staffManagerList.Clear();
             const string query = "SELECT * FROM staff WHERE staff.staff_type = 'Manager'";
@@ -208,6 +209,7 @@ namespace staff_contact_app_winform
                     }
                 }
             }
+            return staffManagerList;
         }
 
         public static void initTable()
