@@ -43,10 +43,13 @@ namespace staff_contact_app_winform
             }
         }
 
+
         /// <summary>
-        /// loads all staff from database into staffContactList. Intended use,
+        /// Loads all staff from database into staffContactList. Intended use,
         /// to load database into local copy at start of application.
         /// </summary>
+        /// <param name="staffContactsList"></param>
+        /// <returns></returns>
         public static List<StaffContact> loadStaffContacts(List<StaffContact> staffContactsList)
         {
             const string query = "SELECT * FROM staff";

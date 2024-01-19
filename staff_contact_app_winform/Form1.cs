@@ -75,11 +75,12 @@ namespace staff_contact_app_winform
         {
             try
             {
-                // Loads data from database.
+                // Loads list from database.
                 staffContactsList = DatabaseManager.loadStaffContacts(staffContactsList);
-                //loadStaffContacts();
                 staffManagerList = DatabaseManager.loadStaffManager(staffManagerList);
+                // Update listView.
                 updateContactListView(filterByActive);
+                // Update combobox to use manager from database.
                 editControl.updateManagers(staffManagerList);
             }
             catch (Exception ex)
@@ -89,7 +90,8 @@ namespace staff_contact_app_winform
         }
 
         /// <summary>
-        /// load empty editControl to allow user to add new contact.
+        /// Button click event hanlder, present user with an empty editControl 
+        /// to allow user to add new contact.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -102,7 +104,8 @@ namespace staff_contact_app_winform
 
 
         /// <summary>
-        /// load editCotrol with details of selected user to edit contact.
+        /// Button click event hanlder, presents user with editCotrol filled 
+        /// with details from the selected user to edit contact.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -114,11 +117,14 @@ namespace staff_contact_app_winform
 
 
         /// <summary>
+        /// Button click event handler, sets up process to delete a staffs 
+        /// contact from database.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void buttonDeleteContact_Click(object sender, EventArgs e)
         {
+            // Only run if user has selected a single contact.
             if (1 == listViewContactList.SelectedIndices.Count)
             {
                 var mb = MessageBox.Show(
@@ -126,7 +132,7 @@ namespace staff_contact_app_winform
                     "Delete Contact",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Warning);
-
+                // If user selected to yes on the dialog box.
                 if (DialogResult.Yes == mb)
                 {
                     staffContactsList = DatabaseManager.deleteStaffContact(staffContactsList, selectedContact);
@@ -137,13 +143,14 @@ namespace staff_contact_app_winform
 
 
         /// <summary>
-        /// 
+        /// Button click event hanlder, toggles between showing only staff that
+        /// have status active and all staff in contacts.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void buttonFilterActive_Click(object sender, EventArgs e)
         {
-            // Filter by active
+            // Filter by active.
             if (buttonFilterActive.Text.Equals("Show Active"))
             {
                 buttonFilterActive.Text = "Show All";
@@ -151,7 +158,7 @@ namespace staff_contact_app_winform
                 filterByActive = true;
                 updateContactListView(filterByActive);
             }
-            // Filter by all
+            // Filter by all.
             else
             {
                 buttonFilterActive.Text = "Show Active";
@@ -162,31 +169,33 @@ namespace staff_contact_app_winform
 
 
         /// <summary>
-        /// 
+        /// ListView selected item changes event handler, loads the details of 
+        /// the selected contact. Clears details if no contact is selected.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void listViewContactList_SelectedIndexChanged(object sender, EventArgs e)
         {
 
-            // No contact selected
+            // No contact selected.
             if (0 == listViewContactList.SelectedIndices.Count)
             {
-                //prevent UI actions that require selected contact.
+                // Prevent UI actions that require selected contact.
                 buttonEditContact.Enabled = false;
                 buttonDeleteContact.Enabled = false;
-                //clear and display contact details (in detialControl).
+                // Clear and display contact details (in detialControl).
                 detailsControl.clearContact();
-
+                // NOTE: should not do this, dirty fail safe uncase there is state
+                // where information is access when it should not. 
                 selectedContact = null;
             }
-            // A contact selected
+            // A contact selected.
             else
             {
-                //allow UI actions that require selected contact.
+                // Allow UI actions that require selected contact.
                 buttonEditContact.Enabled = true;
                 buttonDeleteContact.Enabled = true;
-                //load selected contact and display details (in detialControl).
+                // Load selected contact and display details (in detialControl).
                 StaffContact contact = (StaffContact)listViewContactList.SelectedItems[0].Tag;
                 detailsControl.displayContact(contact, staffManagerList);
 
@@ -195,6 +204,13 @@ namespace staff_contact_app_winform
         }
 
 
+        /// <summary>
+        /// Button click event handler, start process to export data to a csv 
+        /// file, presents user with dialog to select filepath and saves data.
+        /// Data is saved grouped by staff type and order by first name.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonSaveToCSV_Click(object sender, EventArgs e)
         {
             Stream csvstream;
@@ -223,6 +239,20 @@ namespace staff_contact_app_winform
                 }
             }
         }
+
+
+        /// <summary>
+        /// Button click event handler, show form with contacts as table to print.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void buttonPrint_Click(object sender, EventArgs e)
+        {
+            var printForm = new PrintForm(staffContactsList);
+            // Call as dialog as user should only use form to quicly print data.
+            // NOTE: dialog will keep focus and require interaction.
+            printForm.ShowDialog();
+        }
         #endregion
 
 
@@ -230,18 +260,20 @@ namespace staff_contact_app_winform
 
 
         /// <summary>
-        /// 
+        /// Handler for event raised by sub-controller EditControl, sets UI to 
+        /// not show the EditControl.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void EditControl_cancelSave_Clicked(object? sender, EventArgs e)
         {
-            //Update UI
             setupViewingFormUI();
         }
 
         /// <summary>
-        /// 
+        /// Hanlder for event raised by sub-controller EditControl, The save 
+        /// button on the control was clicked. Start process to either update 
+        /// existing or add a new contact to database.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -249,24 +281,25 @@ namespace staff_contact_app_winform
         {
 
             var editedContact = editControl.getEditedContact();
-
+            // New contact to save into database.
             if (true == editControl.isContactNew())
             {
                 staffContactsList = DatabaseManager.addStaffContact(staffContactsList, editedContact);
             }
+            // Existing contact to update in database.
             else
             {
                 DatabaseManager.updateStaffContact(editedContact);
             }
-
+            // NOTE: quick way to keep managers in combobox insync with manager
+            // in list.
             staffManagerList = DatabaseManager.loadStaffManager(staffManagerList);
 
-            //Update UI
+            // Update UI.
             editControl.updateManagers(staffManagerList);
             detailsControl.displayContact(editedContact, staffManagerList);
             setupViewingFormUI();
             updateContactListView(filterByActive);
-
         }
         #endregion
 
@@ -275,18 +308,18 @@ namespace staff_contact_app_winform
 
 
         /// <summary>
-        /// UPDATE CONTACT LIST VIEW
-        /// updates the listview to be in parity with staffContactList, addionally 
+        /// Update the listview to be in sync with staffContactList, addionally 
         /// allows to filter list to only contain contacts with the status active.
         /// </summary>
-        /// <param name="isActive"></param>
+        /// <param name="isActive">True: filter listView to only show staff with active status.</param>
         private void updateContactListView(bool isActive)
         {
             listViewContactList.Items.Clear();
-            //NOTE there is definitly a better way to do this but I need to not waist to much time either.
-
+            // NOTE there is definitly a better way to do this but I need to not
+            // waist to much time either.
             foreach (StaffContact contact in staffContactsList)
             {
+                // Do not filter.
                 if (false == isActive)
                 {
                     var listViewItem = new ListViewItem(contact.fullName);
@@ -294,6 +327,7 @@ namespace staff_contact_app_winform
                     listViewItem.Tag = contact;
                     listViewContactList.Items.Add(listViewItem);
                 }
+                // Filter by Active.
                 else
                 {
                     if (contact.status.Equals("Active"))
@@ -337,12 +371,6 @@ namespace staff_contact_app_winform
             buttonEditContact.Enabled = true;
         }
         #endregion
-
-        private void buttonPrint_Click(object sender, EventArgs e)
-        {
-            var printForm = new PrintForm(staffContactsList);
-            printForm.ShowDialog();
-        }
     }
 }
 
