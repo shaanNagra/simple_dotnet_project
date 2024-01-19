@@ -76,8 +76,8 @@ namespace staff_contact_app_winform
             try
             {
                 // Loads list from database.
-                staffContactsList = DatabaseManager.loadStaffContacts(staffContactsList);
-                staffManagerList = DatabaseManager.loadStaffManager(staffManagerList);
+                staffContactsList = DatabaseManager.LoadStaffContacts(staffContactsList);
+                staffManagerList = DatabaseManager.LoadStaffManager(staffManagerList);
                 // Update listView.
                 UpdateContactListView(filterByActive);
                 // Update combobox to use manager from database.
@@ -135,7 +135,7 @@ namespace staff_contact_app_winform
                 // If user selected to yes on the dialog box.
                 if (DialogResult.Yes == mb)
                 {
-                    staffContactsList = DatabaseManager.deleteStaffContact(staffContactsList, selectedContact);
+                    staffContactsList = DatabaseManager.DeleteStaffContact(staffContactsList, selectedContact);
                     UpdateContactListView(filterByActive);
                 }
             }
@@ -284,16 +284,16 @@ namespace staff_contact_app_winform
             // New contact to save into database.
             if (true == editControl.IsContactNew())
             {
-                staffContactsList = DatabaseManager.addStaffContact(staffContactsList, editedContact);
+                staffContactsList = DatabaseManager.AddStaffContact(staffContactsList, editedContact);
             }
             // Existing contact to update in database.
             else
             {
-                DatabaseManager.updateStaffContact(editedContact);
+                DatabaseManager.UpdateStaffContact(editedContact);
             }
             // NOTE: quick way to keep managers in combobox insync with manager
             // in list.
-            staffManagerList = DatabaseManager.loadStaffManager(staffManagerList);
+            staffManagerList = DatabaseManager.LoadStaffManager(staffManagerList);
 
             // Update UI.
             editControl.UpdateManagers(staffManagerList);

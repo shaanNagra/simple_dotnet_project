@@ -36,7 +36,7 @@ namespace staff_contact_app_winform
                 if ((long)0 == exists)
                 {
                     Debug.WriteLine("Table Does Not Exist");
-                    initTable();
+                    InitTable();
                 }
                 Debug.WriteLine("Table Does Exist");
                 _dbConn.Close();
@@ -50,7 +50,7 @@ namespace staff_contact_app_winform
         /// </summary>
         /// <param name="staffContactsList">The list to add the staff contacts to.</param>
         /// <returns>The list with added staff contacts.</returns>
-        public static List<StaffContact> loadStaffContacts(List<StaffContact> staffContactsList)
+        public static List<StaffContact> LoadStaffContacts(List<StaffContact> staffContactsList)
         {
             const string query = "SELECT * FROM staff";
 
@@ -94,7 +94,7 @@ namespace staff_contact_app_winform
         /// <param name="staffContactsList">The list to add new staff contact to.</param>
         /// <param name="contact">The new staff contact to add to database.</param>
         /// <returns>The list with newly added staff contact.</returns>
-        public static List<StaffContact> addStaffContact(List<StaffContact> staffContactsList, StaffContact contact)
+        public static List<StaffContact> AddStaffContact(List<StaffContact> staffContactsList, StaffContact contact)
         {
             const string query = "INSERT into staff " +
                 "(staff_type, title, first_name, last_name, middle_initial, " +
@@ -127,7 +127,7 @@ namespace staff_contact_app_winform
             return staffContactsList;
         }
 
-        public static void updateStaffContact(StaffContact contact)
+        public static void UpdateStaffContact(StaffContact contact)
         {
 
             string query = "UPDATE staff SET staff_type=@staff_type, title=@title" +
@@ -172,7 +172,7 @@ namespace staff_contact_app_winform
         /// <param name="staffContactsList"></param>
         /// <param name="contact"></param>
         /// <returns></returns>
-        public static List<StaffContact> deleteStaffContact(List<StaffContact> staffContactsList, StaffContact contact)
+        public static List<StaffContact> DeleteStaffContact(List<StaffContact> staffContactsList, StaffContact contact)
         {
             const string query = "DELETE FROM staff WHERE id=@id";
 
@@ -196,7 +196,7 @@ namespace staff_contact_app_winform
         /// </summary>
         /// <param name="staffManagerList"></param>
         /// <returns></returns>
-        public static List<StaffManager> loadStaffManager(List<StaffManager> staffManagerList)
+        public static List<StaffManager> LoadStaffManager(List<StaffManager> staffManagerList)
         {
             staffManagerList.Clear();
             const string query = "SELECT * FROM staff WHERE staff.staff_type = 'Manager'";
@@ -229,7 +229,7 @@ namespace staff_contact_app_winform
         /// <summary>
         /// Creates table and inserts some test data.
         /// </summary>
-        public static void initTable()
+        public static void InitTable()
         {
             string createQuery = "CREATE TABLE \"staff\" (" +
                 " \"id\" INTEGER NOT NULL UNIQUE," +
