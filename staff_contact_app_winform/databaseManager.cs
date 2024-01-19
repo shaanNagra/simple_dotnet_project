@@ -46,10 +46,10 @@ namespace staff_contact_app_winform
 
         /// <summary>
         /// Loads all staff from database into staffContactList. Intended use,
-        /// to load database into local copy at start of application.
+        /// to load database into local copy.
         /// </summary>
-        /// <param name="staffContactsList"></param>
-        /// <returns></returns>
+        /// <param name="staffContactsList">The list to add the staff contacts to.</param>
+        /// <returns>The list with added staff contacts.</returns>
         public static List<StaffContact> loadStaffContacts(List<StaffContact> staffContactsList)
         {
             const string query = "SELECT * FROM staff";
@@ -87,10 +87,13 @@ namespace staff_contact_app_winform
             return staffContactsList;
         }
 
+
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="contact"></param>
+        /// <param name="staffContactsList">The list to add new staff contact to.</param>
+        /// <param name="contact">The new staff contact to add to database.</param>
+        /// <returns>The list with newly added staff contact.</returns>
         public static List<StaffContact> addStaffContact(List<StaffContact> staffContactsList, StaffContact contact)
         {
             const string query = "INSERT into staff " +
@@ -162,10 +165,13 @@ namespace staff_contact_app_winform
             }
         }
 
+
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="staffContactsList"></param>
         /// <param name="contact"></param>
+        /// <returns></returns>
         public static List<StaffContact> deleteStaffContact(List<StaffContact> staffContactsList, StaffContact contact)
         {
             const string query = "DELETE FROM staff WHERE id=@id";
@@ -182,10 +188,14 @@ namespace staff_contact_app_winform
             }
             return staffContactsList;
         }
+
+
         /// <summary>
         /// loads management staff from database into staffManagerList, clears
         /// list first. Allows for multiple calls to keep in sync w/ database.
         /// </summary>
+        /// <param name="staffManagerList"></param>
+        /// <returns></returns>
         public static List<StaffManager> loadStaffManager(List<StaffManager> staffManagerList)
         {
             staffManagerList.Clear();
@@ -215,6 +225,10 @@ namespace staff_contact_app_winform
             return staffManagerList;
         }
 
+
+        /// <summary>
+        /// Creates table and inserts some test data.
+        /// </summary>
         public static void initTable()
         {
             string createQuery = "CREATE TABLE \"staff\" (" +
@@ -236,13 +250,22 @@ namespace staff_contact_app_winform
             string DirtyInsertQuery = "INSERT INTO \"main\".\"staff" +
                 "\" (\"id\", \"staff_type\", \"title\", \"first_name\", \"last_name\", \"middle_initial\", \"home_phone\", \"cell_phone\", \"office_extension\", \"ird_number\", \"status\", \"manager_id\") \r\nVALUES \r\n('1', 'Employee', 'Sir', 'Lewis', 'Hamilton', 'P', '', '', '', '', 'Active', '2'),\r\n('2', 'Manager', 'Mr', 'Josh', 'Bunning', 'G', '', '', '', '', 'Active', '0'),\r\n('3', 'Manager', 'Mrs', 'Jen', 'Jackson', 'S', '', '', '', '', 'Active', '0'),\r\n('4', 'Employee', 'Miss', 'Frances', 'Rhodes', 'K', '', '3424435555', '', '999888777', 'Active', '2'),\r\n('5', 'Manager', 'Mr', 'Daniel', 'Wilson', 'T', '', '3437292184', '3143', '888777666', 'Active', '0'),\r\n('6', 'Employee', 'Mrs', 'Susan', 'Pearson', 'D', '', '4222222222', '', '', 'Inactive', '5'),\r\n('7', 'Manager', 'Sir', 'Sony', 'Williams', 'B', '', '3333333333', '', '', 'Pending', '0');";
 
+            // Ceate table in database.
             SQLiteCommand command = new SQLiteCommand(createQuery, _dbConn);
             command.ExecuteNonQuery();
-
+            // Insert data into database. 
             command = new SQLiteCommand(DirtyInsertQuery, _dbConn);
             command.ExecuteNonQuery();
         }
 
+
+        /// <summary>
+        /// Handles and parses DBNull values returned from database.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="reader"></param>
+        /// <param name="columnName"></param>
+        /// <returns></returns>
         private static T ParseNullValue<T>(this SQLiteDataReader reader, string columnName)
         {
             int columnIndex = reader.GetOrdinal(columnName);

@@ -12,9 +12,15 @@ using System.Windows.Forms.VisualStyles;
 using System.IO;
 using System.Diagnostics;
 
+/// =========================================================================================================
+/// 
+/// 
 /// NOTE: NOT MY CODE!!!!! RATHER THAN INSTALL DLL, AUTHOR ALLOWS FOR COPYING SOURCE.
 /// NOTE: MY source: https://github.com/vijaythapa333/DGVPrinter/tree/master
 /// NOTE: Doucmentation PDF file: https://www.codeproject.com/Articles/18042/Another-DataGridView-Printer
+/// 
+/// 
+/// =========================================================================================================
 
 //[module:CLSCompliant(true)]
 namespace DGVPrinterHelper //AllocationRequest

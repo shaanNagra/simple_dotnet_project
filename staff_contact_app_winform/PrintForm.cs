@@ -22,23 +22,25 @@ namespace staff_contact_app_winform
         public PrintForm(List<StaffContact> contacts)
         {
             InitializeComponent();
+            // Init contacts.
             this.contacts = contacts;
-
+            // 
             DataTable dt = buildDataTable();
             BindingSource bs = new BindingSource();
-
+            // Allow dataGridView to generate the columns and column headers
+            // utomatically.
             dataGridViewToPrint.AutoGenerateColumns = true;
-            
+            // Bind data source to dataGridView.
             bs.DataSource = dt;
             dataGridViewToPrint.DataSource = dt;
-
+            // Set font of cells and Column Header cell.
             dataGridViewToPrint.DefaultCellStyle.Font = new Font("Arial", 10F, GraphicsUnit.Pixel);
             dataGridViewToPrint.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 12F, GraphicsUnit.Pixel);
-
+            
             dataGridViewToPrint.AutoResizeRows();
             dataGridViewToPrint.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
             dataGridViewToPrint.AutoResizeColumns();
-
+            // Update dataGridView to display the data.
             dataGridViewToPrint.Refresh();
         }
 
@@ -109,7 +111,7 @@ namespace staff_contact_app_winform
                     sc.staffType, sc.homePhone, sc.cellPhone, sc.officeExt,
                     sc.irdNumber, sc.status, sc.manager_id, sc.id);
             }
-
+            
             return dt;
         }
     }
