@@ -79,7 +79,7 @@ namespace staff_contact_app_winform
                 staffContactsList = DatabaseManager.loadStaffContacts(staffContactsList);
                 staffManagerList = DatabaseManager.loadStaffManager(staffManagerList);
                 // Update listView.
-                updateContactListView(filterByActive);
+                UpdateContactListView(filterByActive);
                 // Update combobox to use manager from database.
                 editControl.UpdateManagers(staffManagerList);
             }
@@ -95,9 +95,9 @@ namespace staff_contact_app_winform
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void buttonAddContact_Click(object sender, EventArgs e)
+        private void ButtonAddContact_Click(object sender, EventArgs e)
         {
-            setupEditingFormUI();
+            SetupEditingFormUI();
             listViewContactList.SelectedItems.Clear();
             editControl.EditNewContact();
         }
@@ -109,9 +109,9 @@ namespace staff_contact_app_winform
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void buttonEditContact_Click(object sender, EventArgs e)
+        private void ButtonEditContact_Click(object sender, EventArgs e)
         {
-            setupEditingFormUI();
+            SetupEditingFormUI();
             editControl.EditExistingContact(selectedContact);
         }
 
@@ -122,7 +122,7 @@ namespace staff_contact_app_winform
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void buttonDeleteContact_Click(object sender, EventArgs e)
+        private void ButtonDeleteContact_Click(object sender, EventArgs e)
         {
             // Only run if user has selected a single contact.
             if (1 == listViewContactList.SelectedIndices.Count)
@@ -136,7 +136,7 @@ namespace staff_contact_app_winform
                 if (DialogResult.Yes == mb)
                 {
                     staffContactsList = DatabaseManager.deleteStaffContact(staffContactsList, selectedContact);
-                    updateContactListView(filterByActive);
+                    UpdateContactListView(filterByActive);
                 }
             }
         }
@@ -148,7 +148,7 @@ namespace staff_contact_app_winform
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void buttonFilterActive_Click(object sender, EventArgs e)
+        private void ButtonFilterActive_Click(object sender, EventArgs e)
         {
             // Filter by active.
             if (buttonFilterActive.Text.Equals("Show Active"))
@@ -156,14 +156,14 @@ namespace staff_contact_app_winform
                 buttonFilterActive.Text = "Show All";
                 listViewContactList.Items.Clear();
                 filterByActive = true;
-                updateContactListView(filterByActive);
+                UpdateContactListView(filterByActive);
             }
             // Filter by all.
             else
             {
                 buttonFilterActive.Text = "Show Active";
                 filterByActive = false;
-                updateContactListView(filterByActive);
+                UpdateContactListView(filterByActive);
             }
         }
 
@@ -174,7 +174,7 @@ namespace staff_contact_app_winform
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void listViewContactList_SelectedIndexChanged(object sender, EventArgs e)
+        private void ListViewContactList_SelectedIndexChanged(object sender, EventArgs e)
         {
 
             // No contact selected.
@@ -211,7 +211,7 @@ namespace staff_contact_app_winform
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void buttonSaveToCSV_Click(object sender, EventArgs e)
+        private void ButtonSaveToCSV_Click(object sender, EventArgs e)
         {
             Stream csvstream;
             SaveFileDialog saveFileDialogCSV = new SaveFileDialog();
@@ -246,7 +246,7 @@ namespace staff_contact_app_winform
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void buttonPrint_Click(object sender, EventArgs e)
+        private void ButtonPrint_Click(object sender, EventArgs e)
         {
             var printForm = new PrintForm(staffContactsList);
             // Call as dialog as user should only use form to quicly print data.
@@ -267,7 +267,7 @@ namespace staff_contact_app_winform
         /// <param name="e"></param>
         private void EditControl_cancelSave_Clicked(object? sender, EventArgs e)
         {
-            setupViewingFormUI();
+            SetupViewingFormUI();
         }
 
         /// <summary>
@@ -298,8 +298,8 @@ namespace staff_contact_app_winform
             // Update UI.
             editControl.UpdateManagers(staffManagerList);
             detailsControl.DisplayContact(editedContact, staffManagerList);
-            setupViewingFormUI();
-            updateContactListView(filterByActive);
+            SetupViewingFormUI();
+            UpdateContactListView(filterByActive);
         }
         #endregion
 
@@ -312,7 +312,7 @@ namespace staff_contact_app_winform
         /// allows to filter list to only contain contacts with the status active.
         /// </summary>
         /// <param name="isActive">True: filter listView to only show staff with active status.</param>
-        private void updateContactListView(bool isActive)
+        private void UpdateContactListView(bool isActive)
         {
             listViewContactList.Items.Clear();
             // NOTE there is definitly a better way to do this but I need to not
@@ -347,7 +347,7 @@ namespace staff_contact_app_winform
         /// Setup UI for editing/adding contacts. disables controls to prevent 
         /// unintended actions.
         /// </summary>
-        private void setupEditingFormUI()
+        private void SetupEditingFormUI()
         {
             detailsControl.Visible = false;
             editControl.Visible = true;
@@ -361,7 +361,7 @@ namespace staff_contact_app_winform
         /// <summary>
         /// Undo any UI changes made for the editing/adding contacts state.
         /// </summary>
-        private void setupViewingFormUI()
+        private void SetupViewingFormUI()
         {
             detailsControl.Visible = true;
             editControl.Visible = false;

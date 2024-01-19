@@ -78,7 +78,7 @@
             buttonPrint.TabIndex = 7;
             buttonPrint.Text = "Print";
             buttonPrint.UseVisualStyleBackColor = true;
-            buttonPrint.Click += buttonPrint_Click;
+            buttonPrint.Click += ButtonPrint_Click;
             // 
             // buttonSaveToCSV
             // 
@@ -89,7 +89,7 @@
             buttonSaveToCSV.TabIndex = 6;
             buttonSaveToCSV.Text = "csv";
             buttonSaveToCSV.UseVisualStyleBackColor = true;
-            buttonSaveToCSV.Click += buttonSaveToCSV_Click;
+            buttonSaveToCSV.Click += ButtonSaveToCSV_Click;
             // 
             // label1
             // 
@@ -110,7 +110,7 @@
             buttonDeleteContact.TabIndex = 4;
             buttonDeleteContact.Text = "Delete";
             buttonDeleteContact.UseVisualStyleBackColor = true;
-            buttonDeleteContact.Click += buttonDeleteContact_Click;
+            buttonDeleteContact.Click += ButtonDeleteContact_Click;
             // 
             // buttonFilterActive
             // 
@@ -120,7 +120,7 @@
             buttonFilterActive.TabIndex = 3;
             buttonFilterActive.Text = "Show All";
             buttonFilterActive.UseVisualStyleBackColor = true;
-            buttonFilterActive.Click += buttonFilterActive_Click;
+            buttonFilterActive.Click += ButtonFilterActive_Click;
             // 
             // buttonAddContact
             // 
@@ -131,7 +131,7 @@
             buttonAddContact.TabIndex = 2;
             buttonAddContact.Text = "Add";
             buttonAddContact.UseVisualStyleBackColor = true;
-            buttonAddContact.Click += buttonAddContact_Click;
+            buttonAddContact.Click += ButtonAddContact_Click;
             // 
             // buttonEditContact
             // 
@@ -143,7 +143,7 @@
             buttonEditContact.TabIndex = 1;
             buttonEditContact.Text = "Edit";
             buttonEditContact.UseVisualStyleBackColor = true;
-            buttonEditContact.Click += buttonEditContact_Click;
+            buttonEditContact.Click += ButtonEditContact_Click;
             // 
             // listViewContactList
             // 
@@ -158,7 +158,7 @@
             listViewContactList.TabIndex = 0;
             listViewContactList.UseCompatibleStateImageBehavior = false;
             listViewContactList.View = View.Details;
-            listViewContactList.SelectedIndexChanged += listViewContactList_SelectedIndexChanged;
+            listViewContactList.SelectedIndexChanged += ListViewContactList_SelectedIndexChanged;
             // 
             // chName
             // 
